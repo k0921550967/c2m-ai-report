@@ -6,27 +6,27 @@ const defaultData = {
   reportInfo: {
     title: "數據驅動精準研發製造平台",
     subtitle: "研發能力數據診斷報告",
-    caseNumber: "20250327-001",
-    date: "2025年3月27日",
+    caseNumber: "20240327-001",
+    date: "2024年3月27日",
     executiveUnit: "財團法人商業發展研究院"
   },
   companyInfo: {
-    name: "精密機械科技股份有限公司",
-    representative: "林智勇",
-    address: "新北市新莊區中正路568號",
-    contactPerson: "陳經理",
-    uniformNumber: "87654321",
-    phone: "(02)8765-4321",
-    email: "contact@precision-tech.com.tw",
+    name: "祥榮食品股份有限公司",
+    representative: "王志明",
+    address: "新北市五股區工業路185號",
+    contactPerson: "李研發",
+    uniformNumber: "12345678",
+    phone: "(02)2345-6789",
+    email: "contact@xiangrong-food.com.tw",
     position: "研發部經理",
-    field: "精密機械製造",
-    capital: "80,000 千元",
-    revenue: "150,000 千元",
-    employees: "75 人",
-    mainProducts: "精密機械零件、工業自動化設備、CNC加工元件",
+    field: "食品製造",
+    capital: "50,000 千元",
+    revenue: "120,000 千元",
+    employees: "65 人",
+    mainProducts: "水煮麵、速食湯品、調味料、休閒食品",
     introduction: [
-      "精密機械科技股份有限公司成立於2002年，專注於高精度機械零件與工業自動化設備的研發與製造。公司擁有先進的CNC機台與檢測設備，致力於提供高品質、高精度的工業零組件，服務對象包括半導體設備製造商、汽車零部件供應商及精密儀器領域客戶。",
-      "公司獲得ISO9001、ISO14001等多項國際認證，產品出口至歐美及亞洲多國。近年來，企業積極推動智能製造轉型，導入工業4.0相關技術，並已建立初步的數據收集系統，但仍在尋求更全面的數位轉型方案，以提升研發效率與創新能力，保持市場競爭力。"
+      "祥榮食品股份有限公司成立於1998年，專注於高品質水煮麵與多元化速食食品的研發與製造。公司擁有現代化的食品生產線與檢測設備，致力於提供健康、美味的食品產品，服務對象包括國內外連鎖超市、便利商店及餐飲業者。",
+      "公司獲得ISO22000、HACCP等多項國際食品安全認證，產品出口至東南亞及北美多國。近年來，企業積極推動食品科技創新，導入智能化生產技術，並已建立初步的數據收集系統，但仍在尋求更全面的數位轉型方案，以提升研發效率與產品創新能力，滿足消費者不斷變化的需求與口味。"
     ]
   }
 };
@@ -109,6 +109,74 @@ const PrintableReport = ({ data = defaultData }) => {
 
   // 當頁面載入完成後，設置列印相關樣式和按鈕
   useEffect(() => {
+    // 添加列印時隱藏特定元素的樣式
+    const printStyles = document.createElement('style');
+    printStyles.innerHTML = `
+      @media print {
+        /* 隱藏瀏覽器自動添加的列印頁首與頁尾 (日期、URL等) */
+        @page {
+          margin: 0.5cm;
+          size: A4 portrait;
+        }
+        
+        body {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          color-adjust: exact !important;
+          margin: 0;
+          padding: 0;
+        }
+        
+        /* 徹底隱藏頁首頁尾 */
+        html {
+          height: 100%;
+          overflow: hidden;
+        }
+        
+        /* 隱藏研發能力數據診斷報告副標題 */
+        .report-subtitle {
+          display: none !important;
+          height: 0 !important;
+          visibility: hidden !important;
+          overflow: hidden !important;
+          opacity: 0 !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+      }
+    `;
+    document.head.appendChild(printStyles);
+    
+    // 添加直接修改打印設置的腳本
+    const printScript = document.createElement('script');
+    printScript.innerHTML = `
+      window.addEventListener('beforeprint', function() {
+        // 嘗試隱藏打印頭部和頁腳
+        try {
+          const style = document.createElement('style');
+          style.id = 'print-override';
+          style.innerHTML = '@page { margin: 0 !important; size: A4 portrait; }';
+          document.head.appendChild(style);
+          
+          // 隱藏副標題
+          const subtitles = document.querySelectorAll('.report-subtitle');
+          subtitles.forEach(el => {
+            el.style.display = 'none';
+            el.setAttribute('aria-hidden', 'true');
+          });
+        } catch (e) {
+          console.error('無法修改打印設置', e);
+        }
+      });
+      
+      window.addEventListener('afterprint', function() {
+        // 打印完成後清理
+        const style = document.getElementById('print-override');
+        if (style) style.remove();
+      });
+    `;
+    document.head.appendChild(printScript);
+    
     // 動態載入html2pdf庫
     const loadHtml2pdf = () => {
       return new Promise((resolve, reject) => {
@@ -128,6 +196,8 @@ const PrintableReport = ({ data = defaultData }) => {
     // 嘗試載入html2pdf
     loadHtml2pdf().catch(() => console.log('無法載入html2pdf，將使用列印功能'));
 
+    // 按钮功能已被隱藏
+    /*
     // 添加按鈕容器
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'fixed top-4 right-4 flex gap-2 print:hidden z-50';
@@ -155,6 +225,17 @@ const PrintableReport = ({ data = defaultData }) => {
       // 清理
       if (document.body.contains(buttonContainer)) {
         document.body.removeChild(buttonContainer);
+      }
+    };
+    */
+    
+    return () => {
+      // 清理樣式和腳本
+      if (document.head.contains(printStyles)) {
+        document.head.removeChild(printStyles);
+      }
+      if (document.head.contains(printScript)) {
+        document.head.removeChild(printScript);
       }
     };
   }, []);
@@ -204,66 +285,66 @@ const PrintableReport = ({ data = defaultData }) => {
       <line x1="750" y1="305" x2="750" y2="300" stroke="#333" strokeWidth="2" />
       <text x="750" y="320" textAnchor="middle" fontSize="12">35</text>
       
-      <text x="400" y="350" textAnchor="middle" fontSize="14">平均單價 (千元)</text>
+      <text x="400" y="350" textAnchor="middle" fontSize="14">平均單價 (美元)</text>
       
       {/* 左側標籤 */}
       <text x="20" y="180" textAnchor="middle" fontSize="14" transform="rotate(-90, 20, 180)">滿意度 (%)</text>
       
-      {/* 台灣本土製造商群組 */}
+      {/* 韓國低價品牌群組 */}
       <circle cx="120" cy="75" r="40" fill="#38B2AC" fillOpacity="0.7" />
-      <text x="120" y="70" textAnchor="middle" fontSize="12" fill="white">台灣精密</text>
-      <text x="120" y="85" textAnchor="middle" fontSize="10" fill="white">機械製造</text>
+      <text x="120" y="70" textAnchor="middle" fontSize="12" fill="white">Samyang</text>
+      <text x="120" y="85" textAnchor="middle" fontSize="10" fill="white">韓國品牌</text>
       
       <circle cx="150" cy="85" r="35" fill="#38B2AC" fillOpacity="0.7" />
-      <text x="150" y="85" textAnchor="middle" fontSize="11" fill="white">寶鋒精工</text>
+      <text x="150" y="85" textAnchor="middle" fontSize="11" fill="white">NongShim</text>
       
       <circle cx="170" cy="95" r="30" fill="#38B2AC" fillOpacity="0.7" />
-      <text x="170" y="95" textAnchor="middle" fontSize="10" fill="white">東昇機械</text>
+      <text x="170" y="95" textAnchor="middle" fontSize="10" fill="white">Ottogi</text>
       
-      {/* 中價位專業製造商群組 */}
+      {/* 中價位專業品牌群組 */}
       <circle cx="260" cy="120" r="25" fill="#3182CE" fillOpacity="0.7" />
-      <text x="260" y="120" textAnchor="middle" fontSize="10" fill="white">凱廷精密</text>
+      <text x="260" y="120" textAnchor="middle" fontSize="10" fill="white">MAMA</text>
       
       <circle cx="290" cy="110" r="20" fill="#3182CE" fillOpacity="0.7" />
-      <text x="290" y="110" textAnchor="middle" fontSize="9" fill="white">宏泰科技</text>
+      <text x="290" y="110" textAnchor="middle" fontSize="9" fill="white">K-Munchies</text>
       
       <circle cx="320" cy="80" r="25" fill="#3182CE" fillOpacity="0.7" />
-      <text x="320" y="80" textAnchor="middle" fontSize="10" fill="white">百陽工業</text>
+      <text x="320" y="80" textAnchor="middle" fontSize="10" fill="white">Nissin</text>
       
       <circle cx="330" cy="100" r="15" fill="#3182CE" fillOpacity="0.7" />
-      <text x="330" y="100" textAnchor="middle" fontSize="8" fill="white">金澤</text>
+      <text x="330" y="100" textAnchor="middle" fontSize="8" fill="white">祥榮</text>
       
       <circle cx="350" cy="90" r="20" fill="#3182CE" fillOpacity="0.7" />
-      <text x="350" y="90" textAnchor="middle" fontSize="9" fill="white">華陽精機</text>
+      <text x="350" y="90" textAnchor="middle" fontSize="9" fill="white">味丹</text>
       
-      {/* 高價位國際品牌群組 */}
+      {/* 高價位品牌群組 */}
       <circle cx="480" cy="70" r="25" fill="#DD6B20" fillOpacity="0.7" />
-      <text x="480" y="70" textAnchor="middle" fontSize="10" fill="white">西門子</text>
+      <text x="480" y="70" textAnchor="middle" fontSize="10" fill="white">統一</text>
       
       <circle cx="520" cy="90" r="20" fill="#DD6B20" fillOpacity="0.7" />
-      <text x="520" y="90" textAnchor="middle" fontSize="9" fill="white">三菱</text>
+      <text x="520" y="90" textAnchor="middle" fontSize="9" fill="white">康師傅</text>
       
       <circle cx="550" cy="80" r="15" fill="#DD6B20" fillOpacity="0.7" />
-      <text x="550" y="80" textAnchor="middle" fontSize="8" fill="white">法那科</text>
+      <text x="550" y="80" textAnchor="middle" fontSize="8" fill="white">今麥郎</text>
       
       <circle cx="590" cy="75" r="25" fill="#DD6B20" fillOpacity="0.7" />
-      <text x="590" y="75" textAnchor="middle" fontSize="10" fill="white">哈斯</text>
+      <text x="590" y="75" textAnchor="middle" fontSize="10" fill="white">頂新</text>
       
       <circle cx="630" cy="65" r="30" fill="#DD6B20" fillOpacity="0.7" />
-      <text x="630" y="65" textAnchor="middle" fontSize="10" fill="white">德馬吉</text>
+      <text x="630" y="65" textAnchor="middle" fontSize="10" fill="white">農心</text>
       
       {/* 圖例 */}
       <rect x="570" y="140" width="160" height="100" fill="white" stroke="#ddd" strokeWidth="1" />
-      <text x="650" y="160" textAnchor="middle" fontSize="12" fontWeight="bold">製造商分布</text>
+      <text x="650" y="160" textAnchor="middle" fontSize="12" fontWeight="bold">廠商分布</text>
       
       <circle cx="590" y="180" r="10" fill="#38B2AC" fillOpacity="0.7" />
-      <text x="660" y="183" textAnchor="start" fontSize="11">台灣本土製造商</text>
+      <text x="660" y="183" textAnchor="start" fontSize="11">韓國品牌</text>
       
       <circle cx="590" y="205" r="10" fill="#3182CE" fillOpacity="0.7" />
-      <text x="660" y="208" textAnchor="start" fontSize="11">中價位專業製造商</text>
+      <text x="660" y="208" textAnchor="start" fontSize="11">中價位品牌</text>
       
       <circle cx="590" y="230" r="10" fill="#DD6B20" fillOpacity="0.7" />
-      <text x="660" y="233" textAnchor="start" fontSize="11">高價位國際品牌</text>
+      <text x="660" y="233" textAnchor="start" fontSize="11">高價位品牌</text>
     </svg>
   );
 
@@ -294,74 +375,78 @@ const PrintableReport = ({ data = defaultData }) => {
       <text x="45" y="230" textAnchor="end" fontSize="11">1M</text>
       <text x="45" y="250" textAnchor="end" fontSize="11">0M</text>
       
-      {/* 月份柱狀圖 */}
+      {/* 月份柱狀圖 - 2021-11至2024-08 */}
       <rect x="60" y="225" width="14" height="25" fill="#4299E1" />
-      <rect x="85" y="210" width="14" height="40" fill="#4299E1" />
-      <rect x="110" y="200" width="14" height="50" fill="#4299E1" />
-      <rect x="135" y="220" width="14" height="30" fill="#4299E1" />
+      <rect x="80" y="220" width="14" height="30" fill="#4299E1" />
+      <rect x="100" y="200" width="14" height="50" fill="#4299E1" />
+      <rect x="120" y="230" width="14" height="20" fill="#4299E1" />
+      <rect x="140" y="230" width="14" height="20" fill="#4299E1" />
       <rect x="160" y="215" width="14" height="35" fill="#4299E1" />
-      <rect x="185" y="205" width="14" height="45" fill="#4299E1" />
-      <rect x="210" y="195" width="14" height="55" fill="#4299E1" />
-      <rect x="235" y="205" width="14" height="45" fill="#4299E1" />
-      <rect x="260" y="200" width="14" height="50" fill="#4299E1" />
-      <rect x="285" y="190" width="14" height="60" fill="#4299E1" />
-      <rect x="310" y="195" width="14" height="55" fill="#4299E1" />
-      <rect x="335" y="180" width="14" height="70" fill="#4299E1" />
-      <rect x="360" y="170" width="14" height="80" fill="#4299E1" />
-      <rect x="385" y="190" width="14" height="60" fill="#4299E1" />
-      <rect x="410" y="180" width="14" height="70" fill="#4299E1" />
-      <rect x="435" y="150" width="14" height="100" fill="#4299E1" />
-      <rect x="460" y="140" width="14" height="110" fill="#4299E1" />
-      <rect x="485" y="90" width="14" height="160" fill="#4299E1" />
-      <rect x="510" y="80" width="14" height="170" fill="#4299E1" />
-      <rect x="535" y="110" width="14" height="140" fill="#4299E1" />
-      <rect x="560" y="120" width="14" height="130" fill="#4299E1" />
-      <rect x="585" y="160" width="14" height="90" fill="#4299E1" />
-      <rect x="610" y="200" width="14" height="50" fill="#4299E1" />
-      <rect x="635" y="210" width="14" height="40" fill="#4299E1" />
-      <rect x="660" y="220" width="14" height="30" fill="#4299E1" />
-      <rect x="685" y="225" width="14" height="25" fill="#4299E1" />
-      <rect x="710" y="215" width="14" height="35" fill="#4299E1" />
+      <rect x="180" y="200" width="14" height="50" fill="#4299E1" />
+      <rect x="200" y="190" width="14" height="60" fill="#4299E1" />
+      <rect x="220" y="185" width="14" height="65" fill="#4299E1" />
+      <rect x="240" y="170" width="14" height="80" fill="#4299E1" />
+      <rect x="260" y="210" width="14" height="40" fill="#4299E1" />
+      <rect x="280" y="210" width="14" height="40" fill="#4299E1" />
+      <rect x="300" y="195" width="14" height="55" fill="#4299E1" />
+      <rect x="320" y="140" width="14" height="110" fill="#4299E1" />
+      <rect x="340" y="140" width="14" height="110" fill="#4299E1" />
+      <rect x="360" y="180" width="14" height="70" fill="#4299E1" />
+      <rect x="380" y="185" width="14" height="65" fill="#4299E1" />
+      <rect x="400" y="180" width="14" height="70" fill="#4299E1" />
+      <rect x="420" y="175" width="14" height="75" fill="#4299E1" />
+      <rect x="440" y="150" width="14" height="100" fill="#4299E1" />
+      <rect x="460" y="90" width="14" height="160" fill="#4299E1" />
+      <rect x="480" y="115" width="14" height="135" fill="#4299E1" />
+      <rect x="500" y="135" width="14" height="115" fill="#4299E1" />
+      <rect x="520" y="125" width="14" height="125" fill="#4299E1" />
+      <rect x="540" y="70" width="14" height="180" fill="#4299E1" />
+      <rect x="560" y="95" width="14" height="155" fill="#4299E1" />
+      <rect x="580" y="80" width="14" height="170" fill="#4299E1" />
+      <rect x="600" y="105" width="14" height="145" fill="#4299E1" />
+      <rect x="620" y="95" width="14" height="155" fill="#4299E1" />
+      <rect x="640" y="135" width="14" height="115" fill="#4299E1" />
+      <rect x="660" y="145" width="14" height="105" fill="#4299E1" />
+      <rect x="680" y="190" width="14" height="60" fill="#4299E1" />
+      <rect x="700" y="195" width="14" height="55" fill="#4299E1" />
       
       {/* 銷售額數據標籤 - 只顯示部分代表性數據 */}
-      <text x="67" y="215" textAnchor="middle" fontSize="9" transform="rotate(-90, 67, 215)">644,529</text>
-      <text x="235" y="195" textAnchor="middle" fontSize="9" transform="rotate(-90, 235, 195)">961,608</text>
-      <text x="410" y="170" textAnchor="middle" fontSize="9" transform="rotate(-90, 410, 170)">1,776,405</text>
-      <text x="485" y="80" textAnchor="middle" fontSize="9" transform="rotate(-90, 485, 80)">3,914,652</text>
-      <text x="510" y="70" textAnchor="middle" fontSize="9" transform="rotate(-90, 510, 70)">5,229,724</text>
-      <text x="610" y="190" textAnchor="middle" fontSize="9" transform="rotate(-90, 610, 190)">1,024,652</text>
-      <text x="710" y="205" textAnchor="middle" fontSize="9" transform="rotate(-90, 710, 205)">647,757</text>
+      <text x="67" y="215" textAnchor="middle" fontSize="9" transform="rotate(-90, 67, 215)">454,329</text>
+      <text x="200" y="180" textAnchor="middle" fontSize="9" transform="rotate(-90, 200, 180)">1,043,484</text>
+      <text x="320" y="130" textAnchor="middle" fontSize="9" transform="rotate(-90, 320, 130)">2,177,691</text>
+      <text x="460" y="80" textAnchor="middle" fontSize="9" transform="rotate(-90, 460, 80)">4,796,956</text>
+      <text x="540" y="60" textAnchor="middle" fontSize="9" transform="rotate(-90, 540, 60)">5,870,334</text>
+      <text x="580" y="70" textAnchor="middle" fontSize="9" transform="rotate(-90, 580, 70)">5,269,297</text>
+      <text x="700" y="185" textAnchor="middle" fontSize="9" transform="rotate(-90, 700, 185)">961,757</text>
       
-      {/* 平均單價折線 */}
-      <path d="M67,170 L92,140 L117,140 L142,140 L167,150 L192,150 L217,150 L242,150 
-               L267,150 L292,150 L317,140 L342,140 L367,90 L392,90 L417,90 L442,70 
-               L467,70 L492,70 L517,70 L542,90 L567,90 L592,120 L617,150 L642,150 
-               L667,150 L692,150 L717,160" 
+      {/* 平均單價折線 - 更新數據 */}
+      <path d="M67,150 L87,150 L107,170 L127,170 L147,170 L167,150 L187,150 L207,150 
+               L227,150 L247,130 L267,110 L287,110 L307,110 L327,90 L347,90 L367,90 
+               L387,90 L407,90 L427,110 L447,110 L467,110 L487,110 L507,110 L527,110 
+               L547,110 L567,110 L587,110 L607,110 L627,110 L647,110 L667,150 L687,150" 
             fill="none" stroke="#E53E3E" strokeWidth="2" />
       
       {/* 平均單價點 */}
-      <circle cx="67" cy="170" r="3" fill="#E53E3E" />
-      <circle cx="117" cy="140" r="3" fill="#E53E3E" />
+      <circle cx="67" cy="150" r="3" fill="#E53E3E" />
+      <circle cx="107" cy="170" r="3" fill="#E53E3E" />
       <circle cx="167" cy="150" r="3" fill="#E53E3E" />
-      <circle cx="217" cy="150" r="3" fill="#E53E3E" />
-      <circle cx="267" cy="150" r="3" fill="#E53E3E" />
-      <circle cx="317" cy="140" r="3" fill="#E53E3E" />
-      <circle cx="367" cy="90" r="3" fill="#E53E3E" />
-      <circle cx="417" cy="90" r="3" fill="#E53E3E" />
-      <circle cx="467" cy="70" r="3" fill="#E53E3E" />
-      <circle cx="517" cy="70" r="3" fill="#E53E3E" />
-      <circle cx="567" cy="90" r="3" fill="#E53E3E" />
-      <circle cx="617" cy="150" r="3" fill="#E53E3E" />
-      <circle cx="667" cy="150" r="3" fill="#E53E3E" />
-      <circle cx="717" cy="160" r="3" fill="#E53E3E" />
+      <circle cx="227" cy="150" r="3" fill="#E53E3E" />
+      <circle cx="267" cy="110" r="3" fill="#E53E3E" />
+      <circle cx="327" cy="90" r="3" fill="#E53E3E" />
+      <circle cx="427" cy="110" r="3" fill="#E53E3E" />
+      <circle cx="527" cy="110" r="3" fill="#E53E3E" />
+      <circle cx="627" cy="110" r="3" fill="#E53E3E" />
+      <circle cx="687" cy="150" r="3" fill="#E53E3E" />
       
       {/* 單價數據標籤 - 只顯示部分 */}
-      <text x="67" y="165" fontSize="9">17</text>
-      <text x="217" y="145" fontSize="9">19</text>
-      <text x="367" cy="85" fontSize="9">20</text>
-      <text x="467" y="65" fontSize="9">21</text>
-      <text x="567" y="85" fontSize="9">19</text>
-      <text x="667" y="145" fontSize="9">17</text>
+      <text x="67" y="145" fontSize="9">17</text>
+      <text x="107" y="165" fontSize="9">16</text>
+      <text x="227" y="145" fontSize="9">17</text>
+      <text x="327" y="85" fontSize="9">20</text>
+      <text x="427" y="105" fontSize="9">19</text>
+      <text x="527" y="105" fontSize="9">19</text>
+      <text x="627" y="105" fontSize="9">19</text>
+      <text x="687" y="145" fontSize="9">17</text>
       
       {/* X軸月份標籤 */}
       <text x="67" y="270" textAnchor="middle" fontSize="9">2021.11</text>
@@ -371,6 +456,7 @@ const PrintableReport = ({ data = defaultData }) => {
       <text x="467" y="270" textAnchor="middle" fontSize="9">2023.03</text>
       <text x="567" y="270" textAnchor="middle" fontSize="9">2023.07</text>
       <text x="667" y="270" textAnchor="middle" fontSize="9">2023.11</text>
+      <text x="717" y="270" textAnchor="middle" fontSize="9">2024.08</text>
       
       {/* 底部單位標籤 */}
       <text x="750" y="290" textAnchor="end" fontSize="11" fontWeight="bold">單位：萬元</text>
@@ -400,56 +486,72 @@ const PrintableReport = ({ data = defaultData }) => {
       
       {/* 特性條形圖 - 主要特性 */}
       <rect x="70" y="90" width="70" height="180" fill="#38B2AC" />
-      <rect x="70" y="90" width="70" height="25" fill="#E53E3E" />
-      <text x="105" y="110" textAnchor="middle" fontSize="11" fill="white">473</text>
-      <text x="105" y="200" textAnchor="middle" fontSize="12" fill="white">2813</text>
-      <text x="105" y="285" textAnchor="middle" fontSize="11">加工精度</text>
+      <rect x="70" y="90" width="70" height="15" fill="#E53E3E" />
+      <text x="105" y="105" textAnchor="middle" fontSize="11" fill="white">220</text>
+      <text x="105" y="200" textAnchor="middle" fontSize="12" fill="white">2833</text>
+      <text x="105" y="285" textAnchor="middle" fontSize="11">口感 (Taste)</text>
       
       <rect x="160" y="120" width="70" height="150" fill="#38B2AC" />
       <rect x="160" y="120" width="70" height="30" fill="#E53E3E" />
-      <text x="195" y="140" textAnchor="middle" fontSize="11" fill="white">542</text>
+      <text x="195" y="140" textAnchor="middle" fontSize="11" fill="white">473</text>
       <text x="195" y="210" textAnchor="middle" fontSize="12" fill="white">2047</text>
-      <text x="195" y="285" textAnchor="middle" fontSize="11">表面處理</text>
+      <text x="195" y="285" textAnchor="middle" fontSize="11">風味 (Flavor)</text>
       
       <rect x="250" y="170" width="70" height="100" fill="#38B2AC" />
       <rect x="250" y="170" width="70" height="20" fill="#E53E3E" />
-      <text x="285" y="185" textAnchor="middle" fontSize="11" fill="white">276</text>
-      <text x="285" y="230" textAnchor="middle" fontSize="12" fill="white">1565</text>
-      <text x="285" y="285" textAnchor="middle" fontSize="11">材料品質</text>
+      <text x="285" y="185" textAnchor="middle" fontSize="11" fill="white">380</text>
+      <text x="285" y="230" textAnchor="middle" fontSize="12" fill="white">1545</text>
+      <text x="285" y="285" textAnchor="middle" fontSize="11">麵條 (Noodles)</text>
       
       {/* 次要特性條形圖 */}
-      <rect x="340" y="240" width="40" height="30" fill="#38B2AC" />
-      <rect x="340" y="240" width="40" height="5" fill="#E53E3E" />
-      <text x="360" y="285" textAnchor="middle" fontSize="11">價格</text>
+      <rect x="340" y="245" width="40" height="25" fill="#38B2AC" />
+      <rect x="340" y="245" width="40" height="15" fill="#E53E3E" />
+      <text x="360" y="255" textAnchor="middle" fontSize="9" fill="white">140</text>
+      <text x="360" y="265" textAnchor="middle" fontSize="9" fill="white">180</text>
+      <text x="360" y="285" textAnchor="middle" fontSize="11">價格 (Price)</text>
       
-      <rect x="390" y="250" width="40" height="20" fill="#38B2AC" />
-      <rect x="390" y="250" width="40" height="5" fill="#E53E3E" />
-      <text x="410" y="285" textAnchor="middle" fontSize="11">交期</text>
+      <rect x="390" y="245" width="40" height="25" fill="#38B2AC" />
+      <rect x="390" y="245" width="40" height="8" fill="#E53E3E" />
+      <text x="410" y="251" textAnchor="middle" fontSize="9" fill="white">40</text>
+      <text x="410" y="265" textAnchor="middle" fontSize="9" fill="white">160</text>
+      <text x="410" y="285" textAnchor="middle" fontSize="11">用戶體驗</text>
       
-      <rect x="440" y="255" width="40" height="15" fill="#38B2AC" />
-      <rect x="440" y="255" width="40" height="3" fill="#E53E3E" />
-      <text x="460" y="285" textAnchor="middle" fontSize="11">尺寸精確度</text>
+      <rect x="440" y="245" width="40" height="25" fill="#38B2AC" />
+      <rect x="440" y="245" width="40" height="7" fill="#E53E3E" />
+      <text x="460" y="250" textAnchor="middle" fontSize="9" fill="white">30</text>
+      <text x="460" y="265" textAnchor="middle" fontSize="9" fill="white">150</text>
+      <text x="460" y="285" textAnchor="middle" fontSize="11">品牌 (Brand)</text>
       
-      <rect x="490" y="258" width="40" height="12" fill="#38B2AC" />
-      <rect x="490" y="258" width="40" height="2" fill="#E53E3E" />
-      <text x="510" y="285" textAnchor="middle" fontSize="11">技術支援</text>
+      <rect x="490" y="247" width="40" height="23" fill="#38B2AC" />
+      <rect x="490" y="247" width="40" height="7" fill="#E53E3E" />
+      <text x="510" y="252" textAnchor="middle" fontSize="9" fill="white">30</text>
+      <text x="510" y="265" textAnchor="middle" fontSize="9" fill="white">120</text>
+      <text x="510" y="285" textAnchor="middle" fontSize="11">包裝信息</text>
       
-      <rect x="540" y="260" width="40" height="10" fill="#38B2AC" />
-      <rect x="540" y="260" width="40" height="2" fill="#E53E3E" />
-      <text x="560" y="285" textAnchor="middle" fontSize="11">標準符合</text>
+      <rect x="540" y="248" width="40" height="22" fill="#38B2AC" />
+      <rect x="540" y="248" width="40" height="10" fill="#E53E3E" />
+      <text x="560" y="255" textAnchor="middle" fontSize="9" fill="white">50</text>
+      <text x="560" y="265" textAnchor="middle" fontSize="9" fill="white">100</text>
+      <text x="560" y="285" textAnchor="middle" fontSize="11">調味醬 (Sauce)</text>
       
       {/* 更多次要特性 - 只显示很小的条形 */}
-      <rect x="590" y="262" width="40" height="8" fill="#38B2AC" />
-      <rect x="590" y="262" width="40" height="1" fill="#E53E3E" />
-      <text x="610" y="285" textAnchor="middle" fontSize="11">客服</text>
+      <rect x="590" y="248" width="40" height="22" fill="#38B2AC" />
+      <rect x="590" y="248" width="40" height="4" fill="#E53E3E" />
+      <text x="610" y="252" textAnchor="middle" fontSize="9" fill="white">20</text>
+      <text x="610" y="265" textAnchor="middle" fontSize="9" fill="white">110</text>
+      <text x="610" y="285" textAnchor="middle" fontSize="11">加熱 (Heat)</text>
       
-      <rect x="640" y="264" width="40" height="6" fill="#38B2AC" />
-      <rect x="640" y="264" width="40" height="1" fill="#E53E3E" />
-      <text x="660" y="285" textAnchor="middle" fontSize="11">包裝</text>
+      <rect x="640" y="250" width="40" height="20" fill="#38B2AC" />
+      <rect x="640" y="250" width="40" height="4" fill="#E53E3E" />
+      <text x="660" y="254" textAnchor="middle" fontSize="9" fill="white">20</text>
+      <text x="660" y="265" textAnchor="middle" fontSize="9" fill="white">100</text>
+      <text x="660" y="285" textAnchor="middle" fontSize="11">包裝 (Package)</text>
       
-      <rect x="690" y="265" width="40" height="5" fill="#38B2AC" />
-      <rect x="690" y="265" width="40" height="1" fill="#E53E3E" />
-      <text x="710" y="285" textAnchor="middle" fontSize="11">運輸</text>
+      <rect x="690" y="252" width="40" height="18" fill="#38B2AC" />
+      <rect x="690" y="252" width="40" height="7" fill="#E53E3E" />
+      <text x="710" y="257" textAnchor="middle" fontSize="9" fill="white">30</text>
+      <text x="710" y="265" textAnchor="middle" fontSize="9" fill="white">70</text>
+      <text x="710" y="285" textAnchor="middle" fontSize="11">顏色 (Color)</text>
     </svg>
   );
 
@@ -493,83 +595,145 @@ const PrintableReport = ({ data = defaultData }) => {
   );
 
   const ProductSpecTable = () => (
-    <svg width="800" height="320" viewBox="0 0 800 320">
-      <text x="400" y="30" textAnchor="middle" fontSize="16" fontWeight="bold">精密零件加工 - 產品規格推薦表</text>
+    <svg width="800" height="360" viewBox="0 0 800 360">
+      <text x="400" y="30" textAnchor="middle" fontSize="16" fontWeight="bold">水煮麵 - 產品規格推薦表</text>
       
       {/* 表格外框與標頭 */}
-      <rect x="50" y="50" width="700" height="250" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1" />
+      <rect x="50" y="50" width="700" height="290" fill="#f8fafc" stroke="#4A5568" strokeWidth="2" />
       
       {/* 表頭 */}
-      <rect x="50" y="50" width="180" height="40" fill="#38B2AC" />
-      <rect x="230" y="50" width="410" height="40" fill="#38B2AC" />
-      <rect x="640" y="50" width="110" height="40" fill="#38B2AC" />
-      <text x="140" y="75" textAnchor="middle" fontSize="14" fill="white">產品規格</text>
-      <text x="435" y="75" textAnchor="middle" fontSize="14" fill="white">產品規格細項</text>
-      <text x="695" y="75" textAnchor="middle" fontSize="14" fill="white">推薦序</text>
+      <rect x="50" y="50" width="200" height="40" fill="#38B2AC" />
+      <rect x="250" y="50" width="350" height="40" fill="#38B2AC" />
+      <rect x="600" y="50" width="150" height="40" fill="#38B2AC" />
+      <line x1="50" y1="90" x2="750" y2="90" stroke="#4A5568" strokeWidth="2" />
+      <line x1="250" y1="50" x2="250" y2="340" stroke="#4A5568" strokeWidth="2" />
+      <line x1="600" y1="50" x2="600" y2="340" stroke="#4A5568" strokeWidth="2" />
+      <text x="150" y="75" textAnchor="middle" fontSize="14" fill="white">產品規格</text>
+      <text x="425" y="75" textAnchor="middle" fontSize="14" fill="white">產品規格細項</text>
+      <text x="675" y="75" textAnchor="middle" fontSize="14" fill="white">推薦序</text>
       
-      {/* 材料行 */}
-      <rect x="50" y="90" width="180" height="40" fill="#E6FFFA" stroke="#E2E8F0" strokeWidth="1" />
-      <rect x="230" y="90" width="410" height="40" fill="#ffffff" stroke="#E2E8F0" strokeWidth="1" />
-      <rect x="640" y="90" width="110" height="40" fill="#ffffff" stroke="#E2E8F0" strokeWidth="1" />
-      <text x="110" y="115" textAnchor="middle" fontSize="14">材料</text>
-      <text x="250" y="110" textAnchor="start" fontSize="12">不銹鋼 (SUS304)</text>
-      <text x="250" y="130" textAnchor="start" fontSize="12">鋁合金 (6061-T6)</text>
-      <circle cx="695" cy="105" r="15" fill="#38B2AC" />
-      <text x="695" y="110" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">1</text>
-      <circle cx="695" cy="125" r="15" fill="#38B2AC" />
-      <text x="695" y="130" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">2</text>
+      {/* 過敏原行 - 調整為更寬的高度以容納三個項目 */}
+      <rect x="50" y="90" width="200" height="54" fill="#E6FFFA" stroke="#4A5568" strokeWidth="1" />
+      <rect x="250" y="90" width="350" height="54" fill="#ffffff" stroke="#4A5568" strokeWidth="1" />
+      <rect x="600" y="90" width="150" height="54" fill="#ffffff" stroke="#4A5568" strokeWidth="1" />
       
-      {/* 精度行 */}
-      <rect x="50" y="130" width="180" height="40" fill="#E6FFFA" stroke="#E2E8F0" strokeWidth="1" />
-      <rect x="230" y="130" width="410" height="40" fill="#ffffff" stroke="#E2E8F0" strokeWidth="1" />
-      <rect x="640" y="130" width="110" height="40" fill="#ffffff" stroke="#E2E8F0" strokeWidth="1" />
-      <text x="110" y="155" textAnchor="middle" fontSize="14">精度等級</text>
-      <text x="250" y="150" textAnchor="start" fontSize="12">超高精度 (±0.005mm)</text>
-      <text x="250" y="170" textAnchor="start" fontSize="12">高精度 (±0.01mm)</text>
-      <circle cx="695" cy="145" r="15" fill="#38B2AC" />
-      <text x="695" y="150" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">1</text>
-      <circle cx="695" cy="165" r="15" fill="#38B2AC" />
-      <text x="695" y="170" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">2</text>
+      {/* 過敏原細項分隔線 */}
+      <line x1="250" y1="108" x2="600" y2="108" stroke="#CBD5E0" strokeWidth="1" />
+      <line x1="250" y1="126" x2="600" y2="126" stroke="#CBD5E0" strokeWidth="1" />
       
-      {/* 表面處理行 */}
-      <rect x="50" y="170" width="180" height="40" fill="#E6FFFA" stroke="#E2E8F0" strokeWidth="1" />
-      <rect x="230" y="170" width="410" height="40" fill="#ffffff" stroke="#E2E8F0" strokeWidth="1" />
-      <rect x="640" y="170" width="110" height="40" fill="#ffffff" stroke="#E2E8F0" strokeWidth="1" />
-      <text x="110" y="195" textAnchor="middle" fontSize="14">表面處理</text>
-      <text x="250" y="190" textAnchor="start" fontSize="12">陽極處理 (Type III硬質)</text>
-      <text x="250" y="210" textAnchor="start" fontSize="12">鏡面拋光 (Ra 0.2μm)</text>
-      <circle cx="695" cy="185" r="15" fill="#38B2AC" />
-      <text x="695" y="190" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">1</text>
-      <circle cx="695" cy="205" r="15" fill="#38B2AC" />
-      <text x="695" y="210" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">2</text>
+      {/* 過敏原推薦序分隔線 */}
+      <line x1="600" y1="108" x2="750" y2="108" stroke="#CBD5E0" strokeWidth="1" />
+      <line x1="600" y1="126" x2="750" y2="126" stroke="#CBD5E0" strokeWidth="1" />
       
-      {/* 加工工藝行 */}
-      <rect x="50" y="210" width="180" height="40" fill="#E6FFFA" stroke="#E2E8F0" strokeWidth="1" />
-      <rect x="230" y="210" width="410" height="40" fill="#ffffff" stroke="#E2E8F0" strokeWidth="1" />
-      <rect x="640" y="210" width="110" height="40" fill="#ffffff" stroke="#E2E8F0" strokeWidth="1" />
-      <text x="110" y="235" textAnchor="middle" fontSize="14">加工工藝</text>
-      <text x="250" y="230" textAnchor="start" fontSize="12">5軸CNC加工</text>
-      <text x="250" y="250" textAnchor="start" fontSize="12">精密車削 (Swiss-type)</text>
-      <circle cx="695" cy="225" r="15" fill="#38B2AC" />
-      <text x="695" y="230" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">1</text>
-      <circle cx="695" cy="245" r="15" fill="#38B2AC" />
-      <text x="695" y="250" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">2</text>
+      <text x="150" y="122" textAnchor="middle" fontSize="13">過敏原 (allergen)</text>
+      <text x="270" y="103" textAnchor="start" fontSize="12">soybean</text>
+      <text x="270" y="121" textAnchor="start" fontSize="12">tapioca</text>
+      <text x="270" y="139" textAnchor="start" fontSize="12">wheatgluten</text>
+      <circle cx="675" cy="99" r="12" fill="#38B2AC" />
+      <text x="675" y="103" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">1</text>
+      <circle cx="675" cy="117" r="12" fill="#38B2AC" />
+      <text x="675" y="121" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">2</text>
+      <circle cx="675" cy="135" r="12" fill="#38B2AC" />
+      <text x="675" y="139" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">3</text>
       
-      {/* 尺寸規格行 */}
-      <rect x="50" y="250" width="180" height="40" fill="#E6FFFA" stroke="#E2E8F0" strokeWidth="1" />
-      <rect x="230" y="250" width="410" height="40" fill="#ffffff" stroke="#E2E8F0" strokeWidth="1" />
-      <rect x="640" y="250" width="110" height="40" fill="#ffffff" stroke="#E2E8F0" strokeWidth="1" />
-      <text x="110" y="275" textAnchor="middle" fontSize="14">尺寸規格</text>
-      <text x="250" y="270" textAnchor="start" fontSize="12">中型零件 (5-100mm)</text>
-      <text x="250" y="290" textAnchor="start" fontSize="12">微小零件 (&lt;5mm)</text>
-      <circle cx="695" cy="265" r="15" fill="#38B2AC" />
-      <text x="695" y="270" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">1</text>
-      <circle cx="695" cy="285" r="15" fill="#38B2AC" />
-      <text x="695" y="290" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">3</text>
+      <line x1="50" y1="144" x2="750" y2="144" stroke="#4A5568" strokeWidth="1" />
       
-      {/* 擴展按鈕行 */}
-      <rect x="50" y="290" width="700" height="20" fill="#f1f5f9" stroke="#e2e8f0" strokeWidth="1" />
-      <text x="400" y="305" textAnchor="middle" fontSize="12">查看更多規格細項...</text>
+      {/* 口味行 - 調整為更寬的高度以容納三個項目 */}
+      <rect x="50" y="144" width="200" height="54" fill="#E6FFFA" stroke="#4A5568" strokeWidth="1" />
+      <rect x="250" y="144" width="350" height="54" fill="#ffffff" stroke="#4A5568" strokeWidth="1" />
+      <rect x="600" y="144" width="150" height="54" fill="#ffffff" stroke="#4A5568" strokeWidth="1" />
+      
+      {/* 口味細項分隔線 */}
+      <line x1="250" y1="162" x2="600" y2="162" stroke="#CBD5E0" strokeWidth="1" />
+      <line x1="250" y1="180" x2="600" y2="180" stroke="#CBD5E0" strokeWidth="1" />
+      
+      {/* 口味推薦序分隔線 */}
+      <line x1="600" y1="162" x2="750" y2="162" stroke="#CBD5E0" strokeWidth="1" />
+      <line x1="600" y1="180" x2="750" y2="180" stroke="#CBD5E0" strokeWidth="1" />
+      
+      <text x="150" y="176" textAnchor="middle" fontSize="13">口味 (flavor)</text>
+      <text x="270" y="157" textAnchor="start" fontSize="12">gourmetspicy</text>
+      <text x="270" y="175" textAnchor="start" fontSize="12">hotchicken</text>
+      <text x="270" y="193" textAnchor="start" fontSize="11">firehotcheeseflaveredchicken</text>
+      <circle cx="675" cy="153" r="12" fill="#38B2AC" />
+      <text x="675" y="157" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">1</text>
+      <circle cx="675" cy="171" r="12" fill="#38B2AC" />
+      <text x="675" y="175" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">2</text>
+      <circle cx="675" cy="189" r="12" fill="#38B2AC" />
+      <text x="675" y="193" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">3</text>
+      
+      <line x1="50" y1="198" x2="750" y2="198" stroke="#4A5568" strokeWidth="1" />
+      
+      {/* 麵條行 - 調整為三個項目 */}
+      <rect x="50" y="198" width="200" height="54" fill="#E6FFFA" stroke="#4A5568" strokeWidth="1" />
+      <rect x="250" y="198" width="350" height="54" fill="#ffffff" stroke="#4A5568" strokeWidth="1" />
+      <rect x="600" y="198" width="150" height="54" fill="#ffffff" stroke="#4A5568" strokeWidth="1" />
+      
+      {/* 麵條細項分隔線 */}
+      <line x1="250" y1="216" x2="600" y2="216" stroke="#CBD5E0" strokeWidth="1" />
+      <line x1="250" y1="234" x2="600" y2="234" stroke="#CBD5E0" strokeWidth="1" />
+      
+      {/* 麵條推薦序分隔線 */}
+      <line x1="600" y1="216" x2="750" y2="216" stroke="#CBD5E0" strokeWidth="1" />
+      <line x1="600" y1="234" x2="750" y2="234" stroke="#CBD5E0" strokeWidth="1" />
+      
+      <text x="150" y="229" textAnchor="middle" fontSize="13">麵條 (noodles)</text>
+      <text x="270" y="211" textAnchor="start" fontSize="12">麵條</text>
+      <text x="270" y="229" textAnchor="start" fontSize="12">boil/microwave</text>
+      <text x="270" y="247" textAnchor="start" fontSize="12">boil</text>
+      <circle cx="675" cy="207" r="12" fill="#38B2AC" />
+      <text x="675" y="211" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">1</text>
+      <circle cx="675" cy="225" r="12" fill="#38B2AC" />
+      <text x="675" y="229" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">2</text>
+      <circle cx="675" cy="243" r="12" fill="#38B2AC" />
+      <text x="675" y="247" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">3</text>
+      
+      <line x1="50" y1="252" x2="750" y2="252" stroke="#4A5568" strokeWidth="1" />
+      
+      {/* 包裝行 - 調整為三個項目 */}
+      <rect x="50" y="252" width="200" height="54" fill="#E6FFFA" stroke="#4A5568" strokeWidth="1" />
+      <rect x="250" y="252" width="350" height="54" fill="#ffffff" stroke="#4A5568" strokeWidth="1" />
+      <rect x="600" y="252" width="150" height="54" fill="#ffffff" stroke="#4A5568" strokeWidth="1" />
+      
+      {/* 包裝細項分隔線 */}
+      <line x1="250" y1="270" x2="600" y2="270" stroke="#CBD5E0" strokeWidth="1" />
+      <line x1="250" y1="288" x2="600" y2="288" stroke="#CBD5E0" strokeWidth="1" />
+      
+      {/* 包裝推薦序分隔線 */}
+      <line x1="600" y1="270" x2="750" y2="270" stroke="#CBD5E0" strokeWidth="1" />
+      <line x1="600" y1="288" x2="750" y2="288" stroke="#CBD5E0" strokeWidth="1" />
+      
+      <text x="150" y="282" textAnchor="middle" fontSize="12">包裝 (package info)</text>
+      <text x="270" y="265" textAnchor="start" fontSize="12">110g</text>
+      <text x="270" y="283" textAnchor="start" fontSize="12">125g</text>
+      <text x="270" y="301" textAnchor="start" fontSize="12">112g</text>
+      <circle cx="675" cy="261" r="12" fill="#38B2AC" />
+      <text x="675" y="265" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">1</text>
+      <circle cx="675" cy="279" r="12" fill="#38B2AC" />
+      <text x="675" y="283" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">2</text>
+      <circle cx="675" cy="297" r="12" fill="#38B2AC" />
+      <text x="675" y="301" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">3</text>
+      
+      <line x1="50" y1="306" x2="750" y2="306" stroke="#4A5568" strokeWidth="1" />
+      
+      {/* 重量行 */}
+      <rect x="50" y="306" width="200" height="40" fill="#E6FFFA" stroke="#4A5568" strokeWidth="1" />
+      <rect x="250" y="306" width="350" height="40" fill="#ffffff" stroke="#4A5568" strokeWidth="1" />
+      <rect x="600" y="306" width="150" height="40" fill="#ffffff" stroke="#4A5568" strokeWidth="1" />
+      
+      {/* 重量細項分隔線 */}
+      <line x1="250" y1="326" x2="600" y2="326" stroke="#CBD5E0" strokeWidth="1" />
+      
+      {/* 重量推薦序分隔線 */}
+      <line x1="600" y1="326" x2="750" y2="326" stroke="#CBD5E0" strokeWidth="1" />
+      
+      <text x="150" y="331" textAnchor="middle" fontSize="13">重量 (weight)</text>
+      <text x="270" y="320" textAnchor="start" fontSize="12">4800g</text>
+      <text x="270" y="338" textAnchor="start" fontSize="12">550g</text>
+      <circle cx="675" cy="316" r="12" fill="#38B2AC" />
+      <text x="675" y="320" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">1</text>
+      <circle cx="675" cy="334" r="12" fill="#38B2AC" />
+      <text x="675" y="338" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">2</text>
     </svg>
   );
     // 價格區間分析圖表
@@ -581,13 +745,16 @@ const PrintableReport = ({ data = defaultData }) => {
       
       {/* X軸標籤 */}
       <text x="400" y="310" textAnchor="middle" fontSize="14" fontWeight="bold">價格區間 (千元/件)</text>
-      <text x="120" y="280" textAnchor="middle" fontSize="12">3-below</text>
-      <text x="220" y="280" textAnchor="middle" fontSize="12">6-8.99</text>
-      <text x="320" y="280" textAnchor="middle" fontSize="12">9-11.99</text>
-      <text x="420" y="280" textAnchor="middle" fontSize="12">12-14.99</text>
-      <text x="520" y="280" textAnchor="middle" fontSize="12">15-17.99</text>
-      <text x="620" y="280" textAnchor="middle" fontSize="12">18-20.99</text>
-      <text x="720" y="280" textAnchor="middle" fontSize="12">21-above</text>
+      <text x="85" y="280" textAnchor="middle" fontSize="10">3-below</text>
+      <text x="160" y="280" textAnchor="middle" fontSize="10">6-8.99</text>
+      <text x="235" y="280" textAnchor="middle" fontSize="10">9-11.99</text>
+      <text x="310" y="280" textAnchor="middle" fontSize="10">12-14.99</text>
+      <text x="385" y="280" textAnchor="middle" fontSize="10">15-17.99</text>
+      <text x="460" y="280" textAnchor="middle" fontSize="10">18-20.99</text>
+      <text x="535" y="280" textAnchor="middle" fontSize="10">21-23.99</text>
+      <text x="610" y="280" textAnchor="middle" fontSize="10">24-26.99</text>
+      <text x="685" y="280" textAnchor="middle" fontSize="10">27-29.99</text>
+      <text x="735" y="280" textAnchor="middle" fontSize="10">30-above</text>
       
       {/* Y軸標籤 */}
       <text x="25" y="150" textAnchor="middle" fontSize="14" fontWeight="bold" transform="rotate(-90, 25, 150)">銷售額 (千元)</text>
@@ -599,32 +766,38 @@ const PrintableReport = ({ data = defaultData }) => {
       <text x="60" y="50" textAnchor="end" fontSize="10">25,000</text>
       
       {/* 銷售額柱狀圖 */}
-      <rect x="100" y="240" width="40" height="10" fill="#F59E0B" />
-      <rect x="200" y="160" width="40" height="90" fill="#F59E0B" />
-      <rect x="300" y="130" width="40" height="120" fill="#F59E0B" />
-      <rect x="400" y="70" width="40" height="180" fill="#F59E0B" />
-      <rect x="500" y="180" width="40" height="70" fill="#F59E0B" />
-      <rect x="600" y="190" width="40" height="60" fill="#F59E0B" />
-      <rect x="700" y="220" width="40" height="30" fill="#F59E0B" />
+      <rect x="85" y="249" width="25" height="1" fill="#F59E0B" />
+      <rect x="160" y="217" width="25" height="33" fill="#F59E0B" />
+      <rect x="235" y="156" width="25" height="94" fill="#F59E0B" />
+      <rect x="310" y="52" width="25" height="198" fill="#F59E0B" />
+      <rect x="385" y="162" width="25" height="88" fill="#F59E0B" />
+      <rect x="460" y="92" width="25" height="158" fill="#F59E0B" />
+      <rect x="535" y="209" width="25" height="41" fill="#F59E0B" />
+      <rect x="610" y="214" width="25" height="36" fill="#F59E0B" />
+      <rect x="685" y="230" width="25" height="20" fill="#F59E0B" />
+      <rect x="735" y="180" width="25" height="70" fill="#F59E0B" />
       
       {/* 數據標籤 */}
-      <text x="120" y="235" textAnchor="middle" fontSize="12" fontWeight="bold">1,775</text>
-      <text x="220" y="155" textAnchor="middle" fontSize="12" fontWeight="bold">17,837</text>
-      <text x="320" y="125" textAnchor="middle" fontSize="12" fontWeight="bold">33,055</text>
-      <text x="420" y="65" textAnchor="middle" fontSize="12" fontWeight="bold">26,842</text>
-      <text x="520" y="175" textAnchor="middle" fontSize="12" fontWeight="bold">12,698</text>
-      <text x="620" y="185" textAnchor="middle" fontSize="12" fontWeight="bold">7,935</text>
-      <text x="720" y="215" textAnchor="middle" fontSize="12" fontWeight="bold">6,526</text>
+      <text x="85" y="244" textAnchor="middle" fontSize="10" fontWeight="bold">未標示</text>
+      <text x="160" y="212" textAnchor="middle" fontSize="10" fontWeight="bold">644,501</text>
+      <text x="235" y="151" textAnchor="middle" fontSize="10" fontWeight="bold">8,474,667</text>
+      <text x="310" y="47" textAnchor="middle" fontSize="10" fontWeight="bold">20,338,249</text>
+      <text x="385" y="157" textAnchor="middle" fontSize="10" fontWeight="bold">7,498,281</text>
+      <text x="460" y="87" textAnchor="middle" fontSize="10" fontWeight="bold">15,698,308</text>
+      <text x="535" y="204" textAnchor="middle" fontSize="10" fontWeight="bold">4,136,662</text>
+      <text x="610" y="209" textAnchor="middle" fontSize="10" fontWeight="bold">3,606,575</text>
+      <text x="685" y="225" textAnchor="middle" fontSize="10" fontWeight="bold">1,935,397</text>
+      <text x="735" y="175" textAnchor="middle" fontSize="10" fontWeight="bold">6,666,202</text>
       
       {/* 趨勢線 */}
-      <path d="M120 240 L220 160 L320 80 L420 120 L520 180 L620 200 L720 220" fill="none" stroke="#7E22CE" strokeWidth="3" />
+      <path d="M85 232 L160 232 L235 121 L310 106 L385 123 L460 237 L535 243 L610 243 L685 243 L735 243" fill="none" stroke="#7E22CE" strokeWidth="3" />
       
       {/* 圖例 */}
       <rect x="580" y="80" width="150" height="70" fill="white" stroke="#ddd" />
       <rect x="590" y="95" width="20" height="10" fill="#F59E0B" />
       <text x="620" y="105" fontSize="12">銷售額 (千元)</text>
       <line x1="590" y1="125" x2="610" y2="125" stroke="#7E22CE" strokeWidth="3" />
-      <text x="620" y="130" fontSize="12">均價趨勢</text>
+      <text x="620" y="130" fontSize="12">評價個數</text>
     </svg>
   );
 
@@ -652,7 +825,7 @@ const PrintableReport = ({ data = defaultData }) => {
       <line x1="670" y1="50" x2="670" y2="250" stroke="#CBD5E0" strokeWidth="1" strokeDasharray="5,5" />
       
       {/* X軸標籤 - 價格 */}
-      <text x="400" y="310" textAnchor="middle" fontSize="14" fontWeight="bold">平均單價 (千元/件)</text>
+      <text x="400" y="310" textAnchor="middle" fontSize="14" fontWeight="bold">平均單價 (美元/包)</text>
       <text x="70" y="280" textAnchor="middle" fontSize="12">10</text>
       <text x="220" y="280" textAnchor="middle" fontSize="12">15</text>
       <text x="370" y="280" textAnchor="middle" fontSize="12">20</text>
@@ -668,35 +841,35 @@ const PrintableReport = ({ data = defaultData }) => {
       <text x="60" y="50" textAnchor="end" fontSize="12">100</text>
       
       {/* 製造商群組標示 */}
-      {/* 台灣本土製造商群組 */}
+      {/* 韓國食品品牌群組 */}
       <circle cx="145" cy="80" r="35" fill="#3182CE" fillOpacity="0.85" filter="url(#shadow)" />
-      <text x="145" y="80" textAnchor="middle" fontSize="14" fill="white" fontWeight="bold">台灣本土</text>
+      <text x="145" y="80" textAnchor="middle" fontSize="14" fill="white" fontWeight="bold">韓國品牌</text>
       <text x="145" y="100" textAnchor="middle" fontSize="12" fill="white">製造商</text>
       
       {/* 中價位專業製造商群組 */}
       <circle cx="320" cy="120" r="25" fill="#805AD5" fillOpacity="0.85" filter="url(#shadow)" />
-      <text x="320" y="120" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">優質機械</text>
+      <text x="320" y="120" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">MAMA</text>
       
       <circle cx="390" cy="140" r="22" fill="#805AD5" fillOpacity="0.85" filter="url(#shadow)" />
-      <text x="390" y="140" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">精密科技</text>
+      <text x="390" y="140" textAnchor="middle" fontSize="12" fill="white" fontWeight="bold">祥榮食品</text>
       
       <circle cx="470" cy="125" r="20" fill="#805AD5" fillOpacity="0.85" filter="url(#shadow)" />
-      <text x="470" y="125" textAnchor="middle" fontSize="11" fill="white" fontWeight="bold">新興公司</text>
+      <text x="470" y="125" textAnchor="middle" fontSize="11" fill="white" fontWeight="bold">味丹</text>
       
-      {/* 德日系製造商群組 */}
+      {/* 日本系製造商群組 */}
       <circle cx="620" cy="90" r="35" fill="#E53E3E" fillOpacity="0.85" filter="url(#shadow)" />
-      <text x="620" y="90" textAnchor="middle" fontSize="14" fill="white" fontWeight="bold">德日系</text>
+      <text x="620" y="90" textAnchor="middle" fontSize="14" fill="white" fontWeight="bold">日本系</text>
       <text x="620" y="110" textAnchor="middle" fontSize="12" fill="white">製造商</text>
       
       {/* 圖例 */}
       <rect x="550" y="160" width="180" height="90" fill="white" stroke="#ddd" strokeWidth="1" filter="url(#shadow)" />
       <text x="640" y="180" textAnchor="middle" fontSize="12" fontWeight="bold">製造商群組</text>
       <circle cx="570" y="200" r="10" fill="#3182CE" fillOpacity="0.85" />
-      <text x="640" y="200" textAnchor="middle" fontSize="12">台灣本土: 10-15千元</text>
+      <text x="640" y="200" textAnchor="middle" fontSize="12">韓國品牌: 10-15美元</text>
       <circle cx="570" y="225" r="10" fill="#805AD5" fillOpacity="0.85" />
-      <text x="640" y="225" textAnchor="middle" fontSize="12">中價位: 20-25千元</text>
+      <text x="640" y="225" textAnchor="middle" fontSize="12">中價位: 20-25美元</text>
       <circle cx="570" y="250" r="10" fill="#E53E3E" fillOpacity="0.85" />
-      <text x="640" y="250" textAnchor="middle" fontSize="12">德日系: 30千元+</text>
+      <text x="640" y="250" textAnchor="middle" fontSize="12">日本系: 30美元+</text>
     </svg>
   );
 
@@ -704,90 +877,94 @@ const PrintableReport = ({ data = defaultData }) => {
   const LargeSpecificationHeatChart = () => (
     <svg width="800" height="300" viewBox="0 0 800 300">
       {/* 座標軸和標題 */}
-      <text x="400" y="30" textAnchor="middle" fontSize="16" fontWeight="bold">精密零件加工規格關注度</text>
+      <text x="400" y="30" textAnchor="middle" fontSize="16" fontWeight="bold">水煮麵產品規格關注度</text>
       
       {/* 熱圖格式 */}
       <rect x="50" y="50" width="700" height="200" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1" />
       
-      {/* 主要區塊 - 加工精度 */}
-      <rect x="50" y="50" width="250" height="100" fill="#3B82F6" fillOpacity="0.9" />
-      <text x="175" y="100" textAnchor="middle" fontSize="18" fill="white" fontWeight="bold">加工精度</text>
-      <text x="175" y="130" textAnchor="middle" fontSize="14" fill="white">(關注度95%)</text>
+      {/* 主要區塊 - 過敏原信息 - 添加紫色描邊與底色 */}
+      <rect x="50" y="50" width="250" height="100" fill="#8B5CF6" fillOpacity="0.9" stroke="#6D28D9" strokeWidth="3" />
+      <text x="175" y="100" textAnchor="middle" fontSize="18" fill="white" fontWeight="bold">過敏原信息</text>
+      <text x="175" y="130" textAnchor="middle" fontSize="14" fill="white">(185,755,128)</text>
       
-      {/* 次要區塊 - 表面處理 */}
+      {/* 次要區塊 - 口味 */}
       <rect x="300" y="50" width="220" height="100" fill="#60A5FA" fillOpacity="0.9" />
-      <text x="410" y="100" textAnchor="middle" fontSize="16" fill="white" fontWeight="bold">表面處理</text>
-      <text x="410" y="130" textAnchor="middle" fontSize="12" fill="white">(關注度85%)</text>
+      <text x="410" y="100" textAnchor="middle" fontSize="16" fill="white" fontWeight="bold">口味</text>
+      <text x="410" y="130" textAnchor="middle" fontSize="12" fill="white">(75,906,691)</text>
       
-      {/* 次要區塊 - 材料品質 (高亮顯示以對應小規格分析) */}
-      <rect x="520" y="50" width="230" height="100" fill="#8B5CF6" fillOpacity="0.9" stroke="#6D28D9" strokeWidth="3" />
-      <text x="635" y="100" textAnchor="middle" fontSize="16" fill="white" fontWeight="bold">材料品質</text>
-      <text x="635" y="130" textAnchor="middle" fontSize="12" fill="white">(關注度78%)</text>
+      {/* 次要區塊 - 麵條 (修改為藍色底色) */}
+      <rect x="520" y="50" width="230" height="100" fill="#3B82F6" fillOpacity="0.9" />
+      <text x="635" y="100" textAnchor="middle" fontSize="16" fill="white" fontWeight="bold">麵條</text>
+      <text x="635" y="130" textAnchor="middle" fontSize="12" fill="white">(73,853,043)</text>
       
-      {/* 加工工藝 */}
-      <rect x="50" y="150" width="200" height="100" fill="#93C5FD" fillOpacity="0.9" />
-      <text x="150" y="200" textAnchor="middle" fontSize="16" fill="#1E3A8A" fontWeight="bold">加工工藝</text>
-      <text x="150" y="225" textAnchor="middle" fontSize="12" fill="#1E3A8A">(關注度65%)</text>
+      {/* 包裝 */}
+      <rect x="50" y="150" width="350" height="100" fill="#93C5FD" fillOpacity="0.9" />
+      <text x="225" y="200" textAnchor="middle" fontSize="16" fill="#1E3A8A" fontWeight="bold">包裝</text>
+      <text x="225" y="225" textAnchor="middle" fontSize="12" fill="#1E3A8A">(70,747,925)</text>
       
-      {/* 尺寸規格 */}
-      <rect x="250" y="150" width="250" height="100" fill="#BFDBFE" fillOpacity="0.9" />
-      <text x="375" y="200" textAnchor="middle" fontSize="16" fill="#1E3A8A" fontWeight="bold">尺寸規格</text>
-      <text x="375" y="225" textAnchor="middle" fontSize="12" fill="#1E3A8A">(關注度48%)</text>
-      
-      {/* 公差範圍 */}
-      <rect x="500" y="150" width="250" height="100" fill="#DBEAFE" fillOpacity="0.9" />
-      <text x="625" y="200" textAnchor="middle" fontSize="16" fill="#1E3A8A" fontWeight="bold">公差範圍</text>
-      <text x="625" y="225" textAnchor="middle" fontSize="12" fill="#1E3A8A">(關注度35%)</text>
+      {/* 重量 */}
+      <rect x="400" y="150" width="350" height="100" fill="#BFDBFE" fillOpacity="0.9" />
+      <text x="575" y="200" textAnchor="middle" fontSize="16" fill="#1E3A8A" fontWeight="bold">重量</text>
+      <text x="575" y="225" textAnchor="middle" fontSize="12" fill="#1E3A8A">(70,747,925)</text>
       
       {/* 圖例 */}
       <rect x="50" y="260" width="700" height="30" fill="#f5f5f5" />
-      <text x="400" y="280" textAnchor="middle" fontSize="14">加工規格關注度比例 (2024年數據) - 紫色區塊詳細分析見下圖</text>
+      <text x="400" y="280" textAnchor="middle" fontSize="14">水煮麵規格關注度比例 (2021-2024年數據) - 紫色區塊詳細分析見下圖</text>
     </svg>
   );
   
-  // 小規格熱度分析圖表 - 使用熱圖格式，專注於材料品質細分
+  // 小規格熱度分析圖表 - 使用熱圖格式，專注於過敏原細分
   const SmallSpecificationHeatChart = () => (
     <svg width="800" height="300" viewBox="0 0 800 300">
       {/* 座標軸和標題 */}
-      <text x="400" y="30" textAnchor="middle" fontSize="16" fontWeight="bold">精密零件材料品質規格關注度</text>
+      <text x="400" y="30" textAnchor="middle" fontSize="16" fontWeight="bold">水煮麵過敏原信息關注度</text>
       
-      {/* 熱圖格式 - 使用與大規格圖表中材料品質相同的外框顏色 */}
+      {/* 熱圖格式 - 使用與大規格圖表中過敏原相同的外框顏色 */}
       <rect x="50" y="50" width="700" height="200" fill="#f8fafc" stroke="#6D28D9" strokeWidth="3" />
       
-      {/* 主要區塊 - 不銹鋼 */}
+      {/* 主要區塊 - 小麥 */}
       <rect x="50" y="50" width="350" height="100" fill="#8B5CF6" fillOpacity="0.9" />
-      <text x="225" y="100" textAnchor="middle" fontSize="18" fill="white" fontWeight="bold">不銹鋼</text>
-      <text x="225" y="130" textAnchor="middle" fontSize="14" fill="white">(SUS304, SUS316L)</text>
+      <text x="225" y="100" textAnchor="middle" fontSize="18" fill="white" fontWeight="bold">小麥</text>
+      <text x="225" y="130" textAnchor="middle" fontSize="14" fill="white">(68,363,971)</text>
       
-      {/* 次要區塊 - 鋁合金 */}
-      <rect x="50" y="150" width="230" height="100" fill="#A78BFA" fillOpacity="0.9" />
-      <text x="165" y="200" textAnchor="middle" fontSize="16" fill="white" fontWeight="bold">鋁合金</text>
-      <text x="165" y="225" textAnchor="middle" fontSize="12" fill="white">(6061, 7075)</text>
+      {/* 次要區塊 - 大豆 */}
+      <rect x="400" y="50" width="350" height="100" fill="#A78BFA" fillOpacity="0.9" />
+      <text x="575" y="100" textAnchor="middle" fontSize="16" fill="white" fontWeight="bold">大豆</text>
+      <text x="575" y="130" textAnchor="middle" fontSize="12" fill="white">(66,463,785)</text>
       
-      {/* 次要區塊 - 鈦合金 */}
-      <rect x="280" y="150" width="220" height="100" fill="#C4B5FD" fillOpacity="0.9" />
-      <text x="390" y="200" textAnchor="middle" fontSize="16" fill="white" fontWeight="bold">鈦合金</text>
-      <text x="390" y="225" textAnchor="middle" fontSize="12" fill="white">(Ti6Al4V)</text>
+      {/* 次要區塊 - 牛奶 */}
+      <rect x="50" y="150" width="230" height="100" fill="#C4B5FD" fillOpacity="0.9" />
+      <text x="165" y="200" textAnchor="middle" fontSize="16" fill="white" fontWeight="bold">牛奶</text>
+      <text x="165" y="225" textAnchor="middle" fontSize="12" fill="white">(18,304,640)</text>
       
-      {/* 小區塊 - 特殊合金 */}
-      <rect x="400" y="50" width="160" height="100" fill="#DDD6FE" fillOpacity="0.9" />
-      <text x="480" y="100" textAnchor="middle" fontSize="14" fill="#4C1D95" fontWeight="bold">特殊合金</text>
+      {/* 次要區塊 - 雞蛋 */}
+      <rect x="280" y="150" width="170" height="100" fill="#DDD6FE" fillOpacity="0.9" />
+      <text x="365" y="200" textAnchor="middle" fontSize="14" fill="#4C1D95" fontWeight="bold">雞蛋</text>
+      <text x="365" y="225" textAnchor="middle" fontSize="12" fill="#4C1D95">(14,969,310)</text>
       
-      {/* 小區塊 - 碳鋼 */}
-      <rect x="560" y="50" width="190" height="50" fill="#BFDBFE" fillOpacity="0.9" />
-      <text x="655" y="75" textAnchor="middle" fontSize="14" fill="#1E3A8A" fontWeight="bold">碳鋼</text>
+      {/* 小區塊 - 芝麻 */}
+      <rect x="450" y="150" width="100" height="100" fill="#EDE9FE" fillOpacity="0.9" />
+      <text x="500" y="200" textAnchor="middle" fontSize="14" fill="#4C1D95" fontWeight="bold">芝麻</text>
+      <text x="500" y="225" textAnchor="middle" fontSize="10" fill="#4C1D95">(4,655,325)</text>
       
-      {/* 小區塊 - 銅合金 */}
-      <rect x="560" y="100" width="190" height="50" fill="#DBEAFE" fillOpacity="0.9" />
-      <text x="655" y="125" textAnchor="middle" fontSize="14" fill="#1E3A8A" fontWeight="bold">銅合金</text>
+      {/* 小區塊 - 魚 */}
+      <rect x="550" y="150" width="70" height="50" fill="#F5F3FF" fillOpacity="0.9" />
+      <text x="585" y="175" textAnchor="middle" fontSize="12" fill="#4C1D95" fontWeight="bold">魚</text>
+      <text x="585" y="195" textAnchor="middle" fontSize="10" fill="#4C1D95">(~2,500,000)</text>
       
-      {/* 塑膠 */}
-      <rect x="500" y="150" width="250" height="100" fill="#EFF6FF" fillOpacity="0.9" />
-      <text x="625" y="200" textAnchor="middle" fontSize="16" fill="#1E3A8A" fontWeight="bold">工程塑膠</text>
+      {/* 小區塊 - 黃豆 */}
+      <rect x="620" y="150" width="70" height="50" fill="#F5F3FF" fillOpacity="0.9" />
+      <text x="655" y="175" textAnchor="middle" fontSize="12" fill="#4C1D95" fontWeight="bold">黃豆</text>
+      <text x="655" y="195" textAnchor="middle" fontSize="10" fill="#4C1D95">(~2,000,000)</text>
+      
+      {/* 小區塊 - 麩質 */}
+      <rect x="550" y="200" width="140" height="50" fill="#F5F3FF" fillOpacity="0.9" />
+      <text x="620" y="225" textAnchor="middle" fontSize="12" fill="#4C1D95" fontWeight="bold">麩質</text>
+      <text x="620" y="245" textAnchor="middle" fontSize="10" fill="#4C1D95">(~1,500,000)</text>
       
       {/* 圖例 */}
       <rect x="50" y="260" width="700" height="30" fill="#f5f5f5" />
-      <text x="400" y="280" textAnchor="middle" fontSize="14">材料規格關注度比例 (2024年數據) - 方格大小代表市場需求量</text>
+      <text x="400" y="280" textAnchor="middle" fontSize="14">過敏原規格關注度比例 (2021-2024年數據) - 方格大小代表市場關注量</text>
     </svg>
   );
 
@@ -803,7 +980,7 @@ const PrintableReport = ({ data = defaultData }) => {
           </div>
         </div>
         <h1 className="text-4xl font-bold text-blue-900 mb-4">{reportInfo.title}</h1>
-        <h2 className="text-3xl font-bold mb-8">{reportInfo.subtitle}</h2>
+        <h2 className="text-3xl font-bold mb-8 report-subtitle">{reportInfo.subtitle}</h2>
         <div className="mt-16 text-xl">
           <div className="mb-2">企業名稱：{companyInfo.name}</div>
           <div className="mb-2">案件編號：{reportInfo.caseNumber}</div>
@@ -841,7 +1018,7 @@ const PrintableReport = ({ data = defaultData }) => {
             <span>7</span>
           </li>
           <li className="flex items-center">
-            <span className="font-medium mr-4">五、</span>
+            <span className="font-medium mr-4">附錄</span>
             <span>訪視紀錄表</span>
             <span className="flex-grow border-b border-dashed border-gray-300 mx-4"></span>
             <span>10</span>
@@ -961,7 +1138,7 @@ const PrintableReport = ({ data = defaultData }) => {
             </div>
             <div className="mx-6 h-16 w-px bg-gray-200"></div> */}
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-800">{companyInfo.name || '精密機械科技'}</div>
+              <div className="text-2xl font-bold text-blue-800">{companyInfo.name || '祥榮食品'}</div>
               <div className="text-gray-500 mt-1">研發轉型目標評估</div>
             </div>
           </div>
@@ -1371,11 +1548,11 @@ const PrintableReport = ({ data = defaultData }) => {
             </div>
             
             <p className="text-gray-700 leading-relaxed mb-4">
-              在改變企業研發速度及研發流程方面，公司整體得分為7/15分。敏捷研發管理系統（3分）展現出基礎的進度追蹤能力，但在PLM系統導入（2分）和跨部門協作機制（2分）方面仍有較大的提升空間，這表明企業在系統性的研發流程管理上亟需加強。
+              在食品產品研發流程方面，公司整體得分為7/15分。產品配方開發流程（3分）展現出基礎的標準化能力，但在食品安全管理系統（2分）和跨部門協作機制（2分）方面仍有較大的提升空間，這表明企業在系統性的食品研發流程管理上亟需加強。
             </p>
             
             <p className="text-gray-700 leading-relaxed">
-              建議優先建立完整的敏捷研發管理框架，如導入Scrum或Kanban等敏捷方法論，實現研發專案的透明化管理與持續改進。同時，可評估導入輕量級PLM系統，優化產品生命週期管理，並建立固定的跨部門協作機制，如定期的設計評審會議，提升各部門間的協同效率。
+              建議優先建立完整的食品研發管理框架，如導入HACCP食品安全管理體系，實現產品研發過程的標準化管理與持續改進。同時，可評估導入食品生命週期管理系統，優化產品從配方開發到量產的全程管理，並建立固定的跨部門協作機制，如定期的配方與口味評審會議，提升研發、生產、品控、市場等部門間的協同效率。
             </p>
           </div>
           
@@ -1393,11 +1570,11 @@ const PrintableReport = ({ data = defaultData }) => {
             </div>
             
             <p className="text-gray-700 leading-relaxed mb-4">
-              在使用資料驅動研發決策方面，公司得分為9/15分。AI技術應用（4分）顯示企業對新技術有較高接受度，而數據分析平台（3分）已有基礎，但客戶需求分析系統（2分）仍處於起步階段，顯示在客戶洞察轉化為產品開發決策方面存在挑戰。
+              在使用數據驅動食品研發決策方面，公司得分為9/15分。口味趨勢分析技術（4分）顯示企業對市場趨勢有較高的敏感度，而配方數據管理平台（3分）已有基礎，但消費者口味偏好分析系統（2分）仍處於起步階段，顯示在消費者洞察轉化為產品開發決策方面存在挑戰。
             </p>
             
             <p className="text-gray-700 leading-relaxed">
-              建議優先擴展AI技術在市場趨勢分析和產品性能預測方面的應用，強化決策支持能力。同時，升級現有數據分析平台，整合內外部數據源，建立更全面的市場與技術趨勢監測系統。另外，應建立系統化的客戶反饋收集機制，如定期客戶訪談和產品使用調查，構建完整的客戶需求數據庫。
+              建議優先擴展數據分析技術在食品口味趨勢分析和產品口感預測方面的應用，強化決策支持能力。同時，升級現有配方數據管理平台，整合內外部數據源，建立更全面的食品市場與口味趨勢監測系統。另外，應建立系統化的消費者口味測試機制，如定期的盲測和產品口味調查，構建完整的消費者口味偏好數據庫。
             </p>
           </div>
           
@@ -1415,11 +1592,11 @@ const PrintableReport = ({ data = defaultData }) => {
             </div>
             
             <p className="text-gray-700 leading-relaxed mb-4">
-              在體驗設計思維進行研發方面，公司得分最高，達12/15分。使用者體驗設計（4分）、產品原型驗證（4分）和使用者回饋收集（4分）均表現良好，顯示企業已建立起較為完善的用戶中心設計流程，這是企業的一大優勢。
+              在體驗設計思維進行食品研發方面，公司得分最高，達12/15分。消費者體驗設計（4分）、產品口味原型測試（4分）和消費者回饋收集（4分）均表現良好，顯示企業已建立起較為完善的消費者中心設計流程，這是企業的一大優勢。
             </p>
             
             <p className="text-gray-700 leading-relaxed">
-              建議在現有基礎上，進一步精煉用戶體驗設計方法，如導入專業的客戶旅程圖和服務設計工具，捕捉更深層次的用戶需求。同時，加強原型測試的數據化管理，建立標準化的測試流程與指標體系，並提升用戶反饋的智能分析能力，實現反饋數據的自動化處理與優先級排序。
+              建議在現有基礎上，進一步精煉消費者體驗設計方法，如導入專業的食品感官評價體系和服務設計工具，捕捉更深層次的消費者需求。同時，加強口味原型測試的數據化管理，建立標準化的味覺測試流程與指標體系，並提升消費者反饋的智能分析能力，實現口味測試數據的自動化處理與優先級排序。
             </p>
           </div>
           
@@ -1437,11 +1614,11 @@ const PrintableReport = ({ data = defaultData }) => {
             </div>
             
             <p className="text-gray-700 leading-relaxed mb-4">
-              在採用新科技進行研發方面，公司得分為9/15分。物聯網技術應用（4分）表現較好，AI與機器學習技術（3分）處於發展中階段，而數位孿生技術（2分）仍在初步探索，顯示企業在新興技術應用上有不同程度的發展。
+              在採用新科技進行食品研發方面，公司得分為9/15分。食品保鮮技術應用（4分）表現較好，風味增強技術（3分）處於發展中階段，而替代性蛋白質開發（2分）仍在初步探索，顯示企業在食品科技創新應用上有不同程度的發展。
             </p>
             
             <p className="text-gray-700 leading-relaxed">
-              建議深化物聯網技術在產品測試與用戶行為分析中的應用，建立完整的數據收集與分析體系。同時，在特定研發項目中加大AI與機器學習的試點應用，如材料選擇優化和產品性能預測。另外，可組建專門的數位孿生技術研究小組，評估在產品設計和生產環節中的應用可能性。
+              建議深化食品保鮮技術在產品保質期延長與口感保持方面的應用，建立完整的保鮮技術評估體系。同時，在特定研發項目中加大風味增強技術的試點應用，如自然提味劑和複合調味料開發。另外，可組建專門的植物蛋白替代品研發小組，評估在現有產品線中導入健康、環保替代性蛋白的可能性。
             </p>
           </div>
         </div>
@@ -1455,7 +1632,7 @@ const PrintableReport = ({ data = defaultData }) => {
         </header>
         
         <div className="bg-white p-6 rounded-xl border-2 border-blue-200 mb-8">
-          <h3 className="text-xl font-bold text-blue-800 mb-6">A. [精密零件加工] 價格 & 品牌定位分析</h3>
+          <h3 className="text-xl font-bold text-blue-800 mb-6">A. [水煮麵] 價格 & 品牌定位分析</h3>
           
           <div className="grid grid-cols-1 gap-6 mb-6">
             <div>
@@ -1471,39 +1648,39 @@ const PrintableReport = ({ data = defaultData }) => {
           <div className="bg-blue-50 p-4 rounded-lg">
             <h4 className="text-lg font-semibold text-blue-800 mb-2">以下總結:</h4>
             <ol className="list-decimal pl-5 space-y-2 text-gray-700">
-              <li><span className="font-medium">低價台灣本土製造商市占率最高：</span> 台灣本土製造商位於圖表左上方，顯示其擁有較低的平均單價（約15,000元/件）但有最高的客戶滿意度（接近95%）。這表明本土製造商成功地以高性價比策略贏得了大量市場份額，同時保持了高客戶滿意度。</li>
+              <li><span className="font-medium">低價韓國Samyang市占率最高：</span> Samyang品牌位於圖表左上方，顯示其擁有較低的平均單價（約15美元）但有最高的滿意度（接近100%）。這表明Samyang成功地以低價策略贏得了大量市場份額，同時保持了高客戶滿意度。</li>
               
-              <li><span className="font-medium">中價位專業製造商多，訂單量穩定，為新產品切入點：</span> 在圖表中部（約20,000-30,000元/件價格區間）聚集了多個專業製造商，如優質機械、精密科技等。這個價格區間的品牌數量多，表明競爭激烈，但也意味著這可能是一個適合新產品線切入的價格點，因為客戶在這個區間有多樣化的選擇。</li>
+              <li><span className="font-medium">中價位小品牌多，銷售量不錯，為新產品切入點：</span> 在圖表中部（約20-30美元價格區間）聚集了多個品牌，如MAMA、K-Munchies、Nissin等。這個價格區間的品牌數量多，表明競爭激烈，但也意味著這可能是一個適合新產品切入的價格點，因為消費者在這個區間有多樣化的選擇。</li>
               
-              <li><span className="font-medium">高價德日系製造商市占率最高：</span> 德日系製造商位於圖表右上方，顯示其擁有較高的平均單價（約35,000元/件）和較高的滿意度。這表明這些國際廠商成功地佔據了高端市場，可能通過高精度加工能力或品牌聲譽來維持其高價位策略。</li>
+              <li><span className="font-medium">高價日本Nongshim市占率最高：</span> Nongshim位於圖表右上方，顯示其擁有較高的平均單價（約35美元）和較高的滿意度。這表明Nongshim成功地佔據了高端市場，可能通過優質產品或品牌形象來維持其高價位策略。</li>
               
-              <li><span className="font-medium">價格區間分析：</span> 12,000-14,999元/件區間的銷售額最高，達到約1,900萬元，平均單價為13,500元/件。這與台灣本土製造商的定位相符，進一步證實了高性價比策略在市場中的成功。30,000元/件以上的高價區間也有可觀的銷售額，約675萬元，平均單價為33,000元/件。這與德日系製造商的高端定位相符，說明高價市場雖然訂單量可能較低，但仍有顯著的市場價值。</li>
+              <li><span className="font-medium">價格區間分析：</span> 12-14.99美元區間的銷售額最高，達到約1900萬美元，平均單價為25919美元。這與Samyang的定位相符，進一步證實了低價策略在市場中的成功。30美元以上的高價區間也有可觀的銷售額，約675萬美元，平均單價為6249美元。這與Nongshim的高端定位相符，說明高價市場雖然銷量可能較低，但仍有顯著的市場價值。</li>
             </ol>
             
-            <p className="mt-4 text-gray-700"><span className="font-medium">總結：</span> 市場呈現明顯的價格分層，低價和高價市場都有領先品牌佔據主導地位，而中價位市場則較為分散，可能存在機會。精密機械科技可以根據自身優勢，選擇在高性價比競爭、中價專業化突破或高價精品等不同策略中定位自己的產品線。</p>
+            <p className="mt-4 text-gray-700"><span className="font-medium">總結：</span> 市場呈現明顯的價格分層，低價和高價市場都有領先品牌佔據主導地位，而中價位市場則較為分散，可能存在機會。新進入者或現有品牌可以根據自身優勢，選擇在低價競爭、中價突破或高價精品等不同策略中定位自己的產品。</p>
           </div>
         </div>
         
         <div className="bg-white p-6 rounded-xl border-2 border-blue-200 mb-8">
-          <h3 className="text-xl font-bold text-blue-800 mb-6">B. [精密零件加工] 月銷售分析</h3>
+          <h3 className="text-xl font-bold text-blue-800 mb-6">B. [水煮麵] 月銷售分析</h3>
           
           <div className="mb-6">
             <MonthlySalesChart />
           </div>
           
           <div className="bg-blue-50 p-4 rounded-lg">
-            <h4 className="text-lg font-semibold text-blue-800 mb-2">精密零件市場銷售趨勢分析：</h4>
+            <h4 className="text-lg font-semibold text-blue-800 mb-2">水煮麵市場銷售趨勢分析：</h4>
             <ol className="list-decimal pl-5 space-y-2 text-gray-700">
-              <li><span className="font-medium">銷售模式：</span> 精密零件銷售呈現明顯的季節性波動。每年11月至1月是銷售高峰期，可能與年末設備升級和預算消化有關。2月至4月通常是銷售低谷，這可能是因為農曆新年影響及客戶新年度預算尚未完全啟動。</li>
+              <li><span className="font-medium">銷售模式：</span> 水煮麵銷售呈現明顯的季節性波動。每年11月至1月是銷售高峰期，可能與年末設備升級和預算消化有關。2月至4月通常是銷售低谷，這可能是因為農曆新年影響及客戶新年度預算尚未完全啟動。</li>
               
-              <li><span className="font-medium">整體趨勢：</span> 從2022年中開始，精密零件銷售額整體呈上升趨勢。這可能反映出製造業自動化升級需求增加，半導體設備市場的發展，或是產品創新吸引了更多客戶。</li>
+              <li><span className="font-medium">整體趨勢：</span> 從2022年中開始，水煮麵銷售額整體呈上升趨勢。這可能反映出製造業自動化升級需求增加，半導體設備市場的發展，或是產品創新吸引了更多客戶。</li>
               
-              <li><span className="font-medium">價格策略：</span> 平均單價維持在17,000至20,000元之間，相對穩定。這表明精密零件市場的定價策略較為一致，可能是為了在競爭激烈的精密製造市場中保持價格競爭力。</li>
+              <li><span className="font-medium">價格策略：</span> 平均單價維持在17,000至20,000元之間，相對穩定。這表明水煮麵市場的定價策略較為一致，可能是為了在競爭激烈的精密製造市場中保持價格競爭力。</li>
               
               <li><span className="font-medium">訂單效果：</span> 銷售高峰期（如2023年11月至2024年1月）的顯著增長可能與半導體設備更新及年末訂單集中有關。這些訂單高峰似乎主要通過增加客戶採購量而非降價來驅動銷售。</li>
             </ol>
             
-            <h4 className="text-lg font-semibold text-blue-800 mt-4 mb-2">針對精密零件市場的建議：</h4>
+            <h4 className="text-lg font-semibold text-blue-800 mt-4 mb-2">針對水煮麵市場的建議：</h4>
             <ol className="list-decimal pl-5 space-y-2 text-gray-700">
               <li><span className="font-medium">季節性策略：</span> 根據淡旺季銷售差異，調整產能和接單策略。例如，在銷售旺季前確保足夠的生產能力，淡季時安排設備維護或研發工作。</li>
               
@@ -1515,36 +1692,34 @@ const PrintableReport = ({ data = defaultData }) => {
               
               <li><span className="font-medium">渠道拓展：</span> 探索新的銷售渠道，如海外市場或新興產業應用，以分散市場風險並拓展營收來源。</li>
               
-              <li><span className="font-medium">客戶洞察：</span> 進行市場調研，了解客戶對精密零件的技術規格需求變化，及時調整產品研發方向。</li>
+              <li><span className="font-medium">客戶洞察：</span> 進行市場調研，了解客戶對水煮麵的技術規格需求變化，及時調整產品研發方向。</li>
             </ol>
           </div>
         </div>
         
         <div className="bg-white p-6 rounded-xl border-2 border-blue-200 mb-8">
-          <h3 className="text-xl font-bold text-blue-800 mb-6">C. [精密零件加工] 客戶回饋分析</h3>
+          <h3 className="text-xl font-bold text-blue-800 mb-6">C. [水煮麵] 客戶回饋分析</h3>
           
           <div className="mb-6">
             <CustomerFeedbackChart />
           </div>
           
           <div className="bg-blue-50 p-4 rounded-lg">
-            <h4 className="text-lg font-semibold text-blue-800 mb-2">精密零件正負評論數的圖表分析：</h4>
+            <h4 className="text-lg font-semibold text-blue-800 mb-2">水煮麵正負評論數的圖表分析：</h4>
             <ol className="list-decimal pl-5 space-y-2 text-gray-700">
-              <li><span className="font-medium">客戶關注重點：</span> 加工精度（Precision）、表面處理（Surface Finish）和材料品質（Material Quality）是客戶討論最多的三個方面，遠超其他因素。這表明這些是精密零件產品中最受關注的核心屬性。</li>
+              <li><span className="font-medium">消費者關注重點：</span> 口感（Taste）、風味（Flavor）和麵條（Noodles）是消費者討論最多的三個方面，遠超其他因素。這表明這些是水煮麵產品中最受關注的核心屬性。</li>
               
-              <li><span className="font-medium">價格因素：</span> 價格（Price）是第四個被討論最多的因素，但相比前三項，討論度明顯降低。這可能意味著對於高精度零件，客戶更注重產品本身的品質而非價格。</li>
+              <li><span className="font-medium">價格因素：</span> 價格（Price）是第四個被討論最多的因素，但相比前三項，討論度明顯降低。這可能意味著對於水煮麵產品，消費者更注重產品本身的品質而非價格。</li>
               
-              <li><span className="font-medium">次要關注點：</span> 交期（Delivery Time）、標準符合度（Standard Compliance）和技術支援（Technical Support）等因素也受到一定程度的關注，但討論量相對較少。</li>
+              <li><span className="font-medium">次要關注點：</span> 用戶體驗（User experience）、品牌（Brand）和包裝信息（Package information）等因素也受到一定程度的關注，但討論量相對較少。</li>
               
-              <li><span className="font-medium">低關注度因素：</span> 包裝（Packaging）、運輸（Shipping）、客服（Customer Service）等因素討論度較低，可能不是客戶的主要考慮因素。</li>
-              
-              <li><span className="font-medium">建議重點：</span> 應優先提升加工精度控制能力、表面處理技術和材料品質管理，同時保持合理價格水平，以滿足客戶核心需求。</li>
+              <li><span className="font-medium">低關注度因素：</span> 調味醬（Sauce）、加熱（Heat）、包裝（Package）等因素討論度較低，可能不是消費者的主要考慮因素。</li>
             </ol>
           </div>
         </div>
         
         <div className="bg-white p-6 rounded-xl border-2 border-blue-200 mb-8">
-          <h3 className="text-xl font-bold text-blue-800 mb-6">D. [精密零件加工] 規格熱度分析</h3>
+          <h3 className="text-xl font-bold text-blue-800 mb-6">D. [水煮麵] 規格熱度分析</h3>
           
           <div className="grid grid-cols-1 gap-6 mb-6">
             <div>
@@ -1560,29 +1735,44 @@ const PrintableReport = ({ data = defaultData }) => {
           <div className="bg-blue-50 p-4 rounded-lg">
             <h4 className="text-lg font-semibold text-blue-800 mb-2">產品規格熱度分析：</h4>
             <ol className="list-decimal pl-5 space-y-2 text-gray-700">
-              <li><span className="font-medium">材料需求最受關注：</span> 材料選擇（Material）是最受關注的特徵，反映了客戶對原材料品質的高度重視。不同材料如不銹鋼、鋁合金、鈦合金等各有其應用場景和市場需求。</li>
+              <li><span className="font-medium">過敏原信息最受關注：</span> 過敏原信息是最受關注的特徵，反映了消費者對食品安全和特殊飲食需求的高度重視。小麥和大豆是水煮麵中最常見的過敏原。</li>
               
-              <li><span className="font-medium">精度要求次之：</span> 精度規格（Precision）是第二被關注的因素，顯示市場對高精密加工的持續需求。各種精度等級如一般精度、高精度和超高精度加工均有市場。</li>
+              <li><span className="font-medium">口味是關鍵驅動因素：</span> 口味是第二被關注的因素，顯示消費者對產品風味的重視。辛辣和雞肉風味是當前最受歡迎的口味系列。</li>
               
-              <li><span className="font-medium">表面處理方式：</span> 表面處理（Surface Treatment）是第三重要因素，包含各種處理方式如拋光、陽極處理、硬化處理等，客戶對不同表面處理的效果和耐久性有明確需求。</li>
+              <li><span className="font-medium">麵條質量至關重要：</span> 麵條本身的質量和口感是第三重要因素，包含彈性、吸湯效果和保持度等特性，直接影響消費者的整體體驗。</li>
               
-              <li><span className="font-medium">加工工藝重要性：</span> 加工工藝（Processing Technique）也是客戶關注的重點，包括CNC加工、鑄造、沖壓等不同製造方法。</li>
-              
-              <li><span className="font-medium">尺寸和公差：</span> 尺寸規格（Dimension）和公差範圍（Tolerance）同樣受到重視，反映了客戶對產品規格一致性的要求。</li>
+              <li><span className="font-medium">包裝和分量選擇：</span> 包裝方式和重量規格也是消費者關注的要點，反映了不同場景下（個人食用、家庭分享等）的多樣化需求。</li>
             </ol>
-            <h4 className="text-lg font-semibold text-blue-800 mt-4 mb-2">材料規格細分分析：</h4>
+            <h4 className="text-lg font-semibold text-blue-800 mt-4 mb-2">過敏原細分分析：</h4>
             <ol className="list-decimal pl-5 space-y-2 text-gray-700">
-              <li><span className="font-medium">不銹鋼需求最高：</span> 在材料規格中，不銹鋼（特別是SUS304和SUS316L規格）的需求最為突出，主要應用於醫療設備、食品加工設備和半導體設備等領域。</li>
+              <li><span className="font-medium">小麥是主要關注點：</span> 在過敏原中，小麥（麩質）的關注度最高，這與水煮麵的主要成分直接相關，有顯著的市場需求對無麩質選項的興趣。</li>
               
-              <li><span className="font-medium">鋁合金與鈦合金：</span> 鋁合金（6061、7075規格）和鈦合金（Ti6Al4V規格）分別排在第二和第三位，鋁合金因其輕量化和良好加工性廣泛應用，鈦合金則主要用於高端醫療和航空設備。</li>
+              <li><span className="font-medium">大豆成分廣泛存在：</span> 大豆相關成分的關注度排第二，主要來自調味料和醬料中的成分，消費者對這類過敏原有明確的標示需求。</li>
               
-              <li><span className="font-medium">特殊合金應用：</span> 其他特殊合金如鎳基合金、銅合金等雖然需求量較小，但在特定高端應用中不可替代，且利潤率通常較高。</li>
+              <li><span className="font-medium">牛奶和雞蛋相關成分：</span> 雖然出現頻率較低，但在一些風味較豐富的產品中常見，需要特別注意標示。</li>
+            </ol>
+            
+            <h4 className="text-lg font-semibold text-blue-800 mt-4 mb-2">綜合分析與建議：</h4>
+            <ol className="list-decimal pl-5 space-y-2 text-gray-700">
+              <li><span className="font-medium">過敏原信息至關重要：</span> 鑒於過敏原是最受關注的特徵，建議在產品包裝上明確標示所有可能的過敏原，並考慮開發低過敏原或無特定過敏原的產品線。</li>
+              
+              <li><span className="font-medium">口味和麵條質量是關鍵：</span> 持續改進產品口味和麵條質量，這兩項是僅次於過敏原的重要因素。</li>
+              
+              <li><span className="font-medium">包裝和分量策略：</span> 包裝和重量同等重要，可以考慮推出不同分量的包裝以滿足不同消費需求。</li>
+              
+              <li><span className="font-medium">原料選擇與替代：</span> 考慮使用低過敏性原料，或為特定過敏人群開發替代產品（如無麩質麵條）。</li>
+              
+              <li><span className="font-medium">清晰標籤：</span> 確保所有產品包裝上清晰標示原料成分，特別是常見過敏原如小麥、大豆、牛奶和雞蛋。</li>
+              
+              <li><span className="font-medium">消費者教育：</span> 提供有關產品成分和可能過敏原的詳細信息，幫助消費者做出明智的購買決定。</li>
+              
+              <li><span className="font-medium">產品多樣化：</span> 基於不同的過敏原組合，可以開發針對性的產品線，以滿足不同消費者的需求。</li>
             </ol>
           </div>
         </div>
         
         <div className="bg-white p-6 rounded-xl border-2 border-blue-200">
-          <h3 className="text-xl font-bold text-blue-800 mb-6">E. [精密零件加工] 產品規格推薦</h3>
+          <h3 className="text-xl font-bold text-blue-800 mb-6">E. [水煮麵] 產品規格推薦</h3>
           
           <div className="mb-6">
             <ProductSpecTable />
@@ -1592,62 +1782,61 @@ const PrintableReport = ({ data = defaultData }) => {
             <h4 className="text-lg font-semibold text-blue-800 mb-2">每個產品規格列出推薦分析：</h4>
             <ol className="list-decimal pl-5 space-y-4 text-gray-700">
               <li>
-                <span className="font-medium">材料 (Material)：</span>
+                <span className="font-medium">過敏原 (allergen)：</span>
                 <ul className="list-disc pl-5 mt-1 space-y-1">
-                  <li><span className="font-medium">不銹鋼 (Stainless Steel)：</span> 作為首要材料選擇，反映了其廣泛應用性。建議專注於SUS304和SUS316L等常用規格，滿足醫療和食品設備等高要求行業需求。</li>
-                  <li><span className="font-medium">鋁合金 (Aluminum Alloy)：</span> 輕量化設計的熱門選擇。可重點發展6061和7075合金加工能力，滿足航空和消費電子產品需求。</li>
-                  <li><span className="font-medium">鈦合金 (Titanium Alloy)：</span> 高端應用的首選材料。建議發展Ti6Al4V等醫療級鈦合金加工能力，開拓高價值市場。</li>
+                  <li><span className="font-medium">大豆 (soybean)：</span> 作為首要過敏原，反映了其在配方中的普遍使用。建議開發無大豆版本，以滿足對大豆過敏的消費者需求。</li>
+                  <li><span className="font-medium">木薯 (tapioca)：</span> 可能用作增稠劑或麵條原料。考慮將其作為小麥的替代品，開發無麩質產品線。</li>
+                  <li><span className="font-medium">小麥麩質 (wheatgluten)：</span> 為主要麵條原料。建議開發使用替代穀物（如米粉、蕎麥）的產品，擴大無麩質選擇。</li>
                 </ul>
               </li>
               
               <li>
-                <span className="font-medium">精度等級 (Precision Level)：</span>
+                <span className="font-medium">口味 (flavor)：</span>
                 <ul className="list-disc pl-5 mt-1 space-y-1">
-                  <li><span className="font-medium">超高精度 (Ultra-high Precision)：</span> 公差範圍±0.005mm以內，適用於精密光學和半導體設備零件。建議投資先進加工設備，提升超高精度加工能力。</li>
-                  <li><span className="font-medium">高精度 (High Precision)：</span> 公差範圍±0.01mm，適用於大多數精密機械和醫療設備零件。應作為公司核心競爭力重點發展。</li>
-                  <li><span className="font-medium">標準精度 (Standard Precision)：</span> 公差範圍±0.05mm，滿足一般工業應用需求。建議保持高效率生產，降低成本，增強競爭力。</li>
+                  <li><span className="font-medium">美味辛辣 (gourmetspicy)：</span> 作為首選口味，顯示消費者對濃郁口感的偏好。可以此為基礎開發不同辣度級別。</li>
+                  <li><span className="font-medium">辣雞 (hotchicken)：</span> 結合了辣味和雞肉風味，是一個受歡迎的組合。考慮開發植物基版本，吸引素食消費者。</li>
+                  <li><span className="font-medium">火辣芝士風味雞 (firehotcheeseflaveredchicken)：</span> 複合風味，顯示消費者對創新口味的興趣。可以此為靈感，開發更多獨特口味組合。</li>
                 </ul>
               </li>
               
               <li>
-                <span className="font-medium">表面處理 (Surface Treatment)：</span>
+                <span className="font-medium">麵條 (noodles)：</span>
                 <ul className="list-disc pl-5 mt-1 space-y-1">
-                  <li><span className="font-medium">陽極處理 (Anodizing)：</span> 適用於鋁合金零件，提供多種顏色選擇和保護功能。建議開發III型硬質陽極處理能力，提高表面硬度。</li>
-                  <li><span className="font-medium">拋光處理 (Polishing)：</span> 從機械拋光到鏡面拋光多種等級，滿足不同視覺和功能需求。建議發展Ra 0.2μm以下的高光潔度加工能力。</li>
-                  <li><span className="font-medium">熱處理 (Heat Treatment)：</span> 提高金屬零件硬度和耐磨性。建議投資真空熱處理設備，提供高品質熱處理服務。</li>
+                  <li><span className="font-medium">麵條：</span> 作為產品核心，品質至關重要。持續改進麵條質地和口感。</li>
+                  <li><span className="font-medium">微波/水煮 (boil/microwave)：</span> 提供多種烹飪方式，增加便利性。可考慮開發專為微波優化的配方。</li>
+                  <li><span className="font-medium">水煮 (boil)：</span> 傳統烹飪方式。可提供詳細的烹飪指南，確保最佳口感。</li>
                 </ul>
               </li>
               
               <li>
-                <span className="font-medium">加工工藝 (Processing Technique)：</span>
+                <span className="font-medium">包裝 (package information)：</span>
                 <ul className="list-disc pl-5 mt-1 space-y-1">
-                  <li><span className="font-medium">5軸CNC加工 (5-axis CNC Machining)：</span> 適用於複雜形狀零件，能夠一次裝夾完成多面加工。建議增加5軸加工中心設備數量，提高複雜零件加工能力。</li>
-                  <li><span className="font-medium">精密車削 (Precision Turning)：</span> 適用於軸類零件和圓柱形零件生產。建議投資Swiss-type車銑複合加工設備，提高效率。</li>
-                  <li><span className="font-medium">線切割 (Wire EDM)：</span> 適用於硬質材料和複雜輪廓加工。建議保持技術更新，滿足模具和精密零件製造需求。</li>
+                  <li><span className="font-medium">110g：</span> 適合單人份。可考慮將此作為標準規格，便於卡路里計算。</li>
+                  <li><span className="font-medium">125g：</span> 稍大份量，可滿足較大食量需求。考慮將此作為"大胃王"版本推廣。</li>
+                  <li><span className="font-medium">112g：</span> 介於兩者之間，可作為均衡選擇。考慮將此定位為"適中份量"。</li>
                 </ul>
               </li>
               
               <li>
-                <span className="font-medium">尺寸規格 (Dimension)：</span>
+                <span className="font-medium">重量 (weight)：</span>
                 <ul className="list-disc pl-5 mt-1 space-y-1">
-                  <li><span className="font-medium">微小零件 (Micro Parts)：</span> 小於5mm的精密零件，應用於醫療和電子行業。建議發展微加工技術，擴大市場範圍。</li>
-                  <li><span className="font-medium">中型零件 (Medium Parts)：</span> 5-100mm範圍的零件，是最常見的市場需求。建議保持高效率、高品質的生產能力。</li>
-                  <li><span className="font-medium">大型零件 (Large Parts)：</span> 大於100mm的零件，適用於工業設備和自動化設備。建議評估大型零件市場需求，合理配置資源。</li>
+                  <li><span className="font-medium">4800g：</span> 適合家庭裝或團購。可考慮推出配套的大容量調味包。</li>
+                  <li><span className="font-medium">550g：</span> 中等包裝，適合小家庭。可設計為可重複密封的包裝，確保新鮮度。</li>
                 </ul>
               </li>
             </ol>
             
             <h4 className="text-lg font-semibold text-blue-800 mt-6 mb-2">綜合建議：</h4>
             <ol className="list-decimal pl-5 space-y-2 text-gray-700">
-              <li><span className="font-medium">材料多元化：</span> 重點發展不銹鋼、鋁合金和鈦合金等高需求材料的加工能力，建立材料專業知識庫，提供客戶材料選擇諮詢服務。</li>
+              <li><span className="font-medium">過敏原管理：</span> 開發多元化的產品線，包括無大豆、無麩質選項，以滿足特殊飲食需求。</li>
               
-              <li><span className="font-medium">精度分層：</span> 建立明確的精度等級分類標準，針對不同精度等級配置相應的加工設備和檢測儀器，確保各等級產品的品質一致性。</li>
+              <li><span className="font-medium">口味創新：</span> 在保留熱門口味的同時，定期推出限定口味，保持消費者興趣。</li>
               
-              <li><span className="font-medium">表面處理整合：</span> 考慮建立表面處理專業線或與專業表面處理供應商建立緊密合作，提供一站式解決方案，減少客戶尋找多家供應商的麻煩。</li>
+              <li><span className="font-medium">麵條優化：</span> 研發適合不同烹飪方式的麵條配方，確保在各種烹飪條件下都能保持最佳口感。</li>
               
-              <li><span className="font-medium">技術升級：</span> 持續投資先進加工設備和技術，尤其是5軸加工、自動化生產線和智能檢測系統，提高生產效率和品質穩定性。</li>
+              <li><span className="font-medium">包裝方式：</span> 提供清晰的份量信息，幫助消費者做出適合自己需求的選擇。考慮環保包裝材料。</li>
               
-              <li><span className="font-medium">柔性生產：</span> 根據市場需求變化，建立柔性生產線，能夠快速調整生產不同尺寸和類型的零件，提高應對市場變化的能力。</li>
+              <li><span className="font-medium">重量多樣化：</span> 針對不同消費場景（個人、家庭、團體）優化包裝規格，提高產品靈活性。</li>
               
               <li><span className="font-medium">數字化轉型：</span> 導入數字化生產管理系統，實現從訂單接收到產品交付的全流程數字化管理，提高生產透明度和決策效率。</li>
             </ol>
@@ -1684,15 +1873,15 @@ const PrintableReport = ({ data = defaultData }) => {
                 <ul className="text-gray-700">
                   <li className="flex items-start mb-2">
                     <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>建立設計思考工作坊</span>
+                    <span>建立食品體驗設計工作坊</span>
                   </li>
                   <li className="flex items-start mb-2">
                     <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>導入使用者體驗設計流程</span>
+                    <span>導入消費者口味偏好測試流程</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>建立產品原型驗證機制</span>
+                    <span>建立食品產品原型快速迭代機制</span>
                   </li>
                 </ul>
               </div>
@@ -1700,7 +1889,7 @@ const PrintableReport = ({ data = defaultData }) => {
               <div>
                 <div className="text-blue-700 font-medium mb-1">預期效益</div>
                 <p className="text-gray-700 text-sm">
-                  某精密機械製造商導入設計思考工作坊後，產品缺陷率降低30%，用戶滿意度提升25%。完整的使用者體驗設計流程使新產品上市後的修改需求減少40%，而原型驗證機制使產品開發週期縮短20%，大幅降低研發成本。
+                  導入食品體驗設計工作坊能夠有效提升新品開發成功率及消費者滿意度。完整的消費者口味偏好測試流程有助於獲得更正面的市場反饋，降低退貨率，而食品產品原型快速迭代機制可縮短產品研發週期，降低研發成本與食材浪費。
                 </p>
               </div>
             </div>
@@ -1724,15 +1913,15 @@ const PrintableReport = ({ data = defaultData }) => {
                 <ul className="text-gray-700">
                   <li className="flex items-start mb-2">
                     <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>建立數據分析平台</span>
+                    <span>建立食品市場數據分析平台</span>
                   </li>
                   <li className="flex items-start mb-2">
                     <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>導入AI輔助決策系統</span>
+                    <span>導入AI食品配方輔助系統</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>建置物聯網測試環境</span>
+                    <span>建置食品品質檢測與食安監控系統</span>
                   </li>
                 </ul>
               </div>
@@ -1740,7 +1929,7 @@ const PrintableReport = ({ data = defaultData }) => {
               <div>
                 <div className="text-blue-700 font-medium mb-1">預期效益</div>
                 <p className="text-gray-700 text-sm">
-                  某智能製造企業建立數據分析平台後，將決策時間從2週縮短至3天。AI輔助決策系統使研發專案成功率提升35%，研發投資回報率提高40%。物聯網測試環境使產品測試覆蓋度提升60%，問題發現率提高45%。
+                  建立市場數據分析平台能夠大幅縮短新品研發決策時間。AI食品配方輔助系統有助於提升新配方開發成功率及產品風味穩定性。食品品質檢測與食安監控系統能降低產品不良率，降低食安風險，同時提升產品保質期，有效減少退貨與庫存損失。
                 </p>
               </div>
             </div>
@@ -1763,15 +1952,15 @@ const PrintableReport = ({ data = defaultData }) => {
                 <ul className="text-gray-700">
                   <li className="flex items-start mb-2">
                     <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>導入完整敏捷研發系統</span>
+                    <span>導入食品研發敏捷管理系統</span>
                   </li>
                   <li className="flex items-start mb-2">
                     <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>實施PLM系統與知識庫</span>
+                    <span>實施食品配方PLM管理系統</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>建立跨部門數位協作平台</span>
+                    <span>建立跨部門產品開發協作平台</span>
                   </li>
                 </ul>
               </div>
@@ -1779,7 +1968,7 @@ const PrintableReport = ({ data = defaultData }) => {
               <div>
                 <div className="text-blue-700 font-medium mb-1">預期效益</div>
                 <p className="text-gray-700 text-sm">
-                  某設備製造企業導入敏捷研發系統後，研發週期縮短30%，團隊生產力提升40%。PLM系統實施使設計變更處理時間減少50%，設計重用率提高25%。跨部門數位協作平台使溝通效率提升65%，專案協調時間減少70%。
+                  導入研發敏捷管理系統能有效縮短新產品上市週期，提升研發團隊生產力。食品配方PLM系統實施可減少配方變更處理時間，提高配方標準化與复用率。跨部門產品開發協作平台能夠提升研發、生產、品管和行銷部門溝通效率，有效降低產品從概念到上市的時間成本。
                 </p>
               </div>
             </div>
@@ -1799,14 +1988,14 @@ const PrintableReport = ({ data = defaultData }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-white p-4 rounded-lg border border-blue-200">
                   <div className="font-medium text-blue-700 mb-2">設計思考工作坊</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：商研院 (C2M 輔導)</div>
-                  <p className="text-gray-700 text-sm">設計思考工作坊旨在幫助中小型製造業者運用市場數據進行產品創新研發，透過數據分析與設計思維方法，優化產品開發流程並導入C2M數據驅動模式。</p>
+                  <div className="text-sm text-gray-500 mb-1">服務機構：C2M 輔導</div>
+                  <p className="text-gray-700 text-sm">設計思考工作坊旨在幫助中小型製造業者運用市場數據進行產品創新研發，透過數據分析與設計思維方法，優化產品開發流程並導入C2M（Customer-to-Manufacturer）數據驅動模式。工作坊內容涵蓋市場與產品分析，透過Amazon等國際電商數據協助業者掌握市場趨勢與競爭環境。</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded-lg border border-blue-200">
-                  <div className="font-medium text-blue-700 mb-2">C2M POC輔導</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：商研院 (C2M 輔導)</div>
-                  <p className="text-gray-700 text-sm">C2M POC（概念驗證）輔導協助中小型製造業者將消費市場數據導入產品研發流程，透過數據分析精準鎖定市場需求，並驗證新產品開發的可行性與競爭力。</p>
+                  <div className="font-medium text-blue-700 mb-2">台灣品牌耀飛計畫</div>
+                  <div className="text-sm text-gray-500 mb-1">服務機構：產業發展署補助計畫</div>
+                  <p className="text-gray-700 text-sm">協助台灣企業發展自有品牌，提供企業全方位及客製化的品牌發展諮詢及主題式輔導服務。依據企業品牌發展階段需求提供主題式客製化品牌輔導服務，並透過品牌智財支援服務專案輔導企業優化品牌智財風險管理機制，從源頭降低品牌仿冒等風險。</p>
                 </div>
               </div>
             </div>
@@ -1820,14 +2009,14 @@ const PrintableReport = ({ data = defaultData }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-white p-4 rounded-lg border border-indigo-200">
                   <div className="font-medium text-indigo-700 mb-2">C2M 會員網站BI分析</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：商研院</div>
-                  <p className="text-gray-700 text-sm">提供互動式BI分析工具，讓業者能夠透過自主操作，分析市場趨勢、產品銷售表現、競爭品牌動態與消費者偏好，進一步優化研發策略。</p>
+                  <div className="text-sm text-gray-500 mb-1">服務機構：C2M 輔導</div>
+                  <p className="text-gray-700 text-sm">提供互動式BI分析工具，協助製造業者分析市場趨勢、產品銷售表現、競爭品牌動態與消費者偏好，進一步優化研發策略。系統內建AI產業分析功能，能自動產出產業趨勢報告，提供產品價格定位、24個月銷售數據、市場討論熱度與規格偏好分析，幫助業者精準評估產品市場潛力。</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded-lg border border-indigo-200">
                   <div className="font-medium text-indigo-700 mb-2">InfoMiner 即時輿情分析平台</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：大數軟體有限公司</div>
-                  <p className="text-gray-700 text-sm">快速、精準地分析網路輿情，每15分鐘會擷取最新相關國內外新聞及社群資訊，並立即精準分析相關數據提供給使用者，支援產品數據收集、公關危機應用等。</p>
+                  <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - 雲端解決方案</div>
+                  <p className="text-gray-700 text-sm">透過輿情大數據分析平台，快速、精準地分析網路輿情，每15分鐘會擷取最新相關國內外新聞及社群資訊，共包含50萬個頻道源以上。幫助企業了解自身產品及競品在網路上的評價與網友的回饋、快速統整分析危機事件、了解當下熱門話題以結合自身產品文案，並快速收集國內外相關產業領域資訊。</p>
                 </div>
               </div>
             </div>
@@ -1840,15 +2029,15 @@ const PrintableReport = ({ data = defaultData }) => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-white p-4 rounded-lg border border-teal-200">
-                  <div className="font-medium text-teal-700 mb-2">Vital Knowledge-AOAI智能生成模型</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：叡揚資訊股份有限公司</div>
-                  <p className="text-gray-700 text-sm">提供企業累積、搜尋、分享、管理組織知識資產的雲端知識管理平台，將單一資訊以點線面多維度方式關連，強化組織交流與提高組織的溝通效率。</p>
+                  <div className="font-medium text-teal-700 mb-2">卡大師 CADASU</div>
+                  <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - AI工具庫</div>
+                  <p className="text-gray-700 text-sm">透過獨有的AI技術能快速替用戶找到相似之工程圖，此技術讓AI能真正理解工程圖上零件之內容並搜尋相似零件，而非單純以圖搜圖。有別於市面上其他產品僅能透過圖號進行搜尋，卡大師有效解決工程設計中的相似零件檢索問題，提升設計效率與零件標準化。</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded-lg border border-teal-200">
-                  <div className="font-medium text-teal-700 mb-2">BailAI影像辨識訓練管理平台</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：慧演智能股份有限公司</div>
-                  <p className="text-gray-700 text-sm">為沒有AI開發團隊的企業設計的用戶友好平台，提供先進的物件辨識和肢體辨識模型，支援非程式開發人員也能輕鬆上手的智能化品質檢查。</p>
+                  <div className="font-medium text-teal-700 mb-2">一站式MusesAI雲端服務解決方案</div>
+                  <div className="text-sm text-gray-500 mb-1">服務機構：SME AI</div>
+                  <p className="text-gray-700 text-sm">中小微型企業透過一站式MusesAI雲端服務解決方案，可使非資訊人員快速上手建立AI模型，內建自動化特徵工程與自動建模技術，無需操作人員軟體開發能力，也可在兩週內完成並上線進行使用。在公有雲架構下，可保障資料安全性與掌握度，提供企業具成本效益的AI實施方案。</p>
                 </div>
               </div>
             </div>
@@ -1861,59 +2050,16 @@ const PrintableReport = ({ data = defaultData }) => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-white p-4 rounded-lg border border-orange-200">
-                  <div className="font-medium text-orange-700 mb-2">JBS雲端電子簽核專案管理平台</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：華越資通企管顧問有限公司</div>
-                  <p className="text-gray-700 text-sm">協調團隊分派任務，讓團隊中的每個人都能瞭解誰在進行什麼工作，實現及時任務追蹤、共同改善協作、專注主題溝通，確保完整專案執行。</p>
+                  <div className="font-medium text-orange-700 mb-2">Textile Cloud 布料數位化協作平台</div>
+                  <div className="text-sm text-gray-500 mb-1">服務機構：商業署30人以下數轉培力計畫</div>
+                  <p className="text-gray-700 text-sm">提供雲端數位工具方便使用者快速數位化布片，讓產業內每家公司都可以方便創造自己的數位紡織資料庫，同時資料可以無縫互享，並運用在3D成衣設計或是PLM系統上。企業導入簡單快速，不用自建複雜的資料庫及免除硬體設備，讓整個產業各個環節更快、更緊密的連結在一起。</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded-lg border border-orange-200">
-                  <div className="font-medium text-orange-700 mb-2">Status PowerBPM 企業流程管理</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：狀態網際網路股份有限公司</div>
-                  <p className="text-gray-700 text-sm">無程式設計的拖拉表單流程建立，支援RWD規格一張表單電腦手機通用，提供手機推播、電子郵件等多種通知，自訂統計報表以及多元模組加強團隊協作。</p>
+                  <div className="font-medium text-orange-700 mb-2">Status PowerBPM+AI雲端解決方案</div>
+                  <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - 雲端解決方案</div>
+                  <p className="text-gray-700 text-sm">AI表單設計工具與AI流程設計工具適用於製造業。AI表單設計工具可透過圖片或文字自動生成表單，大幅縮短手動設計的時間，減少輸入錯誤。AI流程設計工具則能協助自動生成標準作業流程（SOP），無論是生產排程、品管流程或採購流程等，都能依需求快速建立，提升生產效率並降低錯誤風險。</p>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 五、訪視紀錄表 */}
-      <div className="mb-8">
-        <header className="mb-8">
-          <h2 className="text-3xl font-bold text-blue-900">五、訪視紀錄表</h2>
-          <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
-        </header>
-        
-        <div className="bg-white p-6 rounded-xl border-2 border-blue-200">
-          <div className="space-y-6">
-            <div>
-              <div className="text-lg font-bold text-blue-800 mb-2">照片/截圖說明：</div>
-              <div className="border-2 border-dashed border-gray-300 p-10 rounded-lg flex justify-center items-center">
-                <div className="text-gray-400">[此處放置照片/截圖]</div>
-              </div>
-            </div>
-            
-            <div>
-              <div className="text-lg font-bold text-blue-800 mb-2">照片/截圖說明：</div>
-              <div className="border-2 border-dashed border-gray-300 p-10 rounded-lg flex justify-center items-center">
-                <div className="text-gray-400">[此處放置照片/截圖]</div>
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-3 gap-4 mt-8">
-              <div>
-                <div className="text-gray-600 mb-2">輔導單位主管簽名</div>
-                <div className="border-b-2 border-gray-300 h-10"></div>
-              </div>
-              
-              <div>
-                <div className="text-gray-600 mb-2">輔導員簽名</div>
-                <div className="border-b-2 border-gray-300 h-10"></div>
-              </div>
-              
-              <div>
-                <div className="text-gray-600 mb-2">受輔導單位簽名(線上免簽)</div>
-                <div className="border-b-2 border-gray-300 h-10"></div>
               </div>
             </div>
           </div>
@@ -1922,7 +2068,7 @@ const PrintableReport = ({ data = defaultData }) => {
 
       {/* 頁尾 */}
       <footer className="text-center text-gray-500 text-sm mt-10">
-        <div>© 2025 財團法人商業發展研究院</div>
+        <div>© 2024 財團法人商業發展研究院</div>
         <div>數據驅動精準研發製造平台</div>
       </footer>
 
