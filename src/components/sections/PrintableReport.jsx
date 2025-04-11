@@ -1111,7 +1111,7 @@ const PrintableReport = ({ data = defaultData }) => {
         </div>
         
         <div className="bg-white p-6 rounded-xl border-2 border-blue-200">
-          <h3 className="text-xl font-bold text-blue-800 mb-4">公司簡介</h3>
+          <h3 className="text-xl font-bold text-blue-800 mb-6">公司簡介</h3>
           <p className="text-gray-700 leading-relaxed">
             {companyInfo.introduction[0]}
           </p>
@@ -1399,34 +1399,7 @@ const PrintableReport = ({ data = defaultData }) => {
         <div className="bg-white p-6 rounded-xl border-2 border-blue-200">
           <h3 className="text-xl font-bold text-blue-800 mb-6">能力分佈評估</h3>
           
-          <div className="flex justify-center mb-8">
-            <div className="relative">
-              <svg width="160" height="160" viewBox="0 0 160 160">
-                {/* 背景圓環 */}
-                <circle cx="80" cy="80" r="70" fill="none" stroke="#DBEAFE" strokeWidth="12" />
-                
-                {/* 進度圓環 */}
-                <circle
-                  cx="80"
-                  cy="80"
-                  r="70"
-                  fill="none"
-                  stroke="#2563EB"
-                  strokeWidth="12"
-                  strokeDasharray="439.6 439.6"
-                  strokeDashoffset="175.84"
-                  strokeLinecap="round"
-                  transform="rotate(-90 80 80)"
-                />
-              </svg>
-              
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                {/* <div className="text-4xl font-bold text-blue-800">62%</div>
-                <div className="text-sm text-gray-500">推動指數</div> */}
-                <div className="text-md font-semibold text-blue-600">優先程度</div>
-              </div>
-            </div>
-          </div>
+          {/* Removed the entire circle visualization */}
           
           {/* 能力條形圖 */}
           <div className="space-y-6 mb-6">
@@ -1517,7 +1490,7 @@ const PrintableReport = ({ data = defaultData }) => {
           
           {/* 能力評估摘要 */}
           <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
-            <div className="text-lg font-semibold text-blue-800 mb-2">研發轉型推動重點分析 (推動指數：62%)</div>
+            <div className="text-lg font-semibold text-blue-800 mb-2">研發轉型推動重點分析</div>
             <div className="text-gray-700">
               <div className="mb-1"><span className="font-medium">優先發展：</span>體驗設計思維進行研發已具基礎 (80%)，建議作為轉型發展的基石，帶動其他領域成長。</div>
               <div><span className="font-medium">急需突破：</span>改變企業研發速度及研發流程推動程度較低 (47%)，應作為數位轉型的關鍵突破口。</div>
@@ -1852,140 +1825,47 @@ const PrintableReport = ({ data = defaultData }) => {
         </header>
         
         <div className="bg-white p-6 rounded-xl border-2 border-blue-200 mb-8">
-          <h3 className="text-xl font-bold text-blue-800 mb-6">研發數位化導入階段建議</h3>
+          <h3 className="text-xl font-bold text-blue-800 mb-6">研發數位化優先面向建議</h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
-              <div className="flex items-center mb-4">
-                <div className="w-8 h-8 rounded-full bg-blue-800 text-white flex items-center justify-center mr-2 font-bold">1</div>
-                <h4 className="text-lg font-semibold text-blue-800">第一階段：體驗設計流程優化</h4>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-blue-700 font-medium mb-1">強化面向</div>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-blue-200 text-blue-800 rounded-full text-sm">體驗設計思維進行研發</span>
+          <div className="space-y-6">
+            {/* 面向優先順序說明 */}
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <p className="text-gray-700">根據貴公司目前的數位成熟度評估，以下提供四個研發數位化面向，並依據優先順序排列。數字為現階段完成度評估。</p>
+            </div>
+            
+            {/* 體驗設計思維進行研發 - 最高優先級 */}
+            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center">
+                  <div className="w-8 h-8 rounded-full bg-blue-800 text-white flex items-center justify-center mr-3 font-bold">1</div>
+                  <h4 className="text-lg font-semibold text-blue-800">體驗設計思維進行研發</h4>
+                </div>
+                <div className="flex items-center">
+                  <div className="text-blue-800 font-bold mr-2">12/15</div>
+                  <div className="w-24 h-3 bg-gray-200 rounded-full">
+                    <div className="h-full bg-blue-600 rounded-full" style={{ width: '80%' }}></div>
+                  </div>
+                  <div className="ml-2 text-blue-800 font-medium">80%</div>
                 </div>
               </div>
               
               <div className="mb-4">
                 <div className="text-blue-700 font-medium mb-1">重點工作</div>
-                <ul className="text-gray-700">
-                  <li className="flex items-start mb-2">
-                    <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>建立食品體驗設計工作坊</span>
-                  </li>
-                  <li className="flex items-start mb-2">
-                    <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>導入消費者口味偏好測試流程</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>建立食品產品原型快速迭代機制</span>
-                  </li>
+                <ul className="text-gray-700 pl-5 list-disc space-y-1">
+                  <li>建立食品體驗設計工作坊</li>
+                  <li>導入消費者口味偏好測試流程</li>
+                  <li>建立食品產品原型快速迭代機制</li>
                 </ul>
               </div>
               
-              <div>
+              <div className="mb-4">
                 <div className="text-blue-700 font-medium mb-1">預期效益</div>
                 <p className="text-gray-700 text-sm">
                   導入食品體驗設計工作坊能夠有效提升新品開發成功率及消費者滿意度。完整的消費者口味偏好測試流程有助於獲得更正面的市場反饋，降低退貨率，而食品產品原型快速迭代機制可縮短產品研發週期，降低研發成本與食材浪費。
                 </p>
               </div>
-            </div>
-            
-            <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
-              <div className="flex items-center mb-4">
-                <div className="w-8 h-8 rounded-full bg-blue-800 text-white flex items-center justify-center mr-2 font-bold">2</div>
-                <h4 className="text-lg font-semibold text-blue-800">第二階段：數據驅動決策建設</h4>
-              </div>
               
-              <div className="mb-4">
-                <div className="text-blue-700 font-medium mb-1">強化面向</div>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-blue-200 text-blue-800 rounded-full text-sm">使用資料驅動研發決策</span>
-                  <span className="px-3 py-1 bg-blue-200 text-blue-800 rounded-full text-sm">採用新科技進行研發</span>
-                </div>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-blue-700 font-medium mb-1">重點工作</div>
-                <ul className="text-gray-700">
-                  <li className="flex items-start mb-2">
-                    <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>建立食品市場數據分析平台</span>
-                  </li>
-                  <li className="flex items-start mb-2">
-                    <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>導入AI食品配方輔助系統</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>建置食品品質檢測與食安監控系統</span>
-                  </li>
-                </ul>
-              </div>
-              
-              <div>
-                <div className="text-blue-700 font-medium mb-1">預期效益</div>
-                <p className="text-gray-700 text-sm">
-                  建立市場數據分析平台能夠大幅縮短新品研發決策時間。AI食品配方輔助系統有助於提升新配方開發成功率及產品風味穩定性。食品品質檢測與食安監控系統能降低產品不良率，降低食安風險，同時提升產品保質期，有效減少退貨與庫存損失。
-                </p>
-              </div>
-            </div>
-            
-            <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
-              <div className="flex items-center mb-4">
-                <div className="w-8 h-8 rounded-full bg-blue-800 text-white flex items-center justify-center mr-2 font-bold">3</div>
-                <h4 className="text-lg font-semibold text-blue-800">第三階段：研發流程系統化</h4>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-blue-700 font-medium mb-1">強化面向</div>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-blue-200 text-blue-800 rounded-full text-sm">改變企業研發速度及研發流程</span>
-                </div>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-blue-700 font-medium mb-1">重點工作</div>
-                <ul className="text-gray-700">
-                  <li className="flex items-start mb-2">
-                    <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>導入食品研發敏捷管理系統</span>
-                  </li>
-                  <li className="flex items-start mb-2">
-                    <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>實施食品配方PLM管理系統</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-4 w-4 text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                    <span>建立跨部門產品開發協作平台</span>
-                  </li>
-                </ul>
-              </div>
-              
-              <div>
-                <div className="text-blue-700 font-medium mb-1">預期效益</div>
-                <p className="text-gray-700 text-sm">
-                  導入研發敏捷管理系統能有效縮短新產品上市週期，提升研發團隊生產力。食品配方PLM系統實施可減少配方變更處理時間，提高配方標準化與复用率。跨部門產品開發協作平台能夠提升研發、生產、品管和行銷部門溝通效率，有效降低產品從概念到上市的時間成本。
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="bg-white p-6 rounded-xl border-2 border-blue-200">
-          <h3 className="text-xl font-bold text-blue-800 mb-6">研發數位化導入工具建議</h3>
-          
-          <div className="space-y-8">
-            {/* 體驗設計思維進行研發 */}
-            <div>
-              <div className="bg-blue-50 p-3 rounded-lg mb-4">
-                <h4 className="text-lg font-semibold text-blue-800">1. 體驗設計思維進行研發</h4>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div className="bg-white p-4 rounded-lg border border-blue-200">
                   <div className="font-medium text-blue-700 mb-2">設計思考工作坊</div>
                   <div className="text-sm text-gray-500 mb-1">服務機構：C2M 輔導</div>
@@ -2000,13 +1880,39 @@ const PrintableReport = ({ data = defaultData }) => {
               </div>
             </div>
             
-            {/* 使用資料驅動研發決策 */}
-            <div>
-              <div className="bg-indigo-50 p-3 rounded-lg mb-4">
-                <h4 className="text-lg font-semibold text-indigo-800">2. 使用資料驅動研發決策</h4>
+            {/* 使用資料驅動研發決策 - 第二優先級 */}
+            <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-200">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center">
+                  <div className="w-8 h-8 rounded-full bg-indigo-800 text-white flex items-center justify-center mr-3 font-bold">2</div>
+                  <h4 className="text-lg font-semibold text-indigo-800">使用資料驅動研發決策</h4>
+                </div>
+                <div className="flex items-center">
+                  <div className="text-indigo-800 font-bold mr-2">9/15</div>
+                  <div className="w-24 h-3 bg-gray-200 rounded-full">
+                    <div className="h-full bg-indigo-600 rounded-full" style={{ width: '60%' }}></div>
+                  </div>
+                  <div className="ml-2 text-indigo-800 font-medium">60%</div>
+                </div>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="mb-4">
+                <div className="text-indigo-700 font-medium mb-1">重點工作</div>
+                <ul className="text-gray-700 pl-5 list-disc space-y-1">
+                  <li>建立食品市場數據分析平台</li>
+                  <li>導入AI食品配方輔助系統</li>
+                  <li>建置食品品質檢測與食安監控系統</li>
+                </ul>
+              </div>
+              
+              <div className="mb-4">
+                <div className="text-indigo-700 font-medium mb-1">預期效益</div>
+                <p className="text-gray-700 text-sm">
+                  建立市場數據分析平台能夠大幅縮短新品研發決策時間。AI食品配方輔助系統有助於提升新配方開發成功率及產品風味穩定性。食品品質檢測與食安監控系統能降低產品不良率，降低食安風險，同時提升產品保質期，有效減少退貨與庫存損失。
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div className="bg-white p-4 rounded-lg border border-indigo-200">
                   <div className="font-medium text-indigo-700 mb-2">C2M 會員網站BI分析</div>
                   <div className="text-sm text-gray-500 mb-1">服務機構：C2M 輔導</div>
@@ -2021,13 +1927,39 @@ const PrintableReport = ({ data = defaultData }) => {
               </div>
             </div>
             
-            {/* 採用新科技進行研發 */}
-            <div>
-              <div className="bg-teal-50 p-3 rounded-lg mb-4">
-                <h4 className="text-lg font-semibold text-teal-800">3. 採用新科技進行研發</h4>
+            {/* 採用新科技進行研發 - 第三優先級 */}
+            <div className="bg-teal-50 p-4 rounded-lg border border-teal-200">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center">
+                  <div className="w-8 h-8 rounded-full bg-teal-800 text-white flex items-center justify-center mr-3 font-bold">3</div>
+                  <h4 className="text-lg font-semibold text-teal-800">採用新科技進行研發</h4>
+                </div>
+                <div className="flex items-center">
+                  <div className="text-teal-800 font-bold mr-2">9/15</div>
+                  <div className="w-24 h-3 bg-gray-200 rounded-full">
+                    <div className="h-full bg-teal-600 rounded-full" style={{ width: '60%' }}></div>
+                  </div>
+                  <div className="ml-2 text-teal-800 font-medium">60%</div>
+                </div>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="mb-4">
+                <div className="text-teal-700 font-medium mb-1">重點工作</div>
+                <ul className="text-gray-700 pl-5 list-disc space-y-1">
+                  <li>導入AI設計輔助與生產優化系統</li>
+                  <li>建立雲端協作平台與資料共享機制</li>
+                  <li>引入智慧感測與即時監控技術</li>
+                </ul>
+              </div>
+              
+              <div className="mb-4">
+                <div className="text-teal-700 font-medium mb-1">預期效益</div>
+                <p className="text-gray-700 text-sm">
+                  透過AI設計輔助與生產優化系統，能顯著提升設計效率與精準度，降低試誤成本。雲端協作平台與資料共享機制促進跨部門無縫合作，加速產品迭代速度。智慧感測與即時監控技術則有效優化生產流程，提高品質穩定性，同時降低能源消耗與原料浪費。
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div className="bg-white p-4 rounded-lg border border-teal-200">
                   <div className="font-medium text-teal-700 mb-2">卡大師 CADASU</div>
                   <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - AI工具庫</div>
@@ -2042,13 +1974,39 @@ const PrintableReport = ({ data = defaultData }) => {
               </div>
             </div>
             
-            {/* 改變企業研發速度及研發流程 */}
-            <div>
-              <div className="bg-orange-50 p-3 rounded-lg mb-4">
-                <h4 className="text-lg font-semibold text-orange-800">4. 改變企業研發速度及研發流程</h4>
+            {/* 改變企業研發速度及研發流程 - 第四優先級 */}
+            <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center">
+                  <div className="w-8 h-8 rounded-full bg-orange-800 text-white flex items-center justify-center mr-3 font-bold">4</div>
+                  <h4 className="text-lg font-semibold text-orange-800">改變企業研發速度及研發流程</h4>
+                </div>
+                <div className="flex items-center">
+                  <div className="text-orange-800 font-bold mr-2">7/15</div>
+                  <div className="w-24 h-3 bg-gray-200 rounded-full">
+                    <div className="h-full bg-orange-600 rounded-full" style={{ width: '47%' }}></div>
+                  </div>
+                  <div className="ml-2 text-orange-800 font-medium">47%</div>
+                </div>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="mb-4">
+                <div className="text-orange-700 font-medium mb-1">重點工作</div>
+                <ul className="text-gray-700 pl-5 list-disc space-y-1">
+                  <li>導入食品研發敏捷管理系統</li>
+                  <li>實施食品配方PLM管理系統</li>
+                  <li>建立跨部門產品開發協作平台</li>
+                </ul>
+              </div>
+              
+              <div className="mb-4">
+                <div className="text-orange-700 font-medium mb-1">預期效益</div>
+                <p className="text-gray-700 text-sm">
+                  導入研發敏捷管理系統能有效縮短新產品上市週期，提升研發團隊生產力。食品配方PLM系統實施可減少配方變更處理時間，提高配方標準化與复用率。跨部門產品開發協作平台能夠提升研發、生產、品管和行銷部門溝通效率，有效降低產品從概念到上市的時間成本。
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div className="bg-white p-4 rounded-lg border border-orange-200">
                   <div className="font-medium text-orange-700 mb-2">Textile Cloud 布料數位化協作平台</div>
                   <div className="text-sm text-gray-500 mb-1">服務機構：商業署30人以下數轉培力計畫</div>
