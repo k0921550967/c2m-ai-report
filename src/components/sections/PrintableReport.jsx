@@ -1034,79 +1034,102 @@ const PrintableReport = ({ data = defaultData }) => {
         </header>
         
         <div className="bg-white p-6 rounded-xl border-2 border-blue-200 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <div className="mb-6">
-                <div className="text-gray-500 mb-1">公司名稱</div>
-                <div className="text-lg font-medium">{companyInfo.name}</div>
-              </div>
-              
-              <div className="mb-6">
-                <div className="text-gray-500 mb-1">負責人</div>
-                <div className="text-lg font-medium">{companyInfo.representative}</div>
-              </div>
-              
-              <div className="mb-6">
-                <div className="text-gray-500 mb-1">地址</div>
-                <div className="text-lg font-medium">{companyInfo.address}</div>
-              </div>
-              
-              <div className="mb-6">
-                <div className="text-gray-500 mb-1">聯絡人</div>
-                <div className="text-lg font-medium">{companyInfo.contactPerson}</div>
-              </div>
+          {/* 製造業類別標籤 - 置頂顯示 */}
+          <div className="mb-6">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-orange-100 to-orange-50 border border-orange-200">
+              <div className="w-3 h-3 rounded-full bg-orange-500 mr-2"></div>
+              <span className="text-orange-800 font-semibold">食品製造業</span>
             </div>
-            
-            <div>
-              <div className="mb-6">
-                <div className="text-gray-500 mb-1">統一編號</div>
-                <div className="text-lg font-medium">{companyInfo.uniformNumber}</div>
-              </div>
-              
-              <div className="mb-6">
-                <div className="text-gray-500 mb-1">聯絡電話</div>
-                <div className="text-lg font-medium">{companyInfo.phone}</div>
-              </div>
-              
-              <div className="mb-6">
-                <div className="text-gray-500 mb-1">E-Mail</div>
-                <div className="text-lg font-medium">{companyInfo.email}</div>
-              </div>
-              
-              <div className="mb-6">
-                <div className="text-gray-500 mb-1">職稱</div>
-                <div className="text-lg font-medium">{companyInfo.position}</div>
-              </div>
+            <div className="mt-2 text-orange-700 text-sm">
+              其他食品製造（如烘焙炊蒸食品、麵條、粉條類食品）
             </div>
           </div>
-          
-          <div className="mt-4">
-            <div className="text-gray-500 mb-1">領域別</div>
-            <div className="flex gap-4 mt-2">
-              <div className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full font-medium">{companyInfo.field}</div>
+
+          <div className="grid grid-cols-1 gap-6">
+            {/* 基本聯絡資訊 */}
+            <div className="p-4">
+              <h3 className="text-lg font-semibold text-blue-800 mb-4">基本聯絡資訊</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <div className="mb-4">
+                    <div className="text-gray-600 mb-1">公司名稱</div>
+                    <div className="text-blue-800 font-medium">{companyInfo.name}</div>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <div className="text-gray-600 mb-1">負責人</div>
+                    <div className="text-blue-800 font-medium">{companyInfo.representative}</div>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <div className="text-gray-600 mb-1">地址</div>
+                    <div className="text-blue-800 font-medium">{companyInfo.address}</div>
+                  </div>
+                </div>
+                
+                <div>
+                  <div className="mb-4">
+                    <div className="text-gray-600 mb-1">統一編號</div>
+                    <div className="text-blue-800 font-medium">{companyInfo.uniformNumber}</div>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <div className="text-gray-600 mb-1">聯絡人</div>
+                    <div className="text-blue-800 font-medium">{companyInfo.contactPerson}</div>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <div className="text-gray-600 mb-1">聯絡電話</div>
+                    <div className="text-blue-800 font-medium">{companyInfo.phone}</div>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <div className="text-gray-600 mb-1">E-Mail</div>
+                    <div className="text-blue-800 font-medium">{companyInfo.email}</div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-            <div>
-              <div className="text-gray-500 mb-1">資本額</div>
-              <div className="text-lg font-medium">{companyInfo.capital}</div>
+
+            {/* 廠商資訊 */}
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h3 className="text-lg font-semibold text-blue-800 mb-4">廠商資訊</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <div className="mb-4">
+                    <div className="text-gray-600 mb-1">公司所在地區</div>
+                    <div className="text-blue-800 font-medium">台灣北部：基隆、新北、台北、宜蘭、桃園、新竹</div>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <div className="text-gray-600 mb-1">實收資本額</div>
+                    <div className="text-blue-800 font-medium">50,000 千元</div>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <div className="text-gray-600 mb-1">員工人數</div>
+                    <div className="text-blue-800 font-medium">51~100人</div>
+                  </div>
+                </div>
+                
+                <div>
+                  <div className="mb-4">
+                    <div className="text-gray-600 mb-1">公司所屬產業的經營型態</div>
+                    <div className="text-blue-800 font-medium">資本密集（投入機械設備為主）</div>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <div className="text-gray-600 mb-1">前年度營業額</div>
+                    <div className="text-blue-800 font-medium">120,000 千元</div>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <div className="text-gray-600 mb-1">主要產品</div>
+                    <div className="text-blue-800 font-medium">水煮麵、速食湯品、調味料、休閒食品</div>
+                  </div>
+                </div>
+              </div>
             </div>
-            
-            <div>
-              <div className="text-gray-500 mb-1">營業額</div>
-              <div className="text-lg font-medium">{companyInfo.revenue}</div>
-            </div>
-            
-            <div>
-              <div className="text-gray-500 mb-1">員工人數</div>
-              <div className="text-lg font-medium">{companyInfo.employees}</div>
-            </div>
-          </div>
-          
-          <div className="mt-6">
-            <div className="text-gray-500 mb-1">主要產品</div>
-            <div className="text-lg font-medium">{companyInfo.mainProducts}</div>
           </div>
         </div>
         
