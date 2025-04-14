@@ -1013,15 +1013,21 @@ const PrintableReport = ({ data = defaultData }) => {
           </li>
           <li className="flex items-center">
             <span className="font-medium mr-4">四、</span>
-            <span>數位轉型建議</span>
+            <span>產業分析及研發規格建議</span>
             <span className="flex-grow border-b border-dashed border-gray-300 mx-4"></span>
             <span>7</span>
+          </li>
+          <li className="flex items-center">
+            <span className="font-medium mr-4">五、</span>
+            <span>數位轉型建議</span>
+            <span className="flex-grow border-b border-dashed border-gray-300 mx-4"></span>
+            <span>10</span>
           </li>
           <li className="flex items-center">
             <span className="font-medium mr-4">附錄</span>
             <span>訪視紀錄表</span>
             <span className="flex-grow border-b border-dashed border-gray-300 mx-4"></span>
-            <span>10</span>
+            <span>13</span>
           </li>
         </ul>
       </div>
@@ -1623,7 +1629,7 @@ const PrintableReport = ({ data = defaultData }) => {
       {/* 產業分析及研發規格建議 */}
       <div className="mb-12 print:page-break-after">
         <header className="mb-8">
-          <h2 className="text-3xl font-bold text-blue-900">三、產業分析及研發規格建議</h2>
+          <h2 className="text-3xl font-bold text-blue-900">四、產業分析及研發規格建議</h2>
           <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
         </header>
         
@@ -1843,7 +1849,7 @@ const PrintableReport = ({ data = defaultData }) => {
       {/* 四、數位轉型建議 */}
       <div className="mb-12 print:page-break-after">
         <header className="mb-8">
-          <h2 className="text-3xl font-bold text-blue-900">四、數位轉型建議</h2>
+          <h2 className="text-3xl font-bold text-blue-900">五、數位轉型建議</h2>
           <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
         </header>
         
@@ -1888,19 +1894,24 @@ const PrintableReport = ({ data = defaultData }) => {
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div className="bg-white p-4 rounded-lg border border-blue-200">
-                  <div className="font-medium text-blue-700 mb-2">設計思考工作坊</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：C2M 輔導</div>
-                  <p className="text-gray-700 text-sm">設計思考工作坊旨在幫助中小型製造業者運用市場數據進行產品創新研發，透過數據分析與設計思維方法，優化產品開發流程並導入C2M（Customer-to-Manufacturer）數據驅動模式。工作坊內容涵蓋市場與產品分析，透過Amazon等國際電商數據協助業者掌握市場趨勢與競爭環境。</p>
-                </div>
-                
-                <div className="bg-white p-4 rounded-lg border border-blue-200">
-                  <div className="font-medium text-blue-700 mb-2">台灣品牌耀飛計畫</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：產業發展署補助計畫</div>
-                  <p className="text-gray-700 text-sm">協助台灣企業發展自有品牌，提供企業全方位及客製化的品牌發展諮詢及主題式輔導服務。依據企業品牌發展階段需求提供主題式客製化品牌輔導服務，並透過品牌智財支援服務專案輔導企業優化品牌智財風險管理機制，從源頭降低品牌仿冒等風險。</p>
+              <div className="mb-4">
+                <div className="text-blue-700 font-medium mb-1">轉型工具</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                  <div className="bg-white p-4 rounded-lg border border-blue-200">
+                    <div className="font-medium text-blue-700 mb-2">設計思考工作坊</div>
+                    <div className="text-sm text-gray-500 mb-1">服務機構：C2M 輔導</div>
+                    <p className="text-gray-700 text-sm">設計思考工作坊旨在幫助中小型製造業者運用市場數據進行產品創新研發，透過數據分析與設計思維方法，優化產品開發流程並導入C2M（Customer-to-Manufacturer）數據驅動模式。工作坊內容涵蓋市場與產品分析，透過Amazon等國際電商數據協助業者掌握市場趨勢與競爭環境。</p>
+                  </div>
+                  
+                  <div className="bg-white p-4 rounded-lg border border-blue-200">
+                    <div className="font-medium text-blue-700 mb-2">台灣品牌耀飛計畫</div>
+                    <div className="text-sm text-gray-500 mb-1">服務機構：產業發展署補助計畫</div>
+                    <p className="text-gray-700 text-sm">協助台灣企業發展自有品牌，提供企業全方位及客製化的品牌發展諮詢及主題式輔導服務。依據企業品牌發展階段需求提供主題式客製化品牌輔導服務，並透過品牌智財支援服務專案輔導企業優化品牌智財風險管理機制，從源頭降低品牌仿冒等風險。</p>
+                  </div>
                 </div>
               </div>
+              
+              {/* 移除重複的轉型工具區段 */}
             </div>
             
             {/* 使用資料驅動研發決策 - 第二優先級 */}
@@ -1935,19 +1946,24 @@ const PrintableReport = ({ data = defaultData }) => {
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div className="bg-white p-4 rounded-lg border border-indigo-200">
-                  <div className="font-medium text-indigo-700 mb-2">C2M 會員網站BI分析</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：C2M 輔導</div>
-                  <p className="text-gray-700 text-sm">提供互動式BI分析工具，協助製造業者分析市場趨勢、產品銷售表現、競爭品牌動態與消費者偏好，進一步優化研發策略。系統內建AI產業分析功能，能自動產出產業趨勢報告，提供產品價格定位、24個月銷售數據、市場討論熱度與規格偏好分析，幫助業者精準評估產品市場潛力。</p>
-                </div>
-                
-                <div className="bg-white p-4 rounded-lg border border-indigo-200">
-                  <div className="font-medium text-indigo-700 mb-2">InfoMiner 即時輿情分析平台</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - 雲端解決方案</div>
-                  <p className="text-gray-700 text-sm">透過輿情大數據分析平台，快速、精準地分析網路輿情，每15分鐘會擷取最新相關國內外新聞及社群資訊，共包含50萬個頻道源以上。幫助企業了解自身產品及競品在網路上的評價與網友的回饋、快速統整分析危機事件、了解當下熱門話題以結合自身產品文案，並快速收集國內外相關產業領域資訊。</p>
+              <div className="mb-4">
+                <div className="text-indigo-700 font-medium mb-1">轉型工具</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                  <div className="bg-white p-4 rounded-lg border border-indigo-200">
+                    <div className="font-medium text-indigo-700 mb-2">C2M 會員網站BI分析</div>
+                    <div className="text-sm text-gray-500 mb-1">服務機構：C2M 輔導</div>
+                    <p className="text-gray-700 text-sm">C2M會員網站BI分析旨在透過數據驅動的方式，為中小型製造業者提供精準的市場洞察與產品研發決策支持。網站內建互動式BI分析工具，讓業者能夠透過自主操作，分析市場趨勢、產品銷售表現、競爭品牌動態與消費者偏好，進一步優化研發策略。系統內建AI產業分析功能，能自動產出產業趨勢報告，提供產品價格定位、24個月銷售數據、市場討論熱度與規格偏好分析。</p>
+                  </div>
+                  
+                  <div className="bg-white p-4 rounded-lg border border-indigo-200">
+                    <div className="font-medium text-indigo-700 mb-2">食品履歷追溯追蹤系統</div>
+                    <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - 雲端解決方案</div>
+                    <p className="text-gray-700 text-sm">食品廠及其供應商都在同個cloud系統，資料容易整合。可將內部的ERP/倉管/生管/品管系統與「食品履歷追溯追蹤系統」整合，將產品及物料的資料自動匯入建好履歷，讓料件管理更高效。消費者可透過掃描食品外包裝的QR Code查詢系統上的原料履歷，提升產品透明度與消費者信任，同時符合食品安全法規要求，降低食安風險並提升品牌價值。</p>
+                  </div>
                 </div>
               </div>
+              
+              {/* 移除重複的轉型工具區段 */}
             </div>
             
             {/* 採用新科技進行研發 - 第三優先級 */}
@@ -1982,19 +1998,24 @@ const PrintableReport = ({ data = defaultData }) => {
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div className="bg-white p-4 rounded-lg border border-teal-200">
-                  <div className="font-medium text-teal-700 mb-2">卡大師 CADASU</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - AI工具庫</div>
-                  <p className="text-gray-700 text-sm">透過獨有的AI技術能快速替用戶找到相似之工程圖，此技術讓AI能真正理解工程圖上零件之內容並搜尋相似零件，而非單純以圖搜圖。有別於市面上其他產品僅能透過圖號進行搜尋，卡大師有效解決工程設計中的相似零件檢索問題，提升設計效率與零件標準化。</p>
-                </div>
-                
-                <div className="bg-white p-4 rounded-lg border border-teal-200">
-                  <div className="font-medium text-teal-700 mb-2">一站式MusesAI雲端服務解決方案</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：SME AI</div>
-                  <p className="text-gray-700 text-sm">中小微型企業透過一站式MusesAI雲端服務解決方案，可使非資訊人員快速上手建立AI模型，內建自動化特徵工程與自動建模技術，無需操作人員軟體開發能力，也可在兩週內完成並上線進行使用。在公有雲架構下，可保障資料安全性與掌握度，提供企業具成本效益的AI實施方案。</p>
+              <div className="mb-4">
+                <div className="text-teal-700 font-medium mb-1">轉型工具</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                  <div className="bg-white p-4 rounded-lg border border-teal-200">
+                    <div className="font-medium text-teal-700 mb-2">MusesAI雲端服務解決方案(羽量級)</div>
+                    <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - 雲端解決方案</div>
+                    <p className="text-gray-700 text-sm">透過一站式MusesAI雲端服務解決方案，可使非資訊人員快速上手建立AI模型，內建自動化特徵工程與自動建模技術，無需操作人員軟體開發能力，也可在兩週內完成並上線進行使用。整體操作上，僅需於MusesAI雲端平台建立模型，接續部署於本地端伺服器進行數據串接設定，即可獨立使用；而在服務在公有雲架構下，可保障資料安全性與掌握度。</p>
+                  </div>
+                  
+                  <div className="bg-white p-4 rounded-lg border border-teal-200">
+                    <div className="font-medium text-teal-700 mb-2">BailAI影像辨識訓練管理平台</div>
+                    <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - 雲端解決方案</div>
+                    <p className="text-gray-700 text-sm">針對沒有AI開發團隊的企業設計的用戶友好平台，讓非程式開發人員也能輕鬆上手。提供先進的物件辨識和肢體辨識模型，能應對各種複雜的檢測需求。此套解決方案能為食品企業提供一個維運瑕疵檢測與物件辨識系統，能夠有效地支持企業在食品生產線上實現自動化和智能化的品質檢查，準確識別並分類生產過程中的各種瑕疵，確保食品安全和品質。</p>
+                  </div>
                 </div>
               </div>
+              
+              {/* 移除重複的轉型工具區段 */}
             </div>
             
             {/* 改變企業研發速度及研發流程 - 第四優先級 */}
@@ -2029,19 +2050,24 @@ const PrintableReport = ({ data = defaultData }) => {
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div className="bg-white p-4 rounded-lg border border-orange-200">
-                  <div className="font-medium text-orange-700 mb-2">Textile Cloud 布料數位化協作平台</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：商業署30人以下數轉培力計畫</div>
-                  <p className="text-gray-700 text-sm">提供雲端數位工具方便使用者快速數位化布片，讓產業內每家公司都可以方便創造自己的數位紡織資料庫，同時資料可以無縫互享，並運用在3D成衣設計或是PLM系統上。企業導入簡單快速，不用自建複雜的資料庫及免除硬體設備，讓整個產業各個環節更快、更緊密的連結在一起。</p>
-                </div>
-                
-                <div className="bg-white p-4 rounded-lg border border-orange-200">
-                  <div className="font-medium text-orange-700 mb-2">Status PowerBPM+AI雲端解決方案</div>
-                  <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - 雲端解決方案</div>
-                  <p className="text-gray-700 text-sm">AI表單設計工具與AI流程設計工具適用於製造業。AI表單設計工具可透過圖片或文字自動生成表單，大幅縮短手動設計的時間，減少輸入錯誤。AI流程設計工具則能協助自動生成標準作業流程（SOP），無論是生產排程、品管流程或採購流程等，都能依需求快速建立，提升生產效率並降低錯誤風險。</p>
+              <div className="mb-4">
+                <div className="text-orange-700 font-medium mb-1">轉型工具</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                  <div className="bg-white p-4 rounded-lg border border-orange-200">
+                    <div className="font-medium text-orange-700 mb-2">JBS雲端電子簽核專案管理平台-專案管理版</div>
+                    <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - 雲端解決方案</div>
+                    <p className="text-gray-700 text-sm">有別於使用LINE、FB等工具做公司內部的即時溝通平台帶來吵雜、凌亂、分散、不易管理、不好追蹤等種種麻煩，專案管理工具可以協調團隊分派任務，讓團隊中的每個人都能瞭解誰在進行什麼工作。讓發散的目標變得單一，有助於及時任務追蹤完整掌握最新進度、共同改善協作讓專案計畫的詳細資料輕鬆找到、專注主題與隊友、客戶、廠商溝通，讓每個人進度同步順暢溝通。</p>
+                  </div>
+                  
+                  <div className="bg-white p-4 rounded-lg border border-orange-200">
+                    <div className="font-medium text-orange-700 mb-2">Status PowerBPM 企業流程管理雲端服務</div>
+                    <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - 雲端解決方案</div>
+                    <p className="text-gray-700 text-sm">特別為中小企業設計，一般瀏覽器就可操作，需求單位自行設計表單流程無須程式設計，低學習成本容易上手低使用門檻。系統採用RWD規格一張表單電腦手機通用，支援手機推播、電子郵件通知，隨時提醒您掌握作業狀況與進度。數位儀表板能快速掌握關鍵訊息，方便追蹤流程提高效率，並提供資訊共享、協作能力、資源最佳利用和調查反饋等功能，幫助企業提升跨部門溝通效率。</p>
+                  </div>
                 </div>
               </div>
+              
+              {/* 移除重複的轉型工具區段 */}
             </div>
           </div>
         </div>
