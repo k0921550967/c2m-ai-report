@@ -4,10 +4,10 @@ import { User, Building, Phone, Mail, DollarSign, FileText, BarChart2, Layers, D
 // 預設靜態數據（如果沒有提供動態數據）
 const defaultData = {
   reportInfo: {
-    title: "數據驅動精準研發製造平台",
-    subtitle: "研發能力數據診斷報告",
-    caseNumber: "20240327-001",
-    date: "2024年3月27日",
+    title: "數據驅動製造業研發創新計畫",
+    subtitle: "研發轉型診斷報告書",
+    caseNumber: "20250327-001",
+    date: "2025年3月27日",
     executiveUnit: "財團法人商業發展研究院"
   },
   companyInfo: {
@@ -65,7 +65,7 @@ const PrintableReport = ({ data = defaultData }) => {
         const element = reportRef.current;
         const opt = {
           margin: [10, 10, 10, 10],
-          filename: '數據驅動精準研發製造平台_診斷報告.pdf',
+          filename: '數據驅動製造業研發創新計畫_研發轉型診斷報告書.pdf',
           image: { type: 'jpeg', quality: 0.98 },
           html2canvas: { 
             scale: 2,
@@ -133,7 +133,7 @@ const PrintableReport = ({ data = defaultData }) => {
           overflow: hidden;
         }
         
-        /* 隱藏研發能力數據診斷報告副標題 */
+        /* 不再隱藏研發轉型診斷報告書副標題 
         .report-subtitle {
           display: none !important;
           height: 0 !important;
@@ -143,6 +143,7 @@ const PrintableReport = ({ data = defaultData }) => {
           margin: 0 !important;
           padding: 0 !important;
         }
+        */
       }
     `;
     document.head.appendChild(printStyles);
@@ -158,6 +159,7 @@ const PrintableReport = ({ data = defaultData }) => {
           style.innerHTML = '@page { margin: 0 !important; size: A4 portrait; }';
           document.head.appendChild(style);
           
+          /* 不再隱藏副標題
           // 隱藏副標題
           const subtitles = document.querySelectorAll('.report-subtitle');
           subtitles.forEach(el => {
@@ -980,7 +982,7 @@ const PrintableReport = ({ data = defaultData }) => {
           </div>
         </div>
         <h1 className="text-4xl font-bold text-blue-900 mb-4">{reportInfo.title}</h1>
-        <h2 className="text-3xl font-bold mb-8 report-subtitle">{reportInfo.subtitle}</h2>
+        <h2 className="text-3xl font-bold mb-8">{reportInfo.subtitle}</h2>
         <div className="mt-16 text-xl">
           <div className="mb-2">企業名稱：{companyInfo.name}</div>
           <div className="mb-2">案件編號：{reportInfo.caseNumber}</div>
@@ -2075,8 +2077,8 @@ const PrintableReport = ({ data = defaultData }) => {
 
       {/* 頁尾 */}
       <footer className="text-center text-gray-500 text-sm mt-10">
-        <div>© 2024 財團法人商業發展研究院</div>
-        <div>數據驅動精準研發製造平台</div>
+        <div>© 2025 財團法人商業發展研究院</div>
+        <div>數據驅動製造業研發創新計畫</div>
       </footer>
 
       {/* 列印專用樣式 */}
