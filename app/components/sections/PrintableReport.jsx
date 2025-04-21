@@ -1,5 +1,8 @@
+'use client';
+
 import React, { useRef, useEffect } from 'react';
 import { User, Building, Phone, Mail, DollarSign, FileText, BarChart2, Layers, Database, Cpu, Search, ChevronRight, Check, Download, Printer } from 'lucide-react';
+import { loadHtml2pdf, setupPrintStyles } from '../scripts/html2pdfLoader';
 
 // 預設靜態數據（如果沒有提供動態數據）
 const defaultData = {
@@ -57,6 +60,9 @@ const PrintableReport = ({ data = defaultData }) => {
     document.body.appendChild(loadingDiv);
     
     try {
+      // 加載HTML2PDF
+      await loadHtml2pdf();
+      
       // 檢查瀏覽器是否支援HTML轉PDF直接下載的功能
       const hasClient = !!window['html2pdf'];
       
@@ -109,136 +115,15 @@ const PrintableReport = ({ data = defaultData }) => {
 
   // 當頁面載入完成後，設置列印相關樣式和按鈕
   useEffect(() => {
-    // 添加列印時隱藏特定元素的樣式
-    const printStyles = document.createElement('style');
-    printStyles.innerHTML = `
-      @media print {
-        /* 隱藏瀏覽器自動添加的列印頁首與頁尾 (日期、URL等) */
-        @page {
-          margin: 0.5cm;
-          size: A4 portrait;
-        }
-        
-        body {
-          -webkit-print-color-adjust: exact !important;
-          print-color-adjust: exact !important;
-          color-adjust: exact !important;
-          margin: 0;
-          padding: 0;
-        }
-        
-        /* 徹底隱藏頁首頁尾 */
-        html {
-          height: 100%;
-          overflow: hidden;
-        }
-        
-        /* 不再隱藏研發轉型診斷報告書副標題 
-        .report-subtitle {
-          display: none !important;
-          height: 0 !important;
-          visibility: hidden !important;
-          overflow: hidden !important;
-          opacity: 0 !important;
-          margin: 0 !important;
-          padding: 0 !important;
-        }
-        */
-      }
-    `;
-    document.head.appendChild(printStyles);
-    
-    // 添加直接修改打印設置的腳本
-    const printScript = document.createElement('script');
-    printScript.innerHTML = `
-      window.addEventListener('beforeprint', function() {
-        // 嘗試隱藏打印頭部和頁腳
-        try {
-          const style = document.createElement('style');
-          style.id = 'print-override';
-          style.innerHTML = '@page { margin: 0 !important; size: A4 portrait; }';
-          document.head.appendChild(style);
-          
-          /* 不再隱藏副標題
-          // 隱藏副標題
-          const subtitles = document.querySelectorAll('.report-subtitle');
-          subtitles.forEach(el => {
-            el.style.display = 'none';
-            el.setAttribute('aria-hidden', 'true');
-          });
-        } catch (e) {
-          console.error('無法修改打印設置', e);
-        }
-      });
-      
-      window.addEventListener('afterprint', function() {
-        // 打印完成後清理
-        const style = document.getElementById('print-override');
-        if (style) style.remove();
-      });
-    `;
-    document.head.appendChild(printScript);
-    
-    // 動態載入html2pdf庫
-    const loadHtml2pdf = () => {
-      return new Promise((resolve, reject) => {
-        if (window['html2pdf']) {
-          resolve(window['html2pdf']);
-          return;
-        }
-        
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-        script.onload = () => resolve(window['html2pdf']);
-        script.onerror = reject;
-        document.head.appendChild(script);
-      });
-    };
+    // 設置列印樣式
+    const cleanupPrintStyles = setupPrintStyles();
     
     // 嘗試載入html2pdf
     loadHtml2pdf().catch(() => console.log('無法載入html2pdf，將使用列印功能'));
-
-    // 按钮功能已被隱藏
-    /*
-    // 添加按鈕容器
-    const buttonContainer = document.createElement('div');
-    buttonContainer.className = 'fixed top-4 right-4 flex gap-2 print:hidden z-50';
     
-    // 添加列印按鈕
-    const printButton = document.createElement('button');
-    printButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> <span>列印報告</span>';
-    printButton.className = 'bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 flex items-center gap-2';
-    printButton.onclick = () => {
-      window.print();
-    };
-    
-    // 添加下載PDF按鈕
-    const downloadButton = document.createElement('button');
-    downloadButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> <span>下載PDF</span>';
-    downloadButton.className = 'bg-green-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700 flex items-center gap-2';
-    downloadButton.onclick = downloadPDF;
-    
-    // 將按鈕添加到容器
-    buttonContainer.appendChild(printButton);
-    buttonContainer.appendChild(downloadButton);
-    document.body.appendChild(buttonContainer);
-
+    // 清除功能
     return () => {
-      // 清理
-      if (document.body.contains(buttonContainer)) {
-        document.body.removeChild(buttonContainer);
-      }
-    };
-    */
-    
-    return () => {
-      // 清理樣式和腳本
-      if (document.head.contains(printStyles)) {
-        document.head.removeChild(printStyles);
-      }
-      if (document.head.contains(printScript)) {
-        document.head.removeChild(printScript);
-      }
+      if (cleanupPrintStyles) cleanupPrintStyles();
     };
   }, []);
 
