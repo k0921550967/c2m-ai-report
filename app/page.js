@@ -11,7 +11,6 @@ import diagnosticAnalysis from './data/diagnosticAnalysis.json';
 import researchScaleEvaluation from './data/researchScaleEvaluation.json';
 import industryAnalysis from './data/industryAnalysis.json';
 import digitalTransformationRecommendations from './data/digitalTransformationRecommendations.json';
-import visitRecord from './data/visitRecord.json';
 
 export default function Home() {
   const [reportData, setReportData] = useState(null);
@@ -31,8 +30,7 @@ export default function Home() {
       diagnosticAnalysis: processedDiagnosticAnalysis,
       researchScaleEvaluation: researchScaleEvaluation.researchScaleEvaluation,
       industryAnalysis: industryAnalysis.industryAnalysis,
-      digitalTransformationRecommendations: digitalTransformationRecommendations.digitalTransformationRecommendations,
-      visitRecord: visitRecord.visitRecord
+      digitalTransformationRecommendations: digitalTransformationRecommendations.digitalTransformationRecommendations
     };
     
     // 設定報告資料
