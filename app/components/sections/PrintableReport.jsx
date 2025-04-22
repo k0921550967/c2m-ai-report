@@ -31,6 +31,46 @@ const defaultData = {
       "祥榮食品股份有限公司成立於1998年，專注於高品質水煮麵與多元化速食食品的研發與製造。公司擁有現代化的食品生產線與檢測設備，致力於提供健康、美味的食品產品，服務對象包括國內外連鎖超市、便利商店及餐飲業者。",
       "公司獲得ISO22000、HACCP等多項國際食品安全認證，產品出口至東南亞及北美多國。近年來，企業積極推動食品科技創新，導入智能化生產技術，並已建立初步的數據收集系統，但仍在尋求更全面的數位轉型方案，以提升研發效率與產品創新能力，滿足消費者不斷變化的需求與口味。"
     ]
+  },
+  tableOfContents: [
+    {"title": "廠商基本資料", "page": "1"},
+    {"title": "研發能力診斷分析", "page": "2"},
+    {"title": "研發量表評估分析", "page": "5"},
+    {"title": "數位轉型建議", "page": "7"},
+    {"title": "附錄 訪視紀錄表", "page": "10"}
+  ],
+  diagnosticAnalysis: {
+    // 簡化的診斷分析資料
+    priorityIndex: "62%",
+    capabilityAnalysis: {
+      overall: "62%",
+      researchProcess: "47%",
+      dataDecision: "60%",
+      designThinking: "80%",
+      newTechnology: "60%",
+      summary: [
+        "優先發展：體驗設計思維進行研發已具基礎 (80%)，建議作為轉型發展的基石，帶動其他領域成長。",
+        "急需突破：改變企業研發速度及研發流程推動程度較低 (47%)，應作為數位轉型的關鍵突破口。"
+      ]
+    }
+  },
+  researchScaleEvaluation: {
+    // 簡化的研發量表評估資料
+    areas: []
+  },
+  industryAnalysis: {
+    // 簡化的產業分析資料
+    sections: []
+  },
+  digitalTransformationRecommendations: {
+    // 簡化的數位轉型建議資料
+    stages: [],
+    recommendedTools: []
+  },
+  visitRecord: {
+    photoSpaces: 3,
+    requiredSignatures: 2,
+    notes: "請於訪視過程中拍攝至少3張現場照片，包含訪談場景、產品展示與製造設備等，並取得企業代表與訪視顧問的簽名。"
   }
 };
 
@@ -860,7 +900,7 @@ const PrintableReport = ({ data = defaultData }) => {
       {/* Header/Cover Page */}
       <div className="mb-12 text-center print:page-break-after">
         <div className="flex justify-center mb-8">
-          <div className="w-20 h-20 rounded-full bg-blue-800 flex items-center justify-center">
+          <div className="w-20 h-20 bg-blue-800 rounded-full flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
@@ -1736,7 +1776,7 @@ const PrintableReport = ({ data = defaultData }) => {
       {/* 四、數位轉型建議 */}
       <div className="mb-12 print:page-break-after">
         <header className="mb-8">
-          <h2 className="text-3xl font-bold text-blue-900">五、數位轉型建議</h2>
+          <h2 className="text-3xl font-bold text-blue-900">四、數位轉型建議</h2>
           <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
         </header>
         
@@ -1746,216 +1786,69 @@ const PrintableReport = ({ data = defaultData }) => {
           <div className="space-y-6">
             {/* 面向優先順序說明 */}
             <div className="bg-blue-50 p-4 rounded-lg">
-              <p className="text-gray-700">根據貴公司目前的數位成熟度評估，以下提供四個研發數位化面向，並依據優先順序排列。數字為現階段完成度評估。</p>
+              <p className="text-gray-700">{digitalTransformationRecommendations?.introduction || "根據貴公司目前的數位成熟度評估，以下提供研發數位化面向，並依據優先順序排列。數字為現階段完成度評估。"}</p>
             </div>
             
-            {/* 體驗設計思維進行研發 - 最高優先級 */}
-            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-blue-800 text-white flex items-center justify-center mr-3 font-bold">1</div>
-                  <h4 className="text-lg font-semibold text-blue-800">體驗設計思維進行研發</h4>
-                </div>
-                <div className="flex items-center">
-                  <div className="text-blue-800 font-bold mr-2">12/15</div>
-                  <div className="w-24 h-3 bg-gray-200 rounded-full">
-                    <div className="h-full bg-blue-600 rounded-full" style={{ width: '80%' }}></div>
-                  </div>
-                  <div className="ml-2 text-blue-800 font-medium">80%</div>
-                </div>
-              </div>
+            {/* 數位轉型階段建議 - 從JSON資料動態生成 */}
+            {digitalTransformationRecommendations?.stages?.sort((a, b) => (a.priority || 999) - (b.priority || 999)).map((stage, index) => {
+              const colors = [
+                { bg: 'blue', text: 'blue' },
+                { bg: 'indigo', text: 'indigo' },
+                { bg: 'teal', text: 'teal' },
+                { bg: 'orange', text: 'orange' }
+              ];
+              const color = colors[index % colors.length];
               
-              <div className="mb-4">
-                <div className="text-blue-700 font-medium mb-1">重點工作</div>
-                <ul className="text-gray-700 pl-5 list-disc space-y-1">
-                  <li>建立食品體驗設計工作坊</li>
-                  <li>導入消費者口味偏好測試流程</li>
-                  <li>建立食品產品原型快速迭代機制</li>
-                </ul>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-blue-700 font-medium mb-1">預期效益</div>
-                <p className="text-gray-700 text-sm">
-                  導入食品體驗設計工作坊能夠有效提升新品開發成功率及消費者滿意度。完整的消費者口味偏好測試流程有助於獲得更正面的市場反饋，降低退貨率，而食品產品原型快速迭代機制可縮短產品研發週期，降低研發成本與食材浪費。
-                </p>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-blue-700 font-medium mb-1">轉型工具</div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                  <div className="bg-white p-4 rounded-lg border border-blue-200">
-                    <div className="font-medium text-blue-700 mb-2">設計思考工作坊</div>
-                    <div className="text-sm text-gray-500 mb-1">服務機構：C2M 輔導</div>
-                    <p className="text-gray-700 text-sm">設計思考工作坊旨在幫助中小型製造業者運用市場數據進行產品創新研發，透過數據分析與設計思維方法，優化產品開發流程並導入C2M（Customer-to-Manufacturer）數據驅動模式。工作坊內容涵蓋市場與產品分析，透過Amazon等國際電商數據協助業者掌握市場趨勢與競爭環境。</p>
+              return (
+                <div key={index} className={`bg-${color.bg}-50 p-4 rounded-lg border border-${color.bg}-200`}>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center">
+                      <div className={`w-8 h-8 rounded-full bg-${color.bg}-800 text-white flex items-center justify-center mr-3 font-bold`}>{index + 1}</div>
+                      <h4 className={`text-lg font-semibold text-${color.bg}-800`}>{stage.stageName}</h4>
+                    </div>
+                    <div className="flex items-center">
+                      <div className={`text-${color.bg}-800 font-bold mr-2`}>{stage.score}</div>
+                      <div className="w-24 h-3 bg-gray-200 rounded-full">
+                        <div className={`h-full bg-${color.bg}-600 rounded-full`} style={{ width: stage.percentage }}></div>
+                      </div>
+                      <div className={`ml-2 text-${color.bg}-800 font-medium`}>{stage.percentage}</div>
+                    </div>
                   </div>
                   
-                  <div className="bg-white p-4 rounded-lg border border-blue-200">
-                    <div className="font-medium text-blue-700 mb-2">台灣品牌耀飛計畫</div>
-                    <div className="text-sm text-gray-500 mb-1">服務機構：產業發展署補助計畫</div>
-                    <p className="text-gray-700 text-sm">協助台灣企業發展自有品牌，提供企業全方位及客製化的品牌發展諮詢及主題式輔導服務。依據企業品牌發展階段需求提供主題式客製化品牌輔導服務，並透過品牌智財支援服務專案輔導企業優化品牌智財風險管理機制，從源頭降低品牌仿冒等風險。</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* 移除重複的轉型工具區段 */}
-            </div>
-            
-            {/* 使用資料驅動研發決策 - 第二優先級 */}
-            <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-200">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-indigo-800 text-white flex items-center justify-center mr-3 font-bold">2</div>
-                  <h4 className="text-lg font-semibold text-indigo-800">使用資料驅動研發決策</h4>
-                </div>
-                <div className="flex items-center">
-                  <div className="text-indigo-800 font-bold mr-2">9/15</div>
-                  <div className="w-24 h-3 bg-gray-200 rounded-full">
-                    <div className="h-full bg-indigo-600 rounded-full" style={{ width: '60%' }}></div>
-                  </div>
-                  <div className="ml-2 text-indigo-800 font-medium">60%</div>
-                </div>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-indigo-700 font-medium mb-1">重點工作</div>
-                <ul className="text-gray-700 pl-5 list-disc space-y-1">
-                  <li>建立食品市場數據分析平台</li>
-                  <li>導入AI食品配方輔助系統</li>
-                  <li>建置食品品質檢測與食安監控系統</li>
-                </ul>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-indigo-700 font-medium mb-1">預期效益</div>
-                <p className="text-gray-700 text-sm">
-                  建立市場數據分析平台能夠大幅縮短新品研發決策時間。AI食品配方輔助系統有助於提升新配方開發成功率及產品風味穩定性。食品品質檢測與食安監控系統能降低產品不良率，降低食安風險，同時提升產品保質期，有效減少退貨與庫存損失。
-                </p>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-indigo-700 font-medium mb-1">轉型工具</div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                  <div className="bg-white p-4 rounded-lg border border-indigo-200">
-                    <div className="font-medium text-indigo-700 mb-2">C2M 會員網站BI分析</div>
-                    <div className="text-sm text-gray-500 mb-1">服務機構：C2M 輔導</div>
-                    <p className="text-gray-700 text-sm">C2M會員網站BI分析旨在透過數據驅動的方式，為中小型製造業者提供精準的市場洞察與產品研發決策支持。網站內建互動式BI分析工具，讓業者能夠透過自主操作，分析市場趨勢、產品銷售表現、競爭品牌動態與消費者偏好，進一步優化研發策略。系統內建AI產業分析功能，能自動產出產業趨勢報告，提供產品價格定位、24個月銷售數據、市場討論熱度與規格偏好分析。</p>
+                  <div className="mb-4">
+                    <div className={`text-${color.bg}-700 font-medium mb-1`}>重點工作</div>
+                    <ul className="text-gray-700 pl-5 list-disc space-y-1">
+                      {stage.keyTasks.slice(0, 3).map((task, taskIndex) => (
+                        <li key={taskIndex}>{task}</li>
+                      ))}
+                    </ul>
                   </div>
                   
-                  <div className="bg-white p-4 rounded-lg border border-indigo-200">
-                    <div className="font-medium text-indigo-700 mb-2">食品履歷追溯追蹤系統</div>
-                    <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - 雲端解決方案</div>
-                    <p className="text-gray-700 text-sm">食品廠及其供應商都在同個cloud系統，資料容易整合。可將內部的ERP/倉管/生管/品管系統與「食品履歷追溯追蹤系統」整合，將產品及物料的資料自動匯入建好履歷，讓料件管理更高效。消費者可透過掃描食品外包裝的QR Code查詢系統上的原料履歷，提升產品透明度與消費者信任，同時符合食品安全法規要求，降低食安風險並提升品牌價值。</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* 移除重複的轉型工具區段 */}
-            </div>
-            
-            {/* 採用新科技進行研發 - 第三優先級 */}
-            <div className="bg-teal-50 p-4 rounded-lg border border-teal-200">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-teal-800 text-white flex items-center justify-center mr-3 font-bold">3</div>
-                  <h4 className="text-lg font-semibold text-teal-800">採用新科技進行研發</h4>
-                </div>
-                <div className="flex items-center">
-                  <div className="text-teal-800 font-bold mr-2">9/15</div>
-                  <div className="w-24 h-3 bg-gray-200 rounded-full">
-                    <div className="h-full bg-teal-600 rounded-full" style={{ width: '60%' }}></div>
-                  </div>
-                  <div className="ml-2 text-teal-800 font-medium">60%</div>
-                </div>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-teal-700 font-medium mb-1">重點工作</div>
-                <ul className="text-gray-700 pl-5 list-disc space-y-1">
-                  <li>導入AI設計輔助與生產優化系統</li>
-                  <li>建立雲端協作平台與資料共享機制</li>
-                  <li>引入智慧感測與即時監控技術</li>
-                </ul>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-teal-700 font-medium mb-1">預期效益</div>
-                <p className="text-gray-700 text-sm">
-                  透過AI設計輔助與生產優化系統，能顯著提升設計效率與精準度，降低試誤成本。雲端協作平台與資料共享機制促進跨部門無縫合作，加速產品迭代速度。智慧感測與即時監控技術則有效優化生產流程，提高品質穩定性，同時降低能源消耗與原料浪費。
-                </p>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-teal-700 font-medium mb-1">轉型工具</div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                  <div className="bg-white p-4 rounded-lg border border-teal-200">
-                    <div className="font-medium text-teal-700 mb-2">MusesAI雲端服務解決方案(羽量級)</div>
-                    <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - 雲端解決方案</div>
-                    <p className="text-gray-700 text-sm">透過一站式MusesAI雲端服務解決方案，可使非資訊人員快速上手建立AI模型，內建自動化特徵工程與自動建模技術，無需操作人員軟體開發能力，也可在兩週內完成並上線進行使用。整體操作上，僅需於MusesAI雲端平台建立模型，接續部署於本地端伺服器進行數據串接設定，即可獨立使用；而在服務在公有雲架構下，可保障資料安全性與掌握度。</p>
+                  <div className="mb-4">
+                    <div className={`text-${color.bg}-700 font-medium mb-1`}>預期效益</div>
+                    <p className="text-gray-700 text-sm">
+                      {stage.expectedBenefits.slice(0, 3).join('。') + '。'}
+                    </p>
                   </div>
                   
-                  <div className="bg-white p-4 rounded-lg border border-teal-200">
-                    <div className="font-medium text-teal-700 mb-2">BailAI影像辨識訓練管理平台</div>
-                    <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - 雲端解決方案</div>
-                    <p className="text-gray-700 text-sm">針對沒有AI開發團隊的企業設計的用戶友好平台，讓非程式開發人員也能輕鬆上手。提供先進的物件辨識和肢體辨識模型，能應對各種複雜的檢測需求。此套解決方案能為食品企業提供一個維運瑕疵檢測與物件辨識系統，能夠有效地支持企業在食品生產線上實現自動化和智能化的品質檢查，準確識別並分類生產過程中的各種瑕疵，確保食品安全和品質。</p>
-                  </div>
+                  {/* 轉型工具 - 從JSON資料動態生成 */}
+                  {index < digitalTransformationRecommendations?.recommendedTools?.length && (
+                    <div className="mb-4">
+                      <div className={`text-${color.bg}-700 font-medium mb-1`}>轉型工具</div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                        {digitalTransformationRecommendations.recommendedTools[index].tools.slice(0, 2).map((tool, toolIndex) => (
+                          <div key={toolIndex} className={`bg-white p-4 rounded-lg border border-${color.bg}-200`}>
+                            <div className={`font-medium text-${color.bg}-700 mb-2`}>{tool.name}</div>
+                            <div className="text-sm text-gray-500 mb-1">服務機構：{tool.provider}</div>
+                            <p className="text-gray-700 text-sm">{tool.description}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-              
-              {/* 移除重複的轉型工具區段 */}
-            </div>
-            
-            {/* 改變企業研發速度及研發流程 - 第四優先級 */}
-            <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-orange-800 text-white flex items-center justify-center mr-3 font-bold">4</div>
-                  <h4 className="text-lg font-semibold text-orange-800">改變企業研發速度及研發流程</h4>
-                </div>
-                <div className="flex items-center">
-                  <div className="text-orange-800 font-bold mr-2">7/15</div>
-                  <div className="w-24 h-3 bg-gray-200 rounded-full">
-                    <div className="h-full bg-orange-600 rounded-full" style={{ width: '47%' }}></div>
-                  </div>
-                  <div className="ml-2 text-orange-800 font-medium">47%</div>
-                </div>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-orange-700 font-medium mb-1">重點工作</div>
-                <ul className="text-gray-700 pl-5 list-disc space-y-1">
-                  <li>導入食品研發敏捷管理系統</li>
-                  <li>實施食品配方PLM管理系統</li>
-                  <li>建立跨部門產品開發協作平台</li>
-                </ul>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-orange-700 font-medium mb-1">預期效益</div>
-                <p className="text-gray-700 text-sm">
-                  導入研發敏捷管理系統能有效縮短新產品上市週期，提升研發團隊生產力。食品配方PLM系統實施可減少配方變更處理時間，提高配方標準化與复用率。跨部門產品開發協作平台能夠提升研發、生產、品管和行銷部門溝通效率，有效降低產品從概念到上市的時間成本。
-                </p>
-              </div>
-              
-              <div className="mb-4">
-                <div className="text-orange-700 font-medium mb-1">轉型工具</div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                  <div className="bg-white p-4 rounded-lg border border-orange-200">
-                    <div className="font-medium text-orange-700 mb-2">JBS雲端電子簽核專案管理平台-專案管理版</div>
-                    <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - 雲端解決方案</div>
-                    <p className="text-gray-700 text-sm">有別於使用LINE、FB等工具做公司內部的即時溝通平台帶來吵雜、凌亂、分散、不易管理、不好追蹤等種種麻煩，專案管理工具可以協調團隊分派任務，讓團隊中的每個人都能瞭解誰在進行什麼工作。讓發散的目標變得單一，有助於及時任務追蹤完整掌握最新進度、共同改善協作讓專案計畫的詳細資料輕鬆找到、專注主題與隊友、客戶、廠商溝通，讓每個人進度同步順暢溝通。</p>
-                  </div>
-                  
-                  <div className="bg-white p-4 rounded-lg border border-orange-200">
-                    <div className="font-medium text-orange-700 mb-2">Status PowerBPM 企業流程管理雲端服務</div>
-                    <div className="text-sm text-gray-500 mb-1">服務機構：雲市集工業館 - 雲端解決方案</div>
-                    <p className="text-gray-700 text-sm">特別為中小企業設計，一般瀏覽器就可操作，需求單位自行設計表單流程無須程式設計，低學習成本容易上手低使用門檻。系統採用RWD規格一張表單電腦手機通用，支援手機推播、電子郵件通知，隨時提醒您掌握作業狀況與進度。數位儀表板能快速掌握關鍵訊息，方便追蹤流程提高效率，並提供資訊共享、協作能力、資源最佳利用和調查反饋等功能，幫助企業提升跨部門溝通效率。</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* 移除重複的轉型工具區段 */}
-            </div>
+              );
+            })}
           </div>
         </div>
       </div>
