@@ -7,6 +7,7 @@
         "stageName": "體驗設計思維進行研發",
         "score": "12/15",
         "percentage": "80%",
+        "percentageValue": 80,
         "keyTasks": [
           "建立食品體驗設計工作坊",
           "導入消費者口味偏好測試流程",
@@ -25,6 +26,7 @@
         "stageName": "使用資料驅動研發決策",
         "score": "9/15",
         "percentage": "60%",
+        "percentageValue": 60,
         "keyTasks": [
           "建立食品市場數據分析平台",
           "導入AI食品配方輔助系統",
@@ -43,6 +45,7 @@
         "stageName": "採用新科技進行研發",
         "score": "9/15",
         "percentage": "60%",
+        "percentageValue": 60,
         "keyTasks": [
           "導入AI設計輔助與生產優化系統",
           "建立雲端協作平台與資料共享機制",
@@ -61,6 +64,7 @@
         "stageName": "改變企業研發速度及研發流程",
         "score": "7/15",
         "percentage": "47%",
+        "percentageValue": 47,
         "keyTasks": [
           "導入食品研發敏捷管理系統",
           "實施食品配方PLM管理系統",
