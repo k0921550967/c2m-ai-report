@@ -80,7 +80,7 @@ const CompanyInfo = ({ companyInfo }) => {
               <div>
                 <div className="mb-4">
                   <div className="text-gray-600 mb-1">公司所在地區</div>
-                  <div className="text-blue-800 font-medium">{companyInfo.companyLocation}</div>
+                  <div className="text-blue-800 font-medium">{companyInfo.region}</div>
                 </div>
                 
                 <div className="mb-4">
