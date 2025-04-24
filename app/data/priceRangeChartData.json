@@ -1,0 +1,33 @@
+{
+  "xAxisTitle": "價格區間 (千元/件)",
+  "yAxisTitle": "銷售額 (千元)",
+  "xAxisLabels": [
+    "3-below", "6-8.99", "9-11.99", "12-14.99", "15-17.99", 
+    "18-20.99", "21-23.99", "24-26.99", "27-29.99", "30-above"
+  ],
+  "yAxisLabels": [
+    { "value": "0", "y": 250 },
+    { "value": "5,000", "y": 210 },
+    { "value": "10,000", "y": 170 },
+    { "value": "15,000", "y": 130 },
+    { "value": "20,000", "y": 90 },
+    { "value": "25,000", "y": 50 }
+  ],
+  "priceRanges": [
+    { "range": "3-below", "salesAmount": 10000, "y": 249, "height": 1, "x": 85, "displayValue": "未標示" },
+    { "range": "6-8.99", "salesAmount": 644501, "y": 217, "height": 33, "x": 160, "displayValue": "644,501" },
+    { "range": "9-11.99", "salesAmount": 8474667, "y": 156, "height": 94, "x": 235, "displayValue": "8,474,667" },
+    { "range": "12-14.99", "salesAmount": 20338249, "y": 52, "height": 198, "x": 310, "displayValue": "20,338,249" },
+    { "range": "15-17.99", "salesAmount": 7498281, "y": 162, "height": 88, "x": 385, "displayValue": "7,498,281" },
+    { "range": "18-20.99", "salesAmount": 15698308, "y": 92, "height": 158, "x": 460, "displayValue": "15,698,308" },
+    { "range": "21-23.99", "salesAmount": 4136662, "y": 209, "height": 41, "x": 535, "displayValue": "4,136,662" },
+    { "range": "24-26.99", "salesAmount": 3606575, "y": 214, "height": 36, "x": 610, "displayValue": "3,606,575" },
+    { "range": "27-29.99", "salesAmount": 1935397, "y": 230, "height": 20, "x": 685, "displayValue": "1,935,397" },
+    { "range": "30-above", "salesAmount": 6666202, "y": 180, "height": 70, "x": 735, "displayValue": "6,666,202" }
+  ],
+  "trendPath": "M85 232 L160 232 L235 121 L310 106 L385 123 L460 237 L535 243 L610 243 L685 243 L735 243",
+  "legendItems": [
+    { "label": "銷售額 (千元)", "color": "#F59E0B", "type": "rect" },
+    { "label": "評價個數", "color": "#7E22CE", "type": "line" }
+  ]
+} 

@@ -1,24 +1,26 @@
-{
-  "companyInfo": {
-    "name": "祥榮食品股份有限公司",
-    "representative": "王志明",
-    "address": "新北市五股區工業路185號",
-    "contactPerson": "李研發",
-    "uniformNumber": "12345678",
-    "phone": "(02)2345-6789",
-    "email": "contact@xiangrong-food.com.tw",
-    "position": "研發部經理",
-    "field": "食品製造業",
-    "subfield": "其他食品製造（如烘焙炊蒸食品、麵條、粉條類食品）",
-    "capital": "50,000 千元",
-    "revenue": "120,000 千元",
-    "employees": "51~100人",
-    "mainProducts": "水煮麵、速食湯品、調味料、休閒食品",
-    "region": "台灣北部：基隆、新北、台北、宜蘭、桃園、新竹",
-    "operationType": "資本密集（投入機械設備為主）",
-    "introduction": [
-      "祥榮食品股份有限公司成立於1998年，專注於高品質水煮麵與多元化速食食品的研發與製造。公司擁有現代化的食品生產線與檢測設備，致力於提供健康、美味的食品產品，服務對象包括國內外連鎖超市、便利商店及餐飲業者。",
-      "公司獲得ISO22000、HACCP等多項國際食品安全認證，產品出口至東南亞及北美多國。近年來，企業積極推動食品科技創新，導入智能化生產技術，並已建立初步的數據收集系統，但仍在尋求更全面的數位轉型方案，以提升研發效率與產品創新能力，滿足消費者不斷變化的需求與口味。"
-    ]
+
+  {
+    "uid": "9356c4f720c0f7ab-LAX-PostmanRuntime/7.43.3",
+    "companyInfo": {
+      "companyName": "鑫泰精密科技股份有限公司",
+      "companyId": 54321098,
+      "employeeCount": "101~150 人",
+      "factoryId": "F98765",
+      "contactPerson": "林經理",
+      "jobTitle": "副總經理",
+      "phone": "04-23456789",
+      "email": "contact@xintai.com.tw",
+      "address": "台中市西屯區工業區路56號",
+      "representative": "陳董事長",
+      "industryClassification": {
+        "main": "金屬製造業",
+        "sub": "其他金屬製品製造"
+      },
+      "paidInCapital": "5,001萬~6,000萬元",
+      "lastYearRevenue": "1億元以上，未滿5億元",
+      "companyLocation": "台中",
+      "mainProducts": "精密金屬零件/汽車零組件/航太零件",
+      "businessType": "兩者相近",
+      "companyDescription": "鑫泰精密科技成立於2005年，專注於高精度金屬零件製造，為汽車與航太產業提供關鍵零組件"
+    }
   }
-} 

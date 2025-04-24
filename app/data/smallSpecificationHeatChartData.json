@@ -1,0 +1,91 @@
+{
+  "title": "過敏原信息細分",
+  "subtitle": "過敏原信息關注度比例 (2021-2024年數據)",
+  "blocks": [
+    {
+      "id": "gluten",
+      "name": "含麩質",
+      "count": "56,541,232",
+      "x": 50,
+      "y": 50,
+      "width": 230,
+      "height": 100,
+      "style": {
+        "fillColor": "#7C3AED",
+        "fillOpacity": 0.9,
+        "strokeColor": "none",
+        "strokeWidth": 0,
+        "textColor": "white",
+        "fontSize": 14
+      }
+    },
+    {
+      "id": "eggs",
+      "name": "蛋",
+      "count": "42,143,861",
+      "x": 290,
+      "y": 50,
+      "width": 230,
+      "height": 100,
+      "style": {
+        "fillColor": "#8B5CF6",
+        "fillOpacity": 0.9,
+        "strokeColor": "none",
+        "strokeWidth": 0,
+        "textColor": "white",
+        "fontSize": 14
+      }
+    },
+    {
+      "id": "milk",
+      "name": "奶",
+      "count": "36,967,754",
+      "x": 530,
+      "y": 50,
+      "width": 230,
+      "height": 100,
+      "style": {
+        "fillColor": "#A78BFA",
+        "fillOpacity": 0.9,
+        "strokeColor": "none",
+        "strokeWidth": 0,
+        "textColor": "white",
+        "fontSize": 14
+      }
+    },
+    {
+      "id": "soy",
+      "name": "大豆",
+      "count": "24,654,316",
+      "x": 50,
+      "y": 160,
+      "width": 350,
+      "height": 90,
+      "style": {
+        "fillColor": "#C4B5FD",
+        "fillOpacity": 0.9,
+        "strokeColor": "none",
+        "strokeWidth": 0,
+        "textColor": "#4C1D95",
+        "fontSize": 14
+      }
+    },
+    {
+      "id": "seafood",
+      "name": "海鮮",
+      "count": "25,447,965",
+      "x": 410,
+      "y": 160,
+      "width": 350,
+      "height": 90,
+      "style": {
+        "fillColor": "#DDD6FE",
+        "fillOpacity": 0.9,
+        "strokeColor": "none",
+        "strokeWidth": 0,
+        "textColor": "#4C1D95",
+        "fontSize": 14
+      }
+    }
+  ]
+} 

@@ -48,20 +48,9 @@ const DigitalTransformationRecommendations = ({ digitalTransformationRecommendat
 
   // Helper function to get relevant tools for a stage
   const getToolsForStage = (stageName) => {
-    let toolCategory = "";
-    
-    if (stageName.includes("體驗設計")) {
-      toolCategory = "體驗設計工具";
-    } else if (stageName.includes("資料驅動")) {
-      toolCategory = "數據驅動決策工具";
-    } else if (stageName.includes("新科技")) {
-      toolCategory = "新技術應用工具";
-    } else if (stageName.includes("研發速度") || stageName.includes("研發流程")) {
-      toolCategory = "研發流程管理工具";
-    }
-
+    // 直接匹配 stageName 和工具類別
     return digitalTransformationRecommendations.recommendedTools.find(
-      tool => tool.category === toolCategory
+      tool => tool.category === stageName
     )?.tools || [];
   };
 
@@ -117,7 +106,7 @@ const DigitalTransformationRecommendations = ({ digitalTransformationRecommendat
                 <div className="mb-4">
                   <div className={`${colors.highlight} font-medium mb-1`}>預期效益</div>
                   <p className="text-gray-700 text-sm">
-                    {stage.expectedBenefits.join(' ')}
+                    {stage.expectedBenefits}
                   </p>
                 </div>
                 
