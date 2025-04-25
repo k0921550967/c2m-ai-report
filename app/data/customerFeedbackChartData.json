@@ -1,171 +1,128 @@
-{
-  "title": "正負評論數",
-  "subtitle": [
-    { "text": "•正評", "color": "#38B2AC" },
-    { "text": "•負評", "color": "#E53E3E" }
-  ],
-  "yAxisLabels": [
-    { "value": "3,500", "y": 85 },
-    { "value": "3,000", "y": 125 },
-    { "value": "2,500", "y": 165 },
-    { "value": "2,000", "y": 205 },
-    { "value": "500", "y": 245 },
-    { "value": "0", "y": 270 }
-  ],
-  "feedbackCategories": [
-    {
-      "category": "口感 (Taste)",
-      "x": 105,
-      "positiveCount": 2833,
-      "negativeCount": 220,
-      "positiveHeight": 180,
-      "negativeHeight": 15,
-      "positiveY": 90,
-      "negativeY": 90,
-      "positiveTextY": 200,
-      "negativeTextY": 105,
-      "width": 70,
-      "isPrimary": true
-    },
-    {
-      "category": "風味 (Flavor)",
-      "x": 195,
-      "positiveCount": 2047,
-      "negativeCount": 473,
-      "positiveHeight": 150,
-      "negativeHeight": 30,
-      "positiveY": 120,
-      "negativeY": 120,
-      "positiveTextY": 210,
-      "negativeTextY": 140,
-      "width": 70,
-      "isPrimary": true
-    },
-    {
-      "category": "麵條 (Noodles)",
-      "x": 285,
-      "positiveCount": 1545,
-      "negativeCount": 380,
-      "positiveHeight": 100,
-      "negativeHeight": 20,
-      "positiveY": 170,
-      "negativeY": 170,
-      "positiveTextY": 230,
-      "negativeTextY": 185,
-      "width": 70,
-      "isPrimary": true
-    },
-    {
-      "category": "價格 (Price)",
-      "x": 360,
-      "positiveCount": 180,
-      "negativeCount": 140,
-      "positiveHeight": 25,
-      "negativeHeight": 15,
-      "positiveY": 245,
-      "negativeY": 245,
-      "positiveTextY": 265,
-      "negativeTextY": 255,
-      "width": 40,
-      "isPrimary": false
-    },
-    {
-      "category": "用戶體驗",
-      "x": 410,
-      "positiveCount": 160,
-      "negativeCount": 40,
-      "positiveHeight": 25,
-      "negativeHeight": 8,
-      "positiveY": 245,
-      "negativeY": 245,
-      "positiveTextY": 265,
-      "negativeTextY": 251,
-      "width": 40,
-      "isPrimary": false
-    },
-    {
-      "category": "品牌 (Brand)",
-      "x": 460,
-      "positiveCount": 150,
-      "negativeCount": 30,
-      "positiveHeight": 25,
-      "negativeHeight": 7,
-      "positiveY": 245,
-      "negativeY": 245,
-      "positiveTextY": 265,
-      "negativeTextY": 250,
-      "width": 40,
-      "isPrimary": false
-    },
-    {
-      "category": "包裝信息",
-      "x": 510,
-      "positiveCount": 120,
-      "negativeCount": 30,
-      "positiveHeight": 23,
-      "negativeHeight": 7,
-      "positiveY": 247,
-      "negativeY": 247,
-      "positiveTextY": 265,
-      "negativeTextY": 252,
-      "width": 40,
-      "isPrimary": false
-    },
-    {
-      "category": "調味醬 (Sauce)",
-      "x": 560,
-      "positiveCount": 100,
-      "negativeCount": 50,
-      "positiveHeight": 22,
-      "negativeHeight": 10,
-      "positiveY": 248,
-      "negativeY": 248,
-      "positiveTextY": 265,
-      "negativeTextY": 255,
-      "width": 40,
-      "isPrimary": false
-    },
-    {
-      "category": "加熱 (Heat)",
-      "x": 610,
-      "positiveCount": 110,
-      "negativeCount": 20,
-      "positiveHeight": 22,
-      "negativeHeight": 4,
-      "positiveY": 248,
-      "negativeY": 248,
-      "positiveTextY": 265,
-      "negativeTextY": 252,
-      "width": 40,
-      "isPrimary": false
-    },
-    {
-      "category": "分量 (Volume)",
-      "x": 660,
-      "positiveCount": 105,
-      "negativeCount": 25,
-      "positiveHeight": 21,
-      "negativeHeight": 5,
-      "positiveY": 249,
-      "negativeY": 249,
-      "positiveTextY": 265,
-      "negativeTextY": 253,
-      "width": 40,
-      "isPrimary": false
-    },
-    {
-      "category": "保質期",
-      "x": 710,
-      "positiveCount": 100,
-      "negativeCount": 15,
-      "positiveHeight": 20,
-      "negativeHeight": 3,
-      "positiveY": 250,
-      "negativeY": 250,
-      "positiveTextY": 265,
-      "negativeTextY": 253,
-      "width": 40,
-      "isPrimary": false
-    }
-  ]
-} 
+[
+  {
+    "row_number": 1,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Quality",
+    "Count of result": 730,
+    "result_sortings": "1.positive"
+  },
+  {
+    "row_number": 2,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Quality",
+    "Count of result": 200,
+    "result_sortings": "2.negative"
+  },
+  {
+    "row_number": 3,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Price",
+    "Count of result": 581,
+    "result_sortings": "1.positive"
+  },
+  {
+    "row_number": 4,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Price",
+    "Count of result": 67,
+    "result_sortings": "2.negative"
+  },
+  {
+    "row_number": 5,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Metric",
+    "Count of result": 164,
+    "result_sortings": "1.positive"
+  },
+  {
+    "row_number": 6,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Metric",
+    "Count of result": 74,
+    "result_sortings": "2.negative"
+  },
+  {
+    "row_number": 7,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "User experience",
+    "Count of result": 144,
+    "result_sortings": "1.positive"
+  },
+  {
+    "row_number": 8,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "User experience",
+    "Count of result": 6,
+    "result_sortings": "2.negative"
+  },
+  {
+    "row_number": 9,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Best use",
+    "Count of result": 114,
+    "result_sortings": "1.positive"
+  },
+  {
+    "row_number": 10,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Best use",
+    "Count of result": 14,
+    "result_sortings": "2.negative"
+  },
+  {
+    "row_number": 11,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Weight",
+    "Count of result": 48,
+    "result_sortings": "1.positive"
+  },
+  {
+    "row_number": 12,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Weight",
+    "Count of result": 8,
+    "result_sortings": "2.negative"
+  },
+  {
+    "row_number": 13,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Package",
+    "Count of result": 21,
+    "result_sortings": "1.positive"
+  },
+  {
+    "row_number": 14,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Package",
+    "Count of result": 12,
+    "result_sortings": "2.negative"
+  },
+  {
+    "row_number": 15,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Gift",
+    "Count of result": 43,
+    "result_sortings": "1.positive"
+  },
+  {
+    "row_number": 16,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Gift",
+    "Count of result": 2,
+    "result_sortings": "2.negative"
+  },
+  {
+    "row_number": 17,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Imperial",
+    "Count of result": 8,
+    "result_sortings": "1.positive"
+  },
+  {
+    "row_number": 18,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "opinion_items": "Imperial",
+    "Count of result": 2,
+    "result_sortings": "2.negative"
+  }
+]

@@ -3,15 +3,8 @@
 import React, { useRef } from 'react';
 import { User, Building, Phone, Mail, DollarSign, FileText, BarChart2, Layers, Database, Cpu, Search, ChevronRight, Check } from 'lucide-react';
 
-// Import CompanyInfo component and data
+// Import CompanyInfo component
 import CompanyInfo from './CompanyInfo';
-import companyInfoData from '../../data/companyInfo.json';
-import diagnosticAnalysisData from '../../data/diagnosticAnalysis.json';
-import researchScaleEvaluationData from '../../data/researchScaleEvaluation.json';
-import industryAnalysisData from '../../data/industryAnalysis.json';
-import digitalTransformationRecommendationsData from '../../data/digitalTransformationRecommendations.json';
-import reportInfoData from '../../data/reportInfo.json';
-import tableOfContentsData from '../../data/tableOfContents.json';
 import ResearchScaleEvaluation from './ResearchScaleEvaluation';
 import ResearchPriorityGoals from './ResearchPriorityGoals';
 import ResearchCapabilityAnalysis from './ResearchCapabilityAnalysis';
@@ -31,14 +24,8 @@ const toChineseNumber = (num) => {
 
 const PrintableReport = ({ data }) => {
   const reportRef = useRef(null);
-  // 忽略傳入的 data 參數，直接從 JSON 文件讀取所有數據
-  const reportInfo = reportInfoData.reportInfo;
-  const tableOfContents = tableOfContentsData.tableOfContents;
-  const companyInfo = companyInfoData.companyInfo;
-  const diagnosticAnalysis = diagnosticAnalysisData.diagnosticAnalysis;
-  const researchScaleEvaluation = researchScaleEvaluationData.researchScaleEvaluation;
-  const industryAnalysis = industryAnalysisData.industryAnalysis;
-  const digitalTransformationRecommendations = digitalTransformationRecommendationsData.digitalTransformationRecommendations;
+  // 使用傳入的 data 參數
+  const { reportInfo, tableOfContents, companyInfo, diagnosticAnalysis, researchScaleEvaluation, industryAnalysis, digitalTransformationRecommendations } = data;
 
   // Helper function to render score bars
   const renderScoreBars = (score, maxScore = 5, colorClass = "bg-blue-600", emptyColorClass = "bg-blue-200") => {
@@ -123,7 +110,10 @@ const PrintableReport = ({ data }) => {
           <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
         </header>
         
-        <IndustryAnalysis industryAnalysis={industryAnalysis} productType={companyInfo.aiReportCategory ? companyInfo.aiReportCategory.split('(')[0] : '水煮麵'} />
+        <IndustryAnalysis 
+          industryAnalysis={industryAnalysis} 
+          productType={companyInfo.aiReportCategory ? companyInfo.aiReportCategory.split('(')[0] : '水煮麵'} 
+        />
       </div>
       
       {/* 五、數位轉型建議 */}

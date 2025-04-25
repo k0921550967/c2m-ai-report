@@ -1,21 +1,146 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import largeData from '../../data/largeSpecificationHeatChartData.json';
+import smallData from '../../data/smallSpecificationHeatChartData.json';
 
-const LargeSpecificationHeatChart = ({ data }) => {
-  if (!data) {
+const LargeSpecificationHeatChart = ({ onSpecSelect }) => {
+  const [selectedSpec, setSelectedSpec] = useState(null);
+  
+  // Process data for the heat chart
+  const processedData = useMemo(() => {
+    // Use imported largeData directly
+    if (!largeData || !largeData.length) return null;
+    
+    // Calculate total area available for blocks
+    const svgWidth = 800;
+    const svgHeight = 340;
+    const chartWidth = 700;
+    const chartHeight = 240;
+    const marginLeft = 50;
+    const marginTop = 50;
+    
+    const totalArea = chartWidth * chartHeight;
+    
+    // Find max sales to determine which items to highlight in purple
+    const maxSales = Math.max(...largeData.map(item => item.sum_sales));
+    const totalSales = largeData.reduce((sum, item) => sum + item.sum_sales, 0);
+    
+    // Sort data by sales value (descending)
+    const sortedData = [...largeData].sort((a, b) => b.sum_sales - a.sum_sales);
+    
+    // Create treemap layout
+    const blocks = [];
+    let currentX = marginLeft;
+    let currentY = marginTop;
+    let rowHeight = 0;
+    
+    // Format the sales numbers with commas
+    const formatSales = (num) => {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+    
+    // Helper function to determine if a block fits in the current row
+    const canFitInRow = (blockWidth) => {
+      return currentX + blockWidth <= marginLeft + chartWidth;
+    };
+    
+    // Create blocks with sizes proportional to sales
+    sortedData.forEach((item) => {
+      // Calculate block size proportional to sales
+      const areaRatio = item.sum_sales / totalSales;
+      const blockArea = totalArea * areaRatio;
+      
+      // Target aspect ratio close to 1.5 (width:height)
+      const aspectRatio = 1.5;
+      
+      // Calculate dimensions from area and aspect ratio
+      let blockWidth = Math.sqrt(blockArea * aspectRatio);
+      let blockHeight = blockArea / blockWidth;
+      
+      // Ensure minimum block size
+      blockWidth = Math.max(blockWidth, 120);
+      blockHeight = Math.max(blockHeight, 80);
+      
+      // Check if we need to start a new row
+      if (!canFitInRow(blockWidth)) {
+        currentX = marginLeft;
+        currentY += rowHeight;
+        rowHeight = 0;
+      }
+      
+      // Adjust if we're exceeding chart height
+      if (currentY + blockHeight > marginTop + chartHeight) {
+        blockHeight = marginTop + chartHeight - currentY;
+      }
+      
+      // Update row height if this block is taller
+      rowHeight = Math.max(rowHeight, blockHeight);
+      
+      // Create block
+      blocks.push({
+        id: item.Spec,
+        name: item.Spec === 'countryoforigin' ? '原產國' : 
+              item.Spec === 'brand' ? '品牌' :
+              item.Spec === 'design' ? '設計' :
+              item.Spec === 'handle' ? '手柄' :
+              item.Spec === 'headsocket' ? '頭部/插口' :
+              item.Spec === 'material' ? '材料' :
+              item.Spec === 'size' ? '尺寸' : item.Spec,
+        count: formatSales(item.sum_sales),
+        rawCount: item.sum_sales,
+        spec: item.Spec,
+        x: currentX,
+        y: currentY,
+        width: blockWidth,
+        height: blockHeight,
+        style: {
+          fillColor: item.sum_sales === maxSales ? "#8B5CF6" : 
+                    item.sum_sales > 19000000 ? "#60A5FA" :
+                    item.sum_sales > 17000000 ? "#3B82F6" :
+                    item.sum_sales > 15000000 ? "#93C5FD" : "#BFDBFE",
+          fillOpacity: 0.9,
+          strokeColor: item.sum_sales === maxSales ? "#6D28D9" : "none",
+          strokeWidth: item.sum_sales === maxSales ? 3 : 0,
+          titleColor: item.sum_sales > 17000000 ? "white" : "#1E3A8A",
+          countColor: item.sum_sales > 17000000 ? "white" : "#1E3A8A",
+          titleFontSize: item.sum_sales === maxSales ? 18 : 16,
+          countFontSize: item.sum_sales === maxSales ? 14 : 12
+        }
+      });
+      
+      // Move X position for next block
+      currentX += blockWidth;
+    });
+    
+    return {
+      title: "六角扳手規格關注度",
+      subtitle: "六角扳手規格關注度比例 (銷售額數據)",
+      specificationBlocks: blocks
+    };
+  }, []);
+
+  // Handle block click
+  const handleBlockClick = (block) => {
+    setSelectedSpec(block.spec);
+    if (onSpecSelect) {
+      onSpecSelect(block.spec);
+    }
+  };
+
+  if (!processedData) {
     return <div>No specification heat chart data available</div>;
   }
 
   return (
-    <svg width="800" height="300" viewBox="0 0 800 300">
+    <svg width="800" height="340" viewBox="0 0 800 340">
       {/* 座標軸和標題 */}
-      <text x="400" y="30" textAnchor="middle" fontSize="16" fontWeight="bold">{data.title}</text>
+      <text x="400" y="30" textAnchor="middle" fontSize="16" fontWeight="bold">{processedData.title}</text>
       
       {/* 熱圖格式 */}
-      <rect x="50" y="50" width="700" height="200" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1" />
+      <rect x="50" y="50" width="700" height="240" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1" />
       
       {/* 熱圖區塊 */}
-      {data.specificationBlocks.map((block) => (
+      {processedData.specificationBlocks.map((block) => (
         <React.Fragment key={block.id}>
           <rect 
             x={block.x} 
@@ -25,67 +150,44 @@ const LargeSpecificationHeatChart = ({ data }) => {
             fill={block.style.fillColor} 
             fillOpacity={block.style.fillOpacity} 
             stroke={block.style.strokeColor !== 'none' ? block.style.strokeColor : undefined} 
-            strokeWidth={block.style.strokeWidth || undefined} 
+            strokeWidth={block.style.strokeWidth || undefined}
+            style={{ cursor: 'pointer' }}
+            onClick={() => handleBlockClick(block)}
           />
           <text 
             x={block.x + block.width/2} 
-            y={block.y + block.height/2 - 10} 
+            y={block.y + block.height/2 - block.height/5} 
             textAnchor="middle" 
             fontSize={block.style.titleFontSize} 
             fill={block.style.titleColor} 
             fontWeight="bold"
+            style={{ cursor: 'pointer', pointerEvents: 'none' }}
           >
             {block.name}
           </text>
           <text 
             x={block.x + block.width/2} 
-            y={block.y + block.height/2 + 20} 
+            y={block.y + block.height/2 + block.height/5} 
             textAnchor="middle" 
             fontSize={block.style.countFontSize} 
             fill={block.style.countColor}
+            style={{ cursor: 'pointer', pointerEvents: 'none' }}
           >
-            ({block.count})
+            {block.count}
           </text>
         </React.Fragment>
       ))}
       
-      {/* 圖例 */}
-      <rect x="50" y="260" width="700" height="30" fill="#f5f5f5" />
-      <text x="400" y="280" textAnchor="middle" fontSize="14">{data.subtitle}</text>
+      {/* 圖例和說明 */}
+      <rect x="50" y="300" width="700" height="30" fill="#f5f5f5" />
+      <text x="400" y="320" textAnchor="middle" fontSize="14">{processedData.subtitle}</text>
+      <text x="700" y="320" textAnchor="end" fontSize="12" fill="#4F46E5">點擊區塊查看詳細數據</text>
     </svg>
   );
 };
 
 LargeSpecificationHeatChart.propTypes = {
-  data: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    subtitle: PropTypes.string.isRequired,
-    specificationBlocks: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        count: PropTypes.string.isRequired,
-        x: PropTypes.number.isRequired,
-        y: PropTypes.number.isRequired,
-        width: PropTypes.number.isRequired,
-        height: PropTypes.number.isRequired,
-        style: PropTypes.shape({
-          fillColor: PropTypes.string.isRequired,
-          fillOpacity: PropTypes.number.isRequired,
-          strokeColor: PropTypes.string.isRequired,
-          strokeWidth: PropTypes.number,
-          titleColor: PropTypes.string.isRequired,
-          countColor: PropTypes.string.isRequired,
-          titleFontSize: PropTypes.number.isRequired,
-          countFontSize: PropTypes.number.isRequired
-        }).isRequired
-      })
-    ).isRequired
-  })
-};
-
-LargeSpecificationHeatChart.defaultProps = {
-  data: null
+  onSpecSelect: PropTypes.func
 };
 
 export default LargeSpecificationHeatChart; 

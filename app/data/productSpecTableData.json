@@ -1,44 +1,107 @@
-{
-  "title": "水煮麵 - 產品規格推薦表",
-  "categories": [
+[
     {
-      "name": "過敏原 (allergen)",
-      "items": [
-        { "name": "soybean", "rank": 1 },
-        { "name": "tapioca", "rank": 2 },
-        { "name": "wheatgluten", "rank": 3 }
-      ]
+      "row_number": 23,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "allergen",
+      "產品規格細項": "soybean",
+      "score_rank": 3
     },
     {
-      "name": "口味 (flavor)",
-      "items": [
-        { "name": "gourmetspicy", "rank": 1 },
-        { "name": "hotchicken", "rank": 2 },
-        { "name": "firehotcheeseflaveredchicken", "rank": 3 }
-      ]
+      "row_number": 24,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "allergen",
+      "產品規格細項": "tapioca",
+      "score_rank": 2
     },
     {
-      "name": "麵條 (noodles)",
-      "items": [
-        { "name": "麵條", "rank": 1 },
-        { "name": "boil/microwave", "rank": 2 },
-        { "name": "boil", "rank": 3 }
-      ]
+      "row_number": 25,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "allergen",
+      "產品規格細項": "wheatgluten",
+      "score_rank": 1
     },
     {
-      "name": "包裝 (package info)",
-      "items": [
-        { "name": "110g", "rank": 1 },
-        { "name": "125g", "rank": 2 },
-        { "name": "112g", "rank": 3 }
-      ]
+      "row_number": 26,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "flavor",
+      "產品規格細項": "gourmetspicy",
+      "score_rank": 1
     },
     {
-      "name": "重量 (weight)",
-      "items": [
-        { "name": "4800g", "rank": 1 },
-        { "name": "550g", "rank": 2 }
-      ]
+      "row_number": 27,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "flavor",
+      "產品規格細項": "hotchicken",
+      "score_rank": 2
+    },
+    {
+      "row_number": 28,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "flavor",
+      "產品規格細項": "stirfriedramen",
+      "score_rank": 3
+    },
+    {
+      "row_number": 29,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "noodles",
+      "產品規格細項": "boil",
+      "score_rank": 3
+    },
+    {
+      "row_number": 30,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "noodles",
+      "產品規格細項": "boil/microwave",
+      "score_rank": 2
+    },
+    {
+      "row_number": 31,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "noodles",
+      "產品規格細項": "麵條",
+      "score_rank": 1
+    },
+    {
+      "row_number": 32,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "packageinformation",
+      "產品規格細項": "110g",
+      "score_rank": 1
+    },
+    {
+      "row_number": 33,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "packageinformation",
+      "產品規格細項": "125g",
+      "score_rank": 3
+    },
+    {
+      "row_number": 34,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "packageinformation",
+      "產品規格細項": "140g",
+      "score_rank": 2
+    },
+    {
+      "row_number": 35,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "weight",
+      "產品規格細項": "4800g",
+      "score_rank": 1
+    },
+    {
+      "row_number": 36,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "weight",
+      "產品規格細項": "550g",
+      "score_rank": 3
+    },
+    {
+      "row_number": 37,
+      "Category": "水煮麵(Stewed Noodles)",
+      "產品規格": "weight",
+      "產品規格細項": "675g",
+      "score_rank": 2
     }
   ]
-} 

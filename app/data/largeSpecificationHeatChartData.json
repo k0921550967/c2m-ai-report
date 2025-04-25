@@ -1,101 +1,44 @@
-{
-  "title": "水煮麵產品規格關注度",
-  "subtitle": "水煮麵規格關注度比例 (2021-2024年數據) - 紫色區塊詳細分析見下圖",
-  "specificationBlocks": [
-    {
-      "id": "allergen",
-      "name": "過敏原信息",
-      "count": "185,755,128",
-      "x": 50,
-      "y": 50,
-      "width": 250,
-      "height": 100,
-      "style": {
-        "fillColor": "#8B5CF6",
-        "fillOpacity": 0.9,
-        "strokeColor": "#6D28D9",
-        "strokeWidth": 3,
-        "titleColor": "white",
-        "countColor": "white",
-        "titleFontSize": 18,
-        "countFontSize": 14
-      }
-    },
-    {
-      "id": "flavor",
-      "name": "口味",
-      "count": "75,906,691",
-      "x": 300,
-      "y": 50,
-      "width": 220,
-      "height": 100,
-      "style": {
-        "fillColor": "#60A5FA",
-        "fillOpacity": 0.9,
-        "strokeColor": "none",
-        "strokeWidth": 0,
-        "titleColor": "white",
-        "countColor": "white",
-        "titleFontSize": 16,
-        "countFontSize": 12
-      }
-    },
-    {
-      "id": "noodle",
-      "name": "麵條",
-      "count": "73,853,043",
-      "x": 520,
-      "y": 50,
-      "width": 230,
-      "height": 100,
-      "style": {
-        "fillColor": "#3B82F6",
-        "fillOpacity": 0.9,
-        "strokeColor": "none",
-        "strokeWidth": 0,
-        "titleColor": "white",
-        "countColor": "white",
-        "titleFontSize": 16,
-        "countFontSize": 12
-      }
-    },
-    {
-      "id": "packaging",
-      "name": "包裝",
-      "count": "70,747,925",
-      "x": 50,
-      "y": 150,
-      "width": 350,
-      "height": 100,
-      "style": {
-        "fillColor": "#93C5FD",
-        "fillOpacity": 0.9,
-        "strokeColor": "none",
-        "strokeWidth": 0,
-        "titleColor": "#1E3A8A",
-        "countColor": "#1E3A8A",
-        "titleFontSize": 16,
-        "countFontSize": 12
-      }
-    },
-    {
-      "id": "weight",
-      "name": "重量",
-      "count": "70,747,925",
-      "x": 400,
-      "y": 150,
-      "width": 350,
-      "height": 100,
-      "style": {
-        "fillColor": "#BFDBFE",
-        "fillOpacity": 0.9,
-        "strokeColor": "none",
-        "strokeWidth": 0,
-        "titleColor": "#1E3A8A",
-        "countColor": "#1E3A8A",
-        "titleFontSize": 16,
-        "countFontSize": 12
-      }
-    }
-  ]
-} 
+[
+  {
+    "row_number": 2,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "sum_sales": 19957656
+  },
+  {
+    "row_number": 3,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "countryoforigin",
+    "sum_sales": 17862453
+  },
+  {
+    "row_number": 4,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "design",
+    "sum_sales": 19424851
+  },
+  {
+    "row_number": 5,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "handle",
+    "sum_sales": 12495820
+  },
+  {
+    "row_number": 6,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "headsocket",
+    "sum_sales": 19957656
+  },
+  {
+    "row_number": 7,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "material",
+    "sum_sales": 19957656
+  },
+  {
+    "row_number": 8,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "sum_sales": 19100612
+  }
+]

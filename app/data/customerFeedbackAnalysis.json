@@ -1,0 +1,26 @@
+{
+  "title": "客戶回饋分析",
+  "chartType": "CustomerFeedbackChart",
+  "analysis": [
+    {
+      "title": "消費者關注重點",
+      "content": "口感（Taste）、風味（Flavor）和麵條（Noodles）是消費者討論最多的三個方面，遠超其他因素。這表明這些是六角扳手產品中最受關注的核心屬性。"
+    },
+    {
+      "title": "價格因素",
+      "content": "價格（Price）是第四個被討論最多的因素，但相比前三項，討論度明顯降低。這可能意味著對於六角扳手產品，消費者更注重產品本身的品質而非價格。"
+    },
+    {
+      "title": "次要關注點",
+      "content": "用戶體驗（User experience）、品牌（Brand）和包裝信息（Package information）等因素也受到一定程度的關注，但討論量相對較少。"
+    },
+    {
+      "title": "低關注度因素",
+      "content": "調味醬（Sauce）、加熱（Heat）、包裝（Package）等因素討論度較低，可能不是消費者的主要考慮因素。"
+    },
+    {
+      "title": "建議重點",
+      "content": "應優先提升產品口感和風味，改善麵條質量，同時保持合理價格水平，以滿足消費者核心需求。"
+    }
+  ]
+} 

@@ -1,91 +1,611 @@
-{
-  "title": "過敏原信息細分",
-  "subtitle": "過敏原信息關注度比例 (2021-2024年數據)",
-  "blocks": [
-    {
-      "id": "gluten",
-      "name": "含麩質",
-      "count": "56,541,232",
-      "x": 50,
-      "y": 50,
-      "width": 230,
-      "height": 100,
-      "style": {
-        "fillColor": "#7C3AED",
-        "fillOpacity": 0.9,
-        "strokeColor": "none",
-        "strokeWidth": 0,
-        "textColor": "white",
-        "fontSize": 14
-      }
-    },
-    {
-      "id": "eggs",
-      "name": "蛋",
-      "count": "42,143,861",
-      "x": 290,
-      "y": 50,
-      "width": 230,
-      "height": 100,
-      "style": {
-        "fillColor": "#8B5CF6",
-        "fillOpacity": 0.9,
-        "strokeColor": "none",
-        "strokeWidth": 0,
-        "textColor": "white",
-        "fontSize": 14
-      }
-    },
-    {
-      "id": "milk",
-      "name": "奶",
-      "count": "36,967,754",
-      "x": 530,
-      "y": 50,
-      "width": 230,
-      "height": 100,
-      "style": {
-        "fillColor": "#A78BFA",
-        "fillOpacity": 0.9,
-        "strokeColor": "none",
-        "strokeWidth": 0,
-        "textColor": "white",
-        "fontSize": 14
-      }
-    },
-    {
-      "id": "soy",
-      "name": "大豆",
-      "count": "24,654,316",
-      "x": 50,
-      "y": 160,
-      "width": 350,
-      "height": 90,
-      "style": {
-        "fillColor": "#C4B5FD",
-        "fillOpacity": 0.9,
-        "strokeColor": "none",
-        "strokeWidth": 0,
-        "textColor": "#4C1D95",
-        "fontSize": 14
-      }
-    },
-    {
-      "id": "seafood",
-      "name": "海鮮",
-      "count": "25,447,965",
-      "x": 410,
-      "y": 160,
-      "width": 350,
-      "height": 90,
-      "style": {
-        "fillColor": "#DDD6FE",
-        "fillOpacity": 0.9,
-        "strokeColor": "none",
-        "strokeWidth": 0,
-        "textColor": "#4C1D95",
-        "fontSize": 14
-      }
-    }
-  ]
-} 
+[
+  {
+    "row_number": 2,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "amazon",
+    "sum_sales": 4369718
+  },
+  {
+    "row_number": 3,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "bondhus",
+    "sum_sales": 1961930
+  },
+  {
+    "row_number": 4,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "carbyne",
+    "sum_sales": 260949
+  },
+  {
+    "row_number": 5,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "colfuline",
+    "sum_sales": 84236
+  },
+  {
+    "row_number": 6,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "eklind",
+    "sum_sales": 1189170
+  },
+  {
+    "row_number": 7,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "horusdy",
+    "sum_sales": 795408
+  },
+  {
+    "row_number": 8,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "kotto",
+    "sum_sales": 156215
+  },
+  {
+    "row_number": 9,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "lexivon",
+    "sum_sales": 2286099
+  },
+  {
+    "row_number": 10,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "lichamp",
+    "sum_sales": 479040
+  },
+  {
+    "row_number": 11,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "maxpower",
+    "sum_sales": 98989
+  },
+  {
+    "row_number": 12,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "owltools",
+    "sum_sales": 255981
+  },
+  {
+    "row_number": 13,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "rexbeti",
+    "sum_sales": 1675909
+  },
+  {
+    "row_number": 14,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "s&r",
+    "sum_sales": 18516
+  },
+  {
+    "row_number": 15,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "sedy",
+    "sum_sales": 1719501
+  },
+  {
+    "row_number": 16,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "tekton",
+    "sum_sales": 1036779
+  },
+  {
+    "row_number": 17,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "titan",
+    "sum_sales": 461071
+  },
+  {
+    "row_number": 18,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "wera",
+    "sum_sales": 2251101
+  },
+  {
+    "row_number": 19,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "brand",
+    "content_trim": "wiha",
+    "sum_sales": 857044
+  },
+  {
+    "row_number": 20,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "countryoforigin",
+    "content_trim": "china",
+    "sum_sales": 12145789
+  },
+  {
+    "row_number": 21,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "countryoforigin",
+    "content_trim": "germany",
+    "sum_sales": 18516
+  },
+  {
+    "row_number": 22,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "countryoforigin",
+    "content_trim": "taiwan",
+    "sum_sales": 2547048
+  },
+  {
+    "row_number": 23,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "countryoforigin",
+    "content_trim": "usa",
+    "sum_sales": 3151100
+  },
+  {
+    "row_number": 24,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "design",
+    "content_trim": "ballend",
+    "sum_sales": 11029565
+  },
+  {
+    "row_number": 25,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "design",
+    "content_trim": "ballend,hollow,flathead",
+    "sum_sales": 34119
+  },
+  {
+    "row_number": 26,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "design",
+    "content_trim": "hex-keyends",
+    "sum_sales": 1654891
+  },
+  {
+    "row_number": 27,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "design",
+    "content_trim": "hollow,flathead",
+    "sum_sales": 1170598
+  },
+  {
+    "row_number": 28,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "design",
+    "content_trim": "straightends",
+    "sum_sales": 2993598
+  },
+  {
+    "row_number": 29,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "design",
+    "content_trim": "torxends",
+    "sum_sales": 255981
+  },
+  {
+    "row_number": 30,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "design",
+    "content_trim": "torxends,hex-keyends",
+    "sum_sales": 2286099
+  },
+  {
+    "row_number": 31,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "handle",
+    "content_trim": "l-key",
+    "sum_sales": 1074273
+  },
+  {
+    "row_number": 32,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "handle",
+    "content_trim": "l-keyholder",
+    "sum_sales": 857044
+  },
+  {
+    "row_number": 33,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "handle",
+    "content_trim": "longarm",
+    "sum_sales": 255981
+  },
+  {
+    "row_number": 34,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "handle",
+    "content_trim": "longarm/shortarm",
+    "sum_sales": 730081
+  },
+  {
+    "row_number": 35,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "handle",
+    "content_trim": "l-shaped",
+    "sum_sales": 3612778
+  },
+  {
+    "row_number": 36,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "handle",
+    "content_trim": "l-wrench",
+    "sum_sales": 1304602
+  },
+  {
+    "row_number": 37,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "handle",
+    "content_trim": "plasticholder",
+    "sum_sales": 711107
+  },
+  {
+    "row_number": 38,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "handle",
+    "content_trim": "texturedslipresistantsurface",
+    "sum_sales": 368580
+  },
+  {
+    "row_number": 39,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "handle",
+    "content_trim": "t-handle",
+    "sum_sales": 3468781
+  },
+  {
+    "row_number": 40,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "handle",
+    "content_trim": "torquehandle",
+    "sum_sales": 112593
+  },
+  {
+    "row_number": 41,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "headsocket",
+    "content_trim": "11",
+    "sum_sales": 532805
+  },
+  {
+    "row_number": 42,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "headsocket",
+    "content_trim": "13",
+    "sum_sales": 1763632
+  },
+  {
+    "row_number": 43,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "headsocket",
+    "content_trim": "18",
+    "sum_sales": 868129
+  },
+  {
+    "row_number": 44,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "headsocket",
+    "content_trim": "22",
+    "sum_sales": 3931387
+  },
+  {
+    "row_number": 45,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "headsocket",
+    "content_trim": "26",
+    "sum_sales": 3197732
+  },
+  {
+    "row_number": 46,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "headsocket",
+    "content_trim": "27",
+    "sum_sales": 470450
+  },
+  {
+    "row_number": 47,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "headsocket",
+    "content_trim": "35",
+    "sum_sales": 2398692
+  },
+  {
+    "row_number": 48,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "headsocket",
+    "content_trim": "36",
+    "sum_sales": 1934538
+  },
+  {
+    "row_number": 49,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "headsocket",
+    "content_trim": "37",
+    "sum_sales": 368580
+  },
+  {
+    "row_number": 50,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "headsocket",
+    "content_trim": "7",
+    "sum_sales": 496068
+  },
+  {
+    "row_number": 51,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "headsocket",
+    "content_trim": "9",
+    "sum_sales": 3995643
+  },
+  {
+    "row_number": 52,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "material",
+    "content_trim": "alloysteel",
+    "sum_sales": 10163706
+  },
+  {
+    "row_number": 53,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "material",
+    "content_trim": "alloysteel,plastic",
+    "sum_sales": 461071
+  },
+  {
+    "row_number": 54,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "material",
+    "content_trim": "blend",
+    "sum_sales": 4958117
+  },
+  {
+    "row_number": 55,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "material",
+    "content_trim": "carbonsteel",
+    "sum_sales": 255981
+  },
+  {
+    "row_number": 56,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "material",
+    "content_trim": "chromevanadiumsteel",
+    "sum_sales": 2826057
+  },
+  {
+    "row_number": 57,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "material",
+    "content_trim": "heattreateds2steel",
+    "sum_sales": 260949
+  },
+  {
+    "row_number": 58,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "material",
+    "content_trim": "high-qualitychromevanadium",
+    "sum_sales": 156215
+  },
+  {
+    "row_number": 59,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "material",
+    "content_trim": "stainlesschrome-vanadiumsteel",
+    "sum_sales": 18516
+  },
+  {
+    "row_number": 60,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "material",
+    "content_trim": "toolsteel",
+    "sum_sales": 857044
+  },
+  {
+    "row_number": 61,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "0.39inches",
+    "sum_sales": 2286099
+  },
+  {
+    "row_number": 62,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "1.1x3.9x11.1inches",
+    "sum_sales": 461071
+  },
+  {
+    "row_number": 63,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "10.2x4x2inches",
+    "sum_sales": 314235
+  },
+  {
+    "row_number": 64,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "10.2x8.2x1.6inches",
+    "sum_sales": 721830
+  },
+  {
+    "row_number": 65,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "10.43x0.87x6.3inches",
+    "sum_sales": 260949
+  },
+  {
+    "row_number": 66,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "10.43x6.14x2.13inches",
+    "sum_sales": 1675909
+  },
+  {
+    "row_number": 67,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "10.6x1x3.9inches",
+    "sum_sales": 18516
+  },
+  {
+    "row_number": 68,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "11.02x4.76x1.81inches",
+    "sum_sales": 98989
+  },
+  {
+    "row_number": 69,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "11.25x6x1.5inches",
+    "sum_sales": 1304602
+  },
+  {
+    "row_number": 70,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "11x5x2inches",
+    "sum_sales": 112593
+  },
+  {
+    "row_number": 71,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "12.99inches",
+    "sum_sales": 479040
+  },
+  {
+    "row_number": 72,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "14.68x2.4x10.79inches",
+    "sum_sales": 156215
+  },
+  {
+    "row_number": 73,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "1x1x1inches",
+    "sum_sales": 656365
+  },
+  {
+    "row_number": 74,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "5.12x3.27x0.59inches",
+    "sum_sales": 496068
+  },
+  {
+    "row_number": 75,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "5.71x3.75x1.19inches",
+    "sum_sales": 245270
+  },
+  {
+    "row_number": 76,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "6.25x0.82x0.51inches",
+    "sum_sales": 657328
+  },
+  {
+    "row_number": 77,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "6.4x2.5x1.7inches",
+    "sum_sales": 711105
+  },
+  {
+    "row_number": 78,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "6x4x1inches",
+    "sum_sales": 532805
+  },
+  {
+    "row_number": 79,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "7.1x2.9x1inches",
+    "sum_sales": 886293
+  },
+  {
+    "row_number": 80,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "7.24x3.23x1.02inches",
+    "sum_sales": 50117
+  },
+  {
+    "row_number": 81,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "7x2.8x1inches",
+    "sum_sales": 150486
+  },
+  {
+    "row_number": 82,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "8.28x4.47x1.68inches",
+    "sum_sales": 2936783
+  },
+  {
+    "row_number": 83,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "8.66x6.97x1.46inches",
+    "sum_sales": 34119
+  },
+  {
+    "row_number": 84,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "8x4x3inches",
+    "sum_sales": 368580
+  },
+  {
+    "row_number": 85,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "9.22x3.47x1.19inches",
+    "sum_sales": 350940
+  },
+  {
+    "row_number": 86,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "9.65x3.75x1.19inches",
+    "sum_sales": 1654891
+  },
+  {
+    "row_number": 87,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "9.76x5.87x1.65inches",
+    "sum_sales": 255981
+  },
+  {
+    "row_number": 88,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "Spec": "size",
+    "content_trim": "9inches",
+    "sum_sales": 1223433
+  }
+]

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import BrandPositionChart from '../charts/BrandPositionChart';
 import PriceRangeChart from '../charts/PriceRangeChart';
 import MonthlySalesChart from '../charts/MonthlySalesChart';
@@ -16,6 +16,8 @@ import customerFeedbackChartData from '../../data/customerFeedbackChartData.json
 import largeSpecificationHeatChartData from '../../data/largeSpecificationHeatChartData.json';
 import smallSpecificationHeatChartData from '../../data/smallSpecificationHeatChartData.json';
 import productSpecTableData from '../../data/productSpecTableData.json';
+import productSpecAnalysis from '../../data/productSpecAnalysis.json';
+import customerFeedbackAnalysis from '../../data/customerFeedbackAnalysis.json';
 
 // 英文字母序列
 const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
@@ -24,6 +26,12 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
   if (!industryAnalysis || !industryAnalysis.sections || industryAnalysis.sections.length === 0) {
     return <div></div>;
   }
+
+  // 處理產品規格表數據
+  const processedProductSpecTableData = productSpecTableData.map(item => ({
+    ...item,
+    Category: productType ? `${productType}(Hex Key Wrench)` : "水煮麵(Stewed Noodles)"
+  }));
 
   // Map chart types to components
   const chartComponents = {
@@ -41,37 +49,67 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
     ),
     MonthlySalesChart: () => (
       <div className="mb-6">
-        <MonthlySalesChart data={monthlySalesChartData} />
+        <MonthlySalesChart />
       </div>
     ),
     CustomerFeedbackChart: () => (
       <div className="mb-6">
+        <h4 className="text-lg font-semibold text-blue-700 mb-2">客戶評論分析</h4>
         <CustomerFeedbackChart data={customerFeedbackChartData} />
-      </div>
-    ),
-    SpecHeatCharts: () => (
-      <div className="grid grid-cols-1 gap-6 mb-6">
-        <div>
-          <h4 className="text-lg font-semibold text-blue-700 mb-2">大規格分析</h4>
-          <LargeSpecificationHeatChart data={largeSpecificationHeatChartData} />
-        </div>
-        <div>
-          <h4 className="text-lg font-semibold text-blue-700 mb-2">小規格分析</h4>
-          <SmallSpecificationHeatChart data={smallSpecificationHeatChartData} />
+        <div className="mt-4 bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
+          <div className="space-y-1">
+            {customerFeedbackAnalysis.analysis.map((item, idx) => (
+              <p key={idx} className="text-gray-700 py-0.5">
+                <span className="font-semibold text-gray-800">{item.title}：</span>
+                {item.content}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     ),
-    ProductSpecTable: () => (
-      <div className="mb-6">
-        <ProductSpecTable data={productSpecTableData} />
-      </div>
-    )
+    SpecHeatCharts: () => {
+      const [selectedSpec, setSelectedSpec] = useState(null);
+      
+      const handleSpecSelect = (spec) => {
+        setSelectedSpec(spec);
+      };
+      
+      return (
+        <div className="grid grid-cols-1 gap-6 mb-6">
+          <div>
+            <h4 className="text-lg font-semibold text-blue-700 mb-2">大規格分析</h4>
+            <LargeSpecificationHeatChart onSpecSelect={handleSpecSelect} />
+          </div>
+          <div>
+            <h4 className="text-lg font-semibold text-blue-700 mb-2">小規格分析</h4>
+            <SmallSpecificationHeatChart selectedSpec={selectedSpec} />
+          </div>
+        </div>
+      );
+    },
+    ProductSpecTable: (section) => {
+      // 檢查是否有足夠的數據來渲染產品規格表
+      if (processedProductSpecTableData.length === 0) {
+        return <div className="mb-6">無產品規格數據可顯示</div>;
+      }
+      // 使用處理過的產品規格表數據
+      return (
+        <div className="mb-6">
+          <ProductSpecTable data={processedProductSpecTableData} />
+        </div>
+      );
+    }
   };
 
   // 渲染圖表
   const renderCharts = (section) => {
     // 單個圖表
     if (section.chartType && chartComponents[section.chartType]) {
+      // 對於 ProductSpecTable，我們需要傳遞 section 參數
+      if (section.chartType === 'ProductSpecTable') {
+        return chartComponents[section.chartType](section);
+      }
       return chartComponents[section.chartType]();
     }
     
@@ -176,24 +214,65 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
     return null;
   };
 
-  // 渲染建議(recommendations)部分
-  const renderRecommendations = (section) => {
-    if (!section.recommendations) return null;
+  // 將相同類別的建議歸納在一起
+  const groupRecommendationsByCategory = (recommendations) => {
+    if (!recommendations || !Array.isArray(recommendations)) return [];
+
+    const grouped = {};
     
+    // 將所有建議按類別分組
+    recommendations.forEach(category => {
+      if (!grouped[category.category]) {
+        grouped[category.category] = [];
+      }
+      
+      // 添加當前類別的所有項目
+      grouped[category.category] = [...grouped[category.category], ...category.items];
+    });
+    
+    // 轉換回數組格式，但現在每個類別只有一個項目包含所有建議
+    return Object.keys(grouped).map(categoryName => ({
+      category: categoryName,
+      items: grouped[categoryName]
+    }));
+  };
+
+  // 將產品規格分析資料按類別分組並排序
+  const renderProductSpecRecommendations = () => {
+    // 檢查產品規格分析資料是否存在
+    if (!productSpecAnalysis || !productSpecAnalysis[0] || !productSpecAnalysis[0].recommendations) {
+      return null;
+    }
+
+    const recommendations = productSpecAnalysis[0].recommendations;
+    
+    // 按類別分組
+    const groupedRecommendations = {};
+    recommendations.forEach(item => {
+      if (!groupedRecommendations[item.category]) {
+        groupedRecommendations[item.category] = [];
+      }
+      groupedRecommendations[item.category].push(...item.items);
+    });
+
     return (
       <div className="mt-3">
         <h5 className="text-md font-semibold text-blue-600 mb-2">每個產品規格列出推薦分析：</h5>
-        <div className="space-y-2">
-          {section.recommendations.map((category, idx) => (
+        <div className="space-y-4">
+          {Object.keys(groupedRecommendations).map((category, idx) => (
             <div key={idx} className="py-0.5">
-              <p className="font-semibold text-blue-700">{category.category}：</p>
-              <div className="ml-4 space-y-1">
-                {category.items.map((item, itemIdx) => (
-                  <p key={itemIdx} className="text-gray-700">
-                    <span className="font-medium text-gray-800">{item.title}：</span>
-                    {item.content}
-                  </p>
-                ))}
+              <p className="font-semibold text-blue-700 mb-2">{category}：</p>
+              <div className="ml-4 space-y-2">
+                {/* 按分數排序，確保排名較好的項目在前面 */}
+                {groupedRecommendations[category]
+                  .sort((a, b) => (a.score_rank || 0) - (b.score_rank || 0))
+                  .map((item, itemIdx) => (
+                    <p key={itemIdx} className="text-gray-700">
+                      <span className="font-medium text-gray-800">{item.title}：</span>
+                      {item.content}
+                    </p>
+                  ))
+                }
               </div>
             </div>
           ))}
@@ -202,8 +281,75 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
     );
   };
 
-  // 渲染整體建議(overallRecommendations)部分
+  // 渲染整體建議
+  const renderProductSpecOverallRecommendations = () => {
+    if (!productSpecAnalysis || !productSpecAnalysis[0] || !productSpecAnalysis[0].overallRecommendations) {
+      return null;
+    }
+
+    const overallRecommendations = productSpecAnalysis[0].overallRecommendations;
+
+    return (
+      <div className="mt-4">
+        <h5 className="text-md font-semibold text-blue-600 mb-2">綜合建議：</h5>
+        <div className="space-y-2">
+          {overallRecommendations.map((rec, idx) => (
+            <p key={idx} className="text-gray-700 py-0.5">
+              <span className="font-semibold text-gray-800">{rec.title}：</span>
+              {rec.content}
+            </p>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  // 判斷是否為產品規格推薦section
+  const isProductSpecSection = (section) => {
+    return section.title === "產品規格推薦" || section.chartType === "ProductSpecTable";
+  };
+
+  // 渲染建議(recommendations)部分 - 不用於產品規格推薦section
+  const renderRecommendations = (section) => {
+    // 如果是產品規格推薦section，跳過這個函數
+    if (isProductSpecSection(section)) return null;
+    
+    if (!section.recommendations) return null;
+    
+    // 對建議進行分組處理
+    const groupedRecommendations = groupRecommendationsByCategory(section.recommendations);
+    
+    return (
+      <div className="mt-3">
+        <h5 className="text-md font-semibold text-blue-600 mb-2">每個產品規格列出推薦分析：</h5>
+        <div className="space-y-3">
+          {groupedRecommendations.map((category, idx) => (
+            <div key={idx} className="py-0.5">
+              <p className="font-semibold text-blue-700 mb-1">{category.category}：</p>
+              <div className="ml-4 space-y-2">
+                {/* 按分數排序，確保排名較好的項目在前面 */}
+                {category.items
+                  .sort((a, b) => (a.score_rank || 0) - (b.score_rank || 0))
+                  .map((item, itemIdx) => (
+                    <p key={itemIdx} className="text-gray-700">
+                      <span className="font-medium text-gray-800">{item.title}：</span>
+                      {item.content}
+                    </p>
+                  ))
+                }
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  // 渲染整體建議(overallRecommendations)部分 - 不用於產品規格推薦section
   const renderOverallRecommendations = (section) => {
+    // 如果是產品規格推薦section，跳過這個函數
+    if (isProductSpecSection(section)) return null;
+    
     if (!section.overallRecommendations) return null;
     
     return (
@@ -245,17 +391,28 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
             {renderCharts(section)}
             
             <div className="bg-blue-50 p-4 rounded-xl border-2 border-blue-200 mb-8">
-              {section.content && (
+              {section.content && !isProductSpecSection(section) && (
                 <div className="text-gray-700 mb-4">
                   {section.content}
                 </div>
               )}
-              {renderAnalysisPoints(section)}
-              {renderSubAnalysis(section)}
-              {renderCombinedRecommendations(section)}
-              {renderRecommendations(section)}
-              {renderOverallRecommendations(section)}
-              {renderSummary(section)}
+              
+              {/* 如果是產品規格推薦section，使用productSpecAnalysis.json的數據 */}
+              {isProductSpecSection(section) ? (
+                <>
+                  {renderProductSpecRecommendations()}
+                  {renderProductSpecOverallRecommendations()}
+                </>
+              ) : (
+                <>
+                  {renderAnalysisPoints(section)}
+                  {renderSubAnalysis(section)}
+                  {renderCombinedRecommendations(section)}
+                  {renderRecommendations(section)}
+                  {renderOverallRecommendations(section)}
+                  {renderSummary(section)}
+                </>
+              )}
             </div>
           </div>
         ))}

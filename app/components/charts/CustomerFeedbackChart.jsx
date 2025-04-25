@@ -1,86 +1,223 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import customerFeedbackData from '../../data/customerFeedbackChartData.json';
 
-const CustomerFeedbackChart = ({ data }) => {
-  if (!data) {
+const CustomerFeedbackChart = ({ data = customerFeedbackData }) => {
+  const chartData = useMemo(() => {
+    if (!data || data.length === 0) {
+      return null;
+    }
+
+    // Group data by opinion items
+    const groupedData = {};
+    data.forEach(item => {
+      const opinion = item.opinion_items;
+      const isPositive = typeof item.result_sortings === 'string' 
+        ? item.result_sortings.includes('positive') || item.result_sortings.includes('1.positive')
+        : false;
+      
+      if (!groupedData[opinion]) {
+        groupedData[opinion] = {
+          category: opinion,
+          positiveCount: 0,
+          negativeCount: 0
+        };
+      }
+      
+      if (isPositive) {
+        groupedData[opinion].positiveCount = item["Count of result"];
+      } else {
+        groupedData[opinion].negativeCount = item["Count of result"];
+      }
+    });
+
+    // Transform to array and sort by total count
+    const opinionsArray = Object.values(groupedData)
+      .map(item => ({
+        ...item,
+        totalCount: item.positiveCount + item.negativeCount
+      }))
+      .sort((a, b) => b.totalCount - a.totalCount);
+
+    // Chart dimensions
+    const chartWidth = 950;
+    const chartHeight = 400;
+    const plotWidth = 800;
+    const plotHeight = 250;
+    const marginLeft = 80;
+    const marginTop = 80;
+    const marginBottom = 100;
+    const barWidth = 40;
+    const barGap = 40;
+
+    // Calculate max count for scaling
+    const maxTotalCount = Math.max(
+      ...opinionsArray.map(item => item.totalCount)
+    );
+    
+    // Scale function for heights
+    const scaleHeight = (value) => (value / maxTotalCount) * plotHeight;
+
+    // Generate bar positions and sizes
+    const categories = opinionsArray.map((item, index) => {
+      const x = marginLeft + 40 + index * (barWidth + barGap);
+      const totalHeight = scaleHeight(item.totalCount);
+      const positiveHeight = scaleHeight(item.positiveCount);
+      const negativeHeight = scaleHeight(item.negativeCount);
+      
+      return {
+        ...item,
+        x: x,
+        barX: x - barWidth/2,
+        width: barWidth,
+        totalHeight,
+        positiveHeight,
+        negativeHeight,
+        positiveY: marginTop + plotHeight - positiveHeight,
+        negativeY: marginTop + plotHeight - totalHeight,
+      };
+    });
+
+    // Generate Y-axis labels
+    const yLabels = [];
+    const steps = 7;
+    const stepSize = Math.ceil(maxTotalCount / steps / 100) * 100;
+
+    for (let i = 0; i <= steps; i++) {
+      const value = i * stepSize;
+      yLabels.push({
+        value: value.toLocaleString(),
+        y: marginTop + plotHeight - (i * stepSize / maxTotalCount) * plotHeight
+      });
+    }
+
+    // Legend settings
+    const legendX = marginLeft + plotWidth;
+    const legendY = marginTop;
+    const legendWidth = 100;
+    const legendHeight = 70;
+
+    return {
+      title: "正負評論數",
+      subtitle: "",
+      yAxisLabels: yLabels,
+      categories,
+      plotLeft: marginLeft,
+      plotTop: marginTop,
+      plotWidth,
+      plotHeight,
+      plotBottom: marginTop + plotHeight,
+      legend: {
+        x: legendX,
+        y: legendY,
+        width: legendWidth,
+        height: legendHeight
+      }
+    };
+  }, [data]);
+
+  if (!chartData) {
     return <div>No customer feedback data available</div>;
   }
 
   return (
-    <svg width="800" height="320" viewBox="0 0 800 320">
-      <text x="400" y="30" textAnchor="middle" fontSize="16" fontWeight="bold">{data.title}</text>
-      <text x="400" y="50" textAnchor="middle" fontSize="12">
-        {data.subtitle.map((item, index) => (
-          <tspan key={`subtitle-${index}`} fill={item.color} dx={index > 0 ? "10" : "0"}>{item.text}</tspan>
-        ))}
-      </text>
+    <svg width="950" height="400" viewBox="0 0 950 400">
+      {/* Chart title */}
+      <text x="475" y="30" textAnchor="middle" fontSize="18" fontWeight="bold">{chartData.title}</text>
       
-      {/* 座標軸與背景 */}
-      <rect x="50" y="70" width="700" height="200" fill="#f8fafc" />
-      <line x1="50" y1="270" x2="750" y2="270" stroke="#333" strokeWidth="2" />
-      <line x1="50" y1="70" x2="50" y2="270" stroke="#333" strokeWidth="2" />
+      {/* X and Y axes */}
+      <line 
+        x1={chartData.plotLeft} 
+        y1={chartData.plotBottom} 
+        x2={chartData.plotLeft + chartData.plotWidth} 
+        y2={chartData.plotBottom} 
+        stroke="#333" 
+        strokeWidth="1" 
+      />
       
-      {/* Y軸標籤 */}
-      {data.yAxisLabels.map((label, index) => (
-        <text 
-          key={`y-label-${index}`} 
-          x="45" 
-          y={label.y} 
-          textAnchor="end" 
-          fontSize="10"
-        >
-          {label.value}
-        </text>
+      {/* Y-axis labels and grid lines */}
+      {chartData.yAxisLabels.map((label, index) => (
+        <React.Fragment key={`y-label-${index}`}>
+          <text 
+            x={chartData.plotLeft - 10} 
+            y={label.y + 4} 
+            textAnchor="end" 
+            fontSize="11"
+          >
+            {label.value}
+          </text>
+          {index > 0 && (
+            <line 
+              x1={chartData.plotLeft} 
+              y1={label.y} 
+              x2={chartData.plotLeft + chartData.plotWidth} 
+              y2={label.y} 
+              stroke="#e5e5e5" 
+              strokeDasharray="3,3" 
+            />
+          )}
+        </React.Fragment>
       ))}
       
-      {/* 特性條形圖 */}
-      {data.feedbackCategories.map((category, index) => (
-        <React.Fragment key={`feedback-${index}`}>
-          {/* 正評 */}
+      {/* Legend */}
+      <text x={chartData.plotLeft + 20} y={chartData.plotTop - 40} fontSize="12" fill="#4CB5AE" fontWeight="bold">• 正評</text>
+      <text x={chartData.plotLeft + 100} y={chartData.plotTop - 40} fontSize="12" fill="#E53E3E" fontWeight="bold">• 負評</text>
+      
+      {/* Bars */}
+      {chartData.categories.map((category, index) => (
+        <React.Fragment key={`category-${index}`}>
+          {/* Positive bar (bottom part) */}
           <rect 
-            x={category.x - category.width/2} 
+            x={category.barX} 
             y={category.positiveY} 
             width={category.width} 
             height={category.positiveHeight} 
-            fill="#38B2AC" 
+            fill="#4CB5AE" 
           />
           
-          {/* 負評 */}
+          {/* Negative bar (top part) */}
           <rect 
-            x={category.x - category.width/2} 
+            x={category.barX} 
             y={category.negativeY} 
             width={category.width} 
             height={category.negativeHeight} 
             fill="#E53E3E" 
           />
           
-          {/* 數據標籤 */}
-          <text 
-            x={category.x} 
-            y={category.negativeTextY} 
-            textAnchor="middle" 
-            fontSize={category.isPrimary ? "11" : "9"} 
-            fill="white"
-          >
-            {category.negativeCount}
-          </text>
+          {/* Bar labels */}
+          {category.positiveHeight > 25 && (
+            <text 
+              x={category.x} 
+              y={category.positiveY + category.positiveHeight/2 + 5} 
+              textAnchor="middle" 
+              fontSize="12" 
+              fill="white" 
+              fontWeight="bold"
+            >
+              {category.positiveCount}
+            </text>
+          )}
           
-          <text 
-            x={category.x} 
-            y={category.positiveTextY} 
-            textAnchor="middle" 
-            fontSize={category.isPrimary ? "12" : "9"} 
-            fill="white"
-          >
-            {category.positiveCount}
-          </text>
+          {category.negativeHeight > 25 && (
+            <text 
+              x={category.x} 
+              y={category.negativeY + category.negativeHeight/2 + 5} 
+              textAnchor="middle" 
+              fontSize="12" 
+              fill="white" 
+              fontWeight="bold"
+            >
+              {category.negativeCount}
+            </text>
+          )}
           
-          {/* 類別名稱 */}
+          {/* Category labels */}
           <text 
             x={category.x} 
-            y="285" 
+            y={chartData.plotBottom + 20} 
             textAnchor="middle" 
             fontSize="11"
+            transform={`rotate(30, ${category.x}, ${chartData.plotBottom + 20})`}
           >
             {category.category}
           </text>
@@ -91,41 +228,7 @@ const CustomerFeedbackChart = ({ data }) => {
 };
 
 CustomerFeedbackChart.propTypes = {
-  data: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    subtitle: PropTypes.arrayOf(
-      PropTypes.shape({
-        text: PropTypes.string.isRequired,
-        color: PropTypes.string.isRequired
-      })
-    ).isRequired,
-    yAxisLabels: PropTypes.arrayOf(
-      PropTypes.shape({
-        value: PropTypes.string.isRequired,
-        y: PropTypes.number.isRequired
-      })
-    ).isRequired,
-    feedbackCategories: PropTypes.arrayOf(
-      PropTypes.shape({
-        category: PropTypes.string.isRequired,
-        x: PropTypes.number.isRequired,
-        positiveCount: PropTypes.number.isRequired,
-        negativeCount: PropTypes.number.isRequired,
-        positiveHeight: PropTypes.number.isRequired,
-        negativeHeight: PropTypes.number.isRequired,
-        positiveY: PropTypes.number.isRequired,
-        negativeY: PropTypes.number.isRequired,
-        positiveTextY: PropTypes.number.isRequired,
-        negativeTextY: PropTypes.number.isRequired,
-        width: PropTypes.number.isRequired,
-        isPrimary: PropTypes.bool.isRequired
-      })
-    ).isRequired
-  })
-};
-
-CustomerFeedbackChart.defaultProps = {
-  data: null
+  data: PropTypes.array
 };
 
 export default CustomerFeedbackChart; 

@@ -1,68 +1,352 @@
-{
-  "title": "月單價與月銷售金額",
-  "subtitle": "•月銷售金額 •平均單價",
-  "yAxisRightLabels": [22, 20, 18, 16, 14],
-  "yAxisLeftLabels": ["6M", "5M", "4M", "3M", "1M", "0M"],
-  "xAxisLabels": [
-    "2021.11", "2022.03", "2022.07", "2022.11", 
-    "2023.03", "2023.07", "2023.11", "2024.08"
-  ],
-  "unitLabel": "單位：萬元",
-  "monthlySales": [
-    { "month": "2021.11", "value": 454329, "barHeight": 25, "barY": 225 },
-    { "month": "2021.12", "value": 550000, "barHeight": 30, "barY": 220 },
-    { "month": "2022.01", "value": 922486, "barHeight": 50, "barY": 200 },
-    { "month": "2022.02", "value": 368241, "barHeight": 20, "barY": 230 },
-    { "month": "2022.03", "value": 362195, "barHeight": 20, "barY": 230 },
-    { "month": "2022.04", "value": 635481, "barHeight": 35, "barY": 215 },
-    { "month": "2022.05", "value": 922486, "barHeight": 50, "barY": 200 },
-    { "month": "2022.06", "value": 1043484, "barHeight": 60, "barY": 190 },
-    { "month": "2022.07", "value": 1128641, "barHeight": 65, "barY": 185 },
-    { "month": "2022.08", "value": 1394870, "barHeight": 80, "barY": 170 },
-    { "month": "2022.09", "value": 726834, "barHeight": 40, "barY": 210 },
-    { "month": "2022.10", "value": 726834, "barHeight": 40, "barY": 210 },
-    { "month": "2022.11", "value": 990932, "barHeight": 55, "barY": 195 },
-    { "month": "2022.12", "value": 2177691, "barHeight": 110, "barY": 140 },
-    { "month": "2023.01", "value": 2177691, "barHeight": 110, "barY": 140 },
-    { "month": "2023.02", "value": 1268380, "barHeight": 70, "barY": 180 },
-    { "month": "2023.03", "value": 1171153, "barHeight": 65, "barY": 185 },
-    { "month": "2023.04", "value": 1268380, "barHeight": 70, "barY": 180 },
-    { "month": "2023.05", "value": 1359725, "barHeight": 75, "barY": 175 },
-    { "month": "2023.06", "value": 1798294, "barHeight": 100, "barY": 150 },
-    { "month": "2023.07", "value": 4796956, "barHeight": 160, "barY": 90 },
-    { "month": "2023.08", "value": 3651348, "barHeight": 135, "barY": 115 },
-    { "month": "2023.09", "value": 3126873, "barHeight": 115, "barY": 135 },
-    { "month": "2023.10", "value": 3379328, "barHeight": 125, "barY": 125 },
-    { "month": "2023.11", "value": 5870334, "barHeight": 180, "barY": 70 },
-    { "month": "2023.12", "value": 4196375, "barHeight": 155, "barY": 95 },
-    { "month": "2024.01", "value": 5269297, "barHeight": 170, "barY": 80 },
-    { "month": "2024.02", "value": 3921197, "barHeight": 145, "barY": 105 },
-    { "month": "2024.03", "value": 4177684, "barHeight": 155, "barY": 95 },
-    { "month": "2024.04", "value": 3108182, "barHeight": 115, "barY": 135 },
-    { "month": "2024.05", "value": 2844765, "barHeight": 105, "barY": 145 },
-    { "month": "2024.06", "value": 1089950, "barHeight": 60, "barY": 190 },
-    { "month": "2024.07", "value": 961757, "barHeight": 55, "barY": 195 }
-  ],
-  "displayedSalesValues": [
-    { "month": "2021.11", "value": "454,329", "x": 67, "y": 215 },
-    { "month": "2022.06", "value": "1,043,484", "x": 200, "y": 180 },
-    { "month": "2022.12", "value": "2,177,691", "x": 320, "y": 130 },
-    { "month": "2023.07", "value": "4,796,956", "x": 460, "y": 80 },
-    { "month": "2023.11", "value": "5,870,334", "x": 540, "y": 60 },
-    { "month": "2024.01", "value": "5,269,297", "x": 580, "y": 70 },
-    { "month": "2024.07", "value": "961,757", "x": 700, "y": 185 }
-  ],
-  "averagePricePoints": [
-    { "month": "2021.11", "value": 17, "x": 67, "y": 150 },
-    { "month": "2022.01", "value": 16, "x": 107, "y": 170 },
-    { "month": "2022.04", "value": 17, "x": 167, "y": 150 },
-    { "month": "2022.07", "value": 17, "x": 227, "y": 150 },
-    { "month": "2022.09", "value": 19, "x": 267, "y": 110 },
-    { "month": "2022.12", "value": 20, "x": 327, "y": 90 },
-    { "month": "2023.05", "value": 19, "x": 427, "y": 110 },
-    { "month": "2023.10", "value": 19, "x": 527, "y": 110 },
-    { "month": "2024.03", "value": 19, "x": 627, "y": 110 },
-    { "month": "2024.07", "value": 17, "x": 687, "y": 150 }
-  ],
-  "averagePricePathData": "M67,150 L87,150 L107,170 L127,170 L147,170 L167,150 L187,150 L207,150 L227,150 L247,130 L267,110 L287,110 L307,110 L327,90 L347,90 L367,90 L387,90 L407,90 L427,110 L447,110 L467,110 L487,110 L507,110 L527,110 L547,110 L567,110 L587,110 L607,110 L627,110 L647,110 L667,150 L687,150"
-} 
+[
+  {
+    "row_number": 2,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2021/2/1",
+    "月銷售金額": 20971,
+    "Average of Price": 18.12
+  },
+  {
+    "row_number": 3,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2021/3/1",
+    "月銷售金額": 58111,
+    "Average of Price": 17.66
+  },
+  {
+    "row_number": 4,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2021/4/1",
+    "月銷售金額": 68870,
+    "Average of Price": 14.34
+  },
+  {
+    "row_number": 5,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2021/5/1",
+    "月銷售金額": 268275,
+    "Average of Price": 15.3
+  },
+  {
+    "row_number": 6,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2021/6/1",
+    "月銷售金額": 194543,
+    "Average of Price": 13.73
+  },
+  {
+    "row_number": 7,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2021/7/1",
+    "月銷售金額": 197689,
+    "Average of Price": 14.09
+  },
+  {
+    "row_number": 8,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2021/8/1",
+    "月銷售金額": 290086,
+    "Average of Price": 14.99
+  },
+  {
+    "row_number": 9,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2021/9/1",
+    "月銷售金額": 285596,
+    "Average of Price": 15.23
+  },
+  {
+    "row_number": 10,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2021/10/1",
+    "月銷售金額": 107642,
+    "Average of Price": 14.7
+  },
+  {
+    "row_number": 11,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2021/11/1",
+    "月銷售金額": 130817,
+    "Average of Price": 15.33
+  },
+  {
+    "row_number": 12,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2021/12/1",
+    "月銷售金額": 163256,
+    "Average of Price": 16.75
+  },
+  {
+    "row_number": 13,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2022/1/1",
+    "月銷售金額": 439042,
+    "Average of Price": 15.43
+  },
+  {
+    "row_number": 14,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2022/2/1",
+    "月銷售金額": 198273,
+    "Average of Price": 15.97
+  },
+  {
+    "row_number": 15,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2022/3/1",
+    "月銷售金額": 168386,
+    "Average of Price": 16.29
+  },
+  {
+    "row_number": 16,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2022/4/1",
+    "月銷售金額": 418364,
+    "Average of Price": 15.57
+  },
+  {
+    "row_number": 17,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2022/5/1",
+    "月銷售金額": 232419,
+    "Average of Price": 16.18
+  },
+  {
+    "row_number": 18,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2022/6/1",
+    "月銷售金額": 110011,
+    "Average of Price": 15.44
+  },
+  {
+    "row_number": 19,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2022/7/1",
+    "月銷售金額": 304476,
+    "Average of Price": 22.15
+  },
+  {
+    "row_number": 20,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2022/8/1",
+    "月銷售金額": 347752,
+    "Average of Price": 21.64
+  },
+  {
+    "row_number": 21,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2022/9/1",
+    "月銷售金額": 366866,
+    "Average of Price": 23.03
+  },
+  {
+    "row_number": 22,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2022/10/1",
+    "月銷售金額": 317104,
+    "Average of Price": 22.69
+  },
+  {
+    "row_number": 23,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2022/11/1",
+    "月銷售金額": 347511,
+    "Average of Price": 21.68
+  },
+  {
+    "row_number": 24,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2022/12/1",
+    "月銷售金額": 358619,
+    "Average of Price": 25.42
+  },
+  {
+    "row_number": 25,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2023/1/1",
+    "月銷售金額": 87079,
+    "Average of Price": 27.65
+  },
+  {
+    "row_number": 26,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2023/2/1",
+    "月銷售金額": 318880,
+    "Average of Price": 25.72
+  },
+  {
+    "row_number": 27,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2023/3/1",
+    "月銷售金額": 1007268,
+    "Average of Price": 26.75
+  },
+  {
+    "row_number": 28,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2023/4/1",
+    "月銷售金額": 731947,
+    "Average of Price": 26.65
+  },
+  {
+    "row_number": 29,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2023/5/1",
+    "月銷售金額": 1200344,
+    "Average of Price": 26.1
+  },
+  {
+    "row_number": 30,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2023/6/1",
+    "月銷售金額": 791105,
+    "Average of Price": 25.79
+  },
+  {
+    "row_number": 31,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2023/7/1",
+    "月銷售金額": 589009,
+    "Average of Price": 25.74
+  },
+  {
+    "row_number": 32,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2023/8/1",
+    "月銷售金額": 716533,
+    "Average of Price": 25.68
+  },
+  {
+    "row_number": 33,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2023/9/1",
+    "月銷售金額": 583012,
+    "Average of Price": 26.12
+  },
+  {
+    "row_number": 34,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2023/10/1",
+    "月銷售金額": 478008,
+    "Average of Price": 26.15
+  },
+  {
+    "row_number": 35,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2023/11/1",
+    "月銷售金額": 484446,
+    "Average of Price": 25.74
+  },
+  {
+    "row_number": 36,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2023/12/1",
+    "月銷售金額": 677902,
+    "Average of Price": 25.44
+  },
+  {
+    "row_number": 37,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2024/1/1",
+    "月銷售金額": 558939,
+    "Average of Price": 25.44
+  },
+  {
+    "row_number": 38,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2024/2/1",
+    "月銷售金額": 557166,
+    "Average of Price": 25.44
+  },
+  {
+    "row_number": 39,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2024/3/1",
+    "月銷售金額": 518299,
+    "Average of Price": 25
+  },
+  {
+    "row_number": 40,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2024/4/1",
+    "月銷售金額": 523607,
+    "Average of Price": 24.99
+  },
+  {
+    "row_number": 41,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2024/5/1",
+    "月銷售金額": 495018,
+    "Average of Price": 25.43
+  },
+  {
+    "row_number": 42,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2024/6/1",
+    "月銷售金額": 375289,
+    "Average of Price": 25.79
+  },
+  {
+    "row_number": 43,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2024/7/1",
+    "月銷售金額": 445300,
+    "Average of Price": 25.86
+  },
+  {
+    "row_number": 44,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2024/8/1",
+    "月銷售金額": 477998,
+    "Average of Price": 25.97
+  },
+  {
+    "row_number": 45,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2024/9/1",
+    "月銷售金額": 484672,
+    "Average of Price": 25.1
+  },
+  {
+    "row_number": 46,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2024/10/1",
+    "月銷售金額": 489513,
+    "Average of Price": 25.02
+  },
+  {
+    "row_number": 47,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2024/11/1",
+    "月銷售金額": 421874,
+    "Average of Price": 24.76
+  },
+  {
+    "row_number": 48,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2024/12/1",
+    "月銷售金額": 467277,
+    "Average of Price": 25.26
+  },
+  {
+    "row_number": 49,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2025/1/1",
+    "月銷售金額": 475607,
+    "Average of Price": 25.44
+  },
+  {
+    "row_number": 50,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2025/2/1",
+    "月銷售金額": 288060,
+    "Average of Price": 27.18
+  },
+  {
+    "row_number": 51,
+    "Category": "六角扳手(Hex Key Wrench)",
+    "DataDateS_bar": "2025/3/1",
+    "月銷售金額": 318825,
+    "Average of Price": 26.37
+  }
+] 

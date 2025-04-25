@@ -2,213 +2,336 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ProductSpecTable = ({ data }) => {
-  if (!data) {
+  if (!data || !Array.isArray(data) || data.length === 0) {
     return <div>No product specification data available</div>;
   }
 
-  const renderCategoryRow = (category, index, totalCategories) => {
-    const itemCount = category.items.length;
-    const rowHeight = itemCount * 18;
-    const yStart = 90 + (index === 0 ? 0 : 
-                    Array.from({length: index}, (_, i) => 
-                      data.categories[i].items.length * 18).reduce((a, b) => a + b, 0));
+  // 從數據中提取產品類別（Category）
+  const category = data[0]?.Category || "產品規格推薦表";
+  
+  // 將數據按照產品規格分組
+  const groupedData = data.reduce((acc, item) => {
+    if (!acc[item.產品規格]) {
+      acc[item.產品規格] = [];
+    }
+    acc[item.產品規格].push(item);
+    return acc;
+  }, {});
+  
+  // 轉換為類別數組格式，自動排序從1開始
+  const categories = Object.keys(groupedData).map(specName => {
+    // 先根據原始排名對項目進行排序
+    const sortedItems = [...groupedData[specName]].sort((a, b) => {
+      return (a.score_rank || 0) - (b.score_rank || 0);
+    });
     
-    // 每行的背景
-    const elements = [];
+    return {
+      name: specName,
+      items: sortedItems.map((item, idx) => ({
+        name: String(item.產品規格細項),
+        rank: idx + 1
+      }))
+    };
+  });
+  
+  const title = `${category} - 產品規格推薦表`;
+  
+  // 計算表格尺寸和位置 - 更緊密的設計
+  const tableWidth = 700;
+  const tableHeight = 36; // 進一步減小表頭高度
+  const cellPadding = 6; // 減小單元格內邊距
+  const rowHeight = 22; // 進一步減小行高
+  
+  // 列寬度配置
+  const colWidths = [200, 350, 150];
+  const colStarts = [0]; // 起始X座標
+  colWidths.forEach((w, i) => {
+    colStarts.push(colStarts[i] + w);
+  });
+  
+  // 顏色配置
+  const colors = {
+    header: "#38B2AC",
+    headerText: "#ffffff",
+    border: "#4A5568",
+    categoryBg: "#E6FFFA",
+    contentBg: "#ffffff",
+    rowBorder: "#CBD5E0",
+    rankColors: ["#3182CE", "#38A169", "#DD6B20", "#805AD5", "#3182CE"]
+  };
+  
+  // 渲染表格
+  const renderTable = () => {
+    let elements = [];
+    let currentY = 45; // 減小標題與表格間的間距
     
-    // 類別名稱背景
+    // 外框
     elements.push(
       <rect 
-        key={`cat-bg-${index}`} 
+        key="table-border" 
         x="50" 
-        y={yStart} 
-        width="200" 
-        height={rowHeight} 
-        fill="#E6FFFA" 
-        stroke="#4A5568" 
-        strokeWidth="1" 
+        y={currentY} 
+        width={tableWidth} 
+        height={tableHeight + categories.reduce((h, cat) => h + cat.items.length * rowHeight, 0)} 
+        fill="transparent"
+        stroke={colors.border} 
+        strokeWidth="2" 
       />
     );
     
-    // 項目細節背景
+    // 表頭
     elements.push(
       <rect 
-        key={`item-bg-${index}`} 
-        x="250" 
-        y={yStart} 
-        width="350" 
-        height={rowHeight} 
-        fill="#ffffff" 
-        stroke="#4A5568" 
-        strokeWidth="1" 
+        key="header-bg" 
+        x="50" 
+        y={currentY} 
+        width={tableWidth} 
+        height={tableHeight} 
+        fill={colors.header} 
       />
     );
     
-    // 排名背景
+    // 表頭分隔線
     elements.push(
-      <rect 
-        key={`rank-bg-${index}`} 
-        x="600" 
-        y={yStart} 
-        width="150" 
-        height={rowHeight} 
-        fill="#ffffff" 
-        stroke="#4A5568" 
-        strokeWidth="1" 
+      <line 
+        key="header-separator" 
+        x1="50" 
+        y1={currentY + tableHeight} 
+        x2="750" 
+        y2={currentY + tableHeight} 
+        stroke={colors.border} 
+        strokeWidth="2" 
       />
     );
     
-    // 類別標題
-    elements.push(
-      <text 
-        key={`cat-title-${index}`} 
-        x="150" 
-        y={yStart + rowHeight/2} 
-        textAnchor="middle" 
-        fontSize="13"
-      >
-        {category.name}
-      </text>
-    );
-    
-    // 項目分隔線和內容
-    category.items.forEach((item, itemIndex) => {
-      const itemY = yStart + (itemIndex + 0.5) * (rowHeight / itemCount);
-      
-      if (itemIndex > 0) {
+    // 主要垂直分隔線 (直到表格底部的線)
+    colStarts.forEach((x, i) => {
+      if (i > 0) { // 跳過第一個起始點(0)
+        const isRightBorder = i === colStarts.length - 1;
         elements.push(
           <line 
-            key={`item-line-${index}-${itemIndex}`} 
-            x1="250" 
-            y1={yStart + itemIndex * (rowHeight / itemCount)} 
-            x2="600" 
-            y2={yStart + itemIndex * (rowHeight / itemCount)} 
-            stroke="#CBD5E0" 
-            strokeWidth="1" 
-          />
-        );
-        
-        elements.push(
-          <line 
-            key={`rank-line-${index}-${itemIndex}`} 
-            x1="600" 
-            y1={yStart + itemIndex * (rowHeight / itemCount)} 
-            x2="750" 
-            y2={yStart + itemIndex * (rowHeight / itemCount)} 
-            stroke="#CBD5E0" 
-            strokeWidth="1" 
+            key={`vertical-line-${i}`} 
+            x1={x + 50} 
+            y1={currentY} 
+            x2={x + 50} 
+            y2={currentY + tableHeight + categories.reduce((h, cat) => h + cat.items.length * rowHeight, 0)} 
+            stroke={colors.border} 
+            strokeWidth="2" 
           />
         );
       }
-      
-      // 項目名稱
+    });
+    
+    // 表頭文字
+    const headerTitles = ["產品規格", "產品規格細項", "推薦序"];
+    headerTitles.forEach((title, i) => {
+      const centerX = 50 + colStarts[i] + colWidths[i] / 2;
       elements.push(
         <text 
-          key={`item-text-${index}-${itemIndex}`} 
-          x="270" 
-          y={itemY + 4} 
-          textAnchor="start" 
-          fontSize={item.name.length > 15 ? "11" : "12"}
-        >
-          {item.name}
-        </text>
-      );
-      
-      // 排名圓圈
-      elements.push(
-        <circle 
-          key={`rank-circle-${index}-${itemIndex}`} 
-          cx="675" 
-          cy={itemY} 
-          r="12" 
-          fill="#38B2AC" 
-        />
-      );
-      
-      // 排名數字
-      elements.push(
-        <text 
-          key={`rank-text-${index}-${itemIndex}`} 
-          x="675" 
-          y={itemY + 4} 
+          key={`header-text-${i}`} 
+          x={centerX} 
+          y={currentY + tableHeight/2 + 5}
           textAnchor="middle" 
-          fontSize="12" 
-          fill="white" 
+          fontSize="13"
           fontWeight="bold"
+          fill={colors.headerText}
         >
-          {item.rank}
+          {title}
         </text>
       );
     });
     
-    // 底線
-    if (index < totalCategories - 1) {
+    // 起始內容位置
+    currentY += tableHeight;
+    
+    // 渲染類別和項目
+    categories.forEach((category, catIndex) => {
+      const categoryStartY = currentY;
+      const categoryHeight = category.items.length * rowHeight;
+      
+      // 類別背景
+      elements.push(
+        <rect 
+          key={`category-bg-${catIndex}`} 
+          x="50" 
+          y={categoryStartY} 
+          width={colWidths[0]} 
+          height={categoryHeight} 
+          fill={colors.categoryBg} 
+        />
+      );
+      
+      // 類別名稱 - 增大字體
+      elements.push(
+        <text 
+          key={`category-name-${catIndex}`} 
+          x={50 + colWidths[0]/2} 
+          y={categoryStartY + categoryHeight/2 + 4}
+          textAnchor="middle" 
+          fontSize="13" // 增大字體
+          fontWeight="medium"
+        >
+          {category.name}
+        </text>
+      );
+      
+      // 項目區域背景
+      elements.push(
+        <rect 
+          key={`items-bg-${catIndex}`} 
+          x={50 + colWidths[0]} 
+          y={categoryStartY} 
+          width={colWidths[1] + colWidths[2]} 
+          height={categoryHeight} 
+          fill={colors.contentBg} 
+        />
+      );
+      
+      // 產品規格細項和推薦序之間的垂直分隔線 (僅針對此類別的項目)
       elements.push(
         <line 
-          key={`bottom-line-${index}`} 
-          x1="50" 
-          y1={yStart + rowHeight} 
-          x2="750" 
-          y2={yStart + rowHeight} 
-          stroke="#4A5568" 
+          key={`item-vertical-line-${catIndex}`} 
+          x1={50 + colWidths[0] + colWidths[1]} 
+          y1={categoryStartY} 
+          x2={50 + colWidths[0] + colWidths[1]} 
+          y2={categoryStartY + categoryHeight} 
+          stroke={colors.border} 
           strokeWidth="1" 
         />
       );
-    }
+      
+      // 渲染每個項目
+      category.items.forEach((item, itemIndex) => {
+        const itemY = categoryStartY + itemIndex * rowHeight;
+        
+        // 項目分隔線
+        if (itemIndex > 0) {
+          elements.push(
+            <line 
+              key={`item-separator-${catIndex}-${itemIndex}`} 
+              x1={50 + colWidths[0]} 
+              y1={itemY} 
+              x2="750" 
+              y2={itemY} 
+              stroke={colors.rowBorder} 
+              strokeWidth="1" 
+            />
+          );
+        }
+        
+        // 項目名稱 - 字體大小調整
+        elements.push(
+          <text 
+            key={`item-name-${catIndex}-${itemIndex}`} 
+            x={50 + colWidths[0] + cellPadding} 
+            y={itemY + rowHeight/2 + 4}
+            textAnchor="start" 
+            fontSize={item.name.length > 15 ? "11" : "12"} // 增大字體
+          >
+            {item.name}
+          </text>
+        );
+        
+        // 推薦序號
+        const rankColor = colors.rankColors[Math.min(item.rank - 1, colors.rankColors.length - 1)];
+        const rankCenterX = 50 + colWidths[0] + colWidths[1] + colWidths[2]/2;
+        const rankCenterY = itemY + rowHeight/2;
+        
+        // 推薦序號標誌 - 更小的方形設計
+        elements.push(
+          <g key={`rank-badge-${catIndex}-${itemIndex}`}>
+            <rect 
+              x={rankCenterX - 10}
+              y={rankCenterY - 10}
+              width="20"
+              height="20"
+              rx="3"
+              fill={rankColor} 
+            />
+            <text 
+              x={rankCenterX} 
+              y={rankCenterY + 4}
+              textAnchor="middle" 
+              fontSize="11"
+              fontWeight="bold"
+              fill="white"
+            >
+              {item.rank}
+            </text>
+          </g>
+        );
+      });
+      
+      // 更新Y座標
+      currentY += categoryHeight;
+      
+      // 類別底部分隔線
+      if (catIndex < categories.length - 1) {
+        elements.push(
+          <line 
+            key={`category-separator-${catIndex}`} 
+            x1="50" 
+            y1={currentY} 
+            x2="750" 
+            y2={currentY} 
+            stroke={colors.border} 
+            strokeWidth="1" 
+          />
+        );
+      }
+    });
     
     return elements;
   };
   
   // 計算總高度
-  const totalItemHeight = data.categories.reduce((total, category) => 
-    total + category.items.length * 18, 0);
-  const svgHeight = 140 + totalItemHeight; // 標題、表頭和外框的額外空間
+  const totalRowsHeight = categories.reduce((total, category) => 
+    total + category.items.length * rowHeight, 0);
+  const svgHeight = 70 + tableHeight + totalRowsHeight; // 進一步減小標題空間
   
   return (
     <svg width="800" height={svgHeight} viewBox={`0 0 800 ${svgHeight}`}>
-      <text x="400" y="30" textAnchor="middle" fontSize="16" fontWeight="bold">{data.title}</text>
+      {/* 標題 */}
+      <text x="400" y="24" textAnchor="middle" fontSize="15" fontWeight="bold">{title}</text>
       
-      {/* 表格外框與標頭 */}
-      <rect x="50" y="50" width="700" height={90 + totalItemHeight} fill="#f8fafc" stroke="#4A5568" strokeWidth="2" />
-      
-      {/* 表頭 */}
-      <rect x="50" y="50" width="200" height="40" fill="#38B2AC" />
-      <rect x="250" y="50" width="350" height="40" fill="#38B2AC" />
-      <rect x="600" y="50" width="150" height="40" fill="#38B2AC" />
-      <line x1="50" y1="90" x2="750" y2="90" stroke="#4A5568" strokeWidth="2" />
-      <line x1="250" y1="50" x2="250" y2={90 + totalItemHeight} stroke="#4A5568" strokeWidth="2" />
-      <line x1="600" y1="50" x2="600" y2={90 + totalItemHeight} stroke="#4A5568" strokeWidth="2" />
-      <text x="150" y="75" textAnchor="middle" fontSize="14" fill="white">產品規格</text>
-      <text x="425" y="75" textAnchor="middle" fontSize="14" fill="white">產品規格細項</text>
-      <text x="675" y="75" textAnchor="middle" fontSize="14" fill="white">推薦序</text>
-      
-      {/* 動態渲染每個類別行 */}
-      {data.categories.map((category, index) => 
-        renderCategoryRow(category, index, data.categories.length)
-      )}
-  </svg>
-);
+      {/* 渲染表格 */}
+      {renderTable()}
+    </svg>
+  );
 };
 
 ProductSpecTable.propTypes = {
-  data: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    categories: PropTypes.arrayOf(
+  data: PropTypes.oneOfType([
+    // 舊格式
+    PropTypes.shape({
+      title: PropTypes.string,
+      categories: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string.isRequired,
+          items: PropTypes.arrayOf(
+            PropTypes.shape({
+              name: PropTypes.string.isRequired,
+              rank: PropTypes.number.isRequired
+            })
+          ).isRequired
+        })
+      )
+    }),
+    // 新格式 - 扁平數組
+    PropTypes.arrayOf(
       PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        items: PropTypes.arrayOf(
-          PropTypes.shape({
-            name: PropTypes.string.isRequired,
-            rank: PropTypes.number.isRequired
-          })
-        ).isRequired
+        row_number: PropTypes.number,
+        Category: PropTypes.string,
+        產品規格: PropTypes.string.isRequired,
+        產品規格細項: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+        score_rank: PropTypes.number.isRequired
       })
-    ).isRequired
-  })
+    )
+  ])
 };
 
 ProductSpecTable.defaultProps = {
-  data: null
+  data: []
 };
 
-export default ProductSpecTable; 
+export default ProductSpecTable;
