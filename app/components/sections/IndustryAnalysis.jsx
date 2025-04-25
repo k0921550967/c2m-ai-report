@@ -15,6 +15,7 @@ import monthlySalesChartData from '../../data/monthlySalesChartData.json';
 import customerFeedbackChartData from '../../data/customerFeedbackChartData.json';
 import largeSpecificationHeatChartData from '../../data/largeSpecificationHeatChartData.json';
 import smallSpecificationHeatChartData from '../../data/smallSpecificationHeatChartData.json';
+import productSpecTableData from '../../data/productSpecTableData.json';
 
 // 英文字母序列
 const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
@@ -62,7 +63,7 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
     ),
     ProductSpecTable: () => (
       <div className="mb-6">
-        <ProductSpecTable />
+        <ProductSpecTable data={productSpecTableData} />
       </div>
     )
   };
@@ -104,11 +105,13 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
     if (section.conclusions) {
       return (
         <div>
-          <h5 className="text-md font-semibold text-blue-600 mb-2">以下總結：</h5>
+          <h5 className="text-md font-semibold text-blue-600 mb-2">
+            {section.title === "價格 & 品牌定位分析" ? "品牌定位與價格區間分析：" : "以下總結："}
+          </h5>
           <div className="space-y-1">
             {section.conclusions.map((conclusion, idx) => (
               <p key={idx} className="text-gray-700 py-0.5">
-                <span className="font-semibold text-blue-700">{conclusion.title}：</span>
+                <span className="font-semibold text-gray-800">{conclusion.title}：</span>
                 {conclusion.content}
               </p>
             ))}
@@ -118,11 +121,11 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
     } else if (section.analysis) {
       return (
         <div>
-          <h5 className="text-md font-semibold text-blue-600 mb-2">{section.title}：</h5>
+          <h5 className="text-md font-semibold text-blue-600 mb-2">{section.title === "規格熱度分析" ? "產品規格熱度分析：" : section.title + "："}</h5>
           <div className="space-y-1">
             {section.analysis.map((item, idx) => (
               <p key={idx} className="text-gray-700 py-0.5">
-                <span className="font-semibold text-blue-700">{item.title}：</span>
+                <span className="font-semibold text-gray-800">{item.title}：</span>
                 {item.content}
               </p>
             ))}
@@ -135,14 +138,34 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
 
   // 渲染細分分析(專門用於過敏原細分分析等子分析)
   const renderSubAnalysis = (section) => {
-    if (section.title === "規格熱度分析" && section.subAnalysis) {
+    if (section.subAnalysis && section.subAnalysis.length > 0) {
       return (
         <div className="mt-3">
           <h5 className="text-md font-semibold text-blue-600 mb-2">過敏原細分分析：</h5>
           <div className="space-y-1">
             {section.subAnalysis.map((item, idx) => (
               <p key={idx} className="text-gray-700 py-0.5">
-                <span className="font-semibold text-blue-700">{item.title}：</span>
+                <span className="font-semibold text-gray-800">{item.title}：</span>
+                {item.content}
+              </p>
+            ))}
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  // 渲染綜合建議(combinedRecommendations)部分
+  const renderCombinedRecommendations = (section) => {
+    if (section.combinedRecommendations && section.combinedRecommendations.length > 0) {
+      return (
+        <div className="mt-3">
+          <h5 className="text-md font-semibold text-blue-600 mb-2">綜合分析與建議：</h5>
+          <div className="space-y-1">
+            {section.combinedRecommendations.map((item, idx) => (
+              <p key={idx} className="text-gray-700 py-0.5">
+                <span className="font-semibold text-gray-800">{item.title}：</span>
                 {item.content}
               </p>
             ))}
@@ -167,7 +190,7 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
               <div className="ml-4 space-y-1">
                 {category.items.map((item, itemIdx) => (
                   <p key={itemIdx} className="text-gray-700">
-                    <span className="font-medium text-blue-600">{item.title}：</span>
+                    <span className="font-medium text-gray-800">{item.title}：</span>
                     {item.content}
                   </p>
                 ))}
@@ -189,7 +212,7 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
         <div className="space-y-1">
           {section.overallRecommendations.map((rec, idx) => (
             <p key={idx} className="text-gray-700 py-0.5">
-              <span className="font-semibold text-blue-700">{rec.title}：</span>
+              <span className="font-semibold text-gray-800">{rec.title}：</span>
               {rec.content}
             </p>
           ))}
@@ -229,6 +252,7 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
               )}
               {renderAnalysisPoints(section)}
               {renderSubAnalysis(section)}
+              {renderCombinedRecommendations(section)}
               {renderRecommendations(section)}
               {renderOverallRecommendations(section)}
               {renderSummary(section)}

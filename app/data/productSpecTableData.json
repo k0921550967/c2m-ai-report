@@ -1,0 +1,44 @@
+{
+  "title": "水煮麵 - 產品規格推薦表",
+  "categories": [
+    {
+      "name": "過敏原 (allergen)",
+      "items": [
+        { "name": "soybean", "rank": 1 },
+        { "name": "tapioca", "rank": 2 },
+        { "name": "wheatgluten", "rank": 3 }
+      ]
+    },
+    {
+      "name": "口味 (flavor)",
+      "items": [
+        { "name": "gourmetspicy", "rank": 1 },
+        { "name": "hotchicken", "rank": 2 },
+        { "name": "firehotcheeseflaveredchicken", "rank": 3 }
+      ]
+    },
+    {
+      "name": "麵條 (noodles)",
+      "items": [
+        { "name": "麵條", "rank": 1 },
+        { "name": "boil/microwave", "rank": 2 },
+        { "name": "boil", "rank": 3 }
+      ]
+    },
+    {
+      "name": "包裝 (package info)",
+      "items": [
+        { "name": "110g", "rank": 1 },
+        { "name": "125g", "rank": 2 },
+        { "name": "112g", "rank": 3 }
+      ]
+    },
+    {
+      "name": "重量 (weight)",
+      "items": [
+        { "name": "4800g", "rank": 1 },
+        { "name": "550g", "rank": 2 }
+      ]
+    }
+  ]
+} 

@@ -123,7 +123,7 @@ const PrintableReport = ({ data }) => {
           <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
         </header>
         
-        <IndustryAnalysis industryAnalysis={industryAnalysis} productType="水煮麵" />
+        <IndustryAnalysis industryAnalysis={industryAnalysis} productType={companyInfo.aiReportCategory ? companyInfo.aiReportCategory.split('(')[0] : '水煮麵'} />
       </div>
       
       {/* 五、數位轉型建議 */}

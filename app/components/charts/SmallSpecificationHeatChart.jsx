@@ -7,8 +7,8 @@ const SmallSpecificationHeatChart = ({ data }) => {
   }
 
   return (
-    <svg width="800" height="300" viewBox="0 0 800 300">
-      {/* 座標軸和標題 */}
+  <svg width="800" height="300" viewBox="0 0 800 300">
+    {/* 座標軸和標題 */}
       <text x="400" y="30" textAnchor="middle" fontSize="16" fontWeight="bold">{data.title}</text>
       
       {/* 熱圖格式 */}
@@ -48,12 +48,12 @@ const SmallSpecificationHeatChart = ({ data }) => {
           </text>
         </React.Fragment>
       ))}
-      
-      {/* 圖例 */}
-      <rect x="50" y="260" width="700" height="30" fill="#f5f5f5" />
+    
+    {/* 圖例 */}
+    <rect x="50" y="260" width="700" height="30" fill="#f5f5f5" />
       <text x="400" y="280" textAnchor="middle" fontSize="14">{data.subtitle}</text>
-    </svg>
-  );
+  </svg>
+);
 };
 
 SmallSpecificationHeatChart.propTypes = {

@@ -1,4 +1,3 @@
-
   {
     "uid": "9356c4f720c0f7ab-LAX-PostmanRuntime/7.43.3",
     "companyInfo": {
@@ -21,6 +20,7 @@
       "companyLocation": "台中",
       "mainProducts": "精密金屬零件/汽車零組件/航太零件",
       "businessType": "兩者相近",
-      "companyDescription": "鑫泰精密科技成立於2005年，專注於高精度金屬零件製造，為汽車與航太產業提供關鍵零組件"
+      "companyDescription": "鑫泰精密科技成立於2005年，專注於高精度金屬零件製造，為汽車與航太產業提供關鍵零組件",
+      "aiReportCategory": "六角扳手(Hex Key Wrench)"
     }
   }
