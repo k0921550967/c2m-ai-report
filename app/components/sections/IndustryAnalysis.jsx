@@ -60,7 +60,7 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
           <div className="space-y-1">
             {customerFeedbackAnalysis.analysis.map((item, idx) => (
               <p key={idx} className="text-gray-700 py-0.5">
-                <span className="font-semibold text-gray-800">{item.title}：</span>
+                <span className="font-semibold text-gray-800">{item.category}：</span>
                 {item.content}
               </p>
             ))}
@@ -390,30 +390,37 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
             
             {renderCharts(section)}
             
-            <div className="bg-blue-50 p-4 rounded-xl border-2 border-blue-200 mb-8">
-              {section.content && !isProductSpecSection(section) && (
-                <div className="text-gray-700 mb-4">
-                  {section.content}
-                </div>
-              )}
-              
-              {/* 如果是產品規格推薦section，使用productSpecAnalysis.json的數據 */}
-              {isProductSpecSection(section) ? (
-                <>
-                  {renderProductSpecRecommendations()}
-                  {renderProductSpecOverallRecommendations()}
-                </>
-              ) : (
-                <>
-                  {renderAnalysisPoints(section)}
-                  {renderSubAnalysis(section)}
-                  {renderCombinedRecommendations(section)}
-                  {renderRecommendations(section)}
-                  {renderOverallRecommendations(section)}
-                  {renderSummary(section)}
-                </>
-              )}
-            </div>
+            {/* 只在有內容或子內容時才渲染藍色框 */}
+            {(
+              (section.content && !isProductSpecSection(section)) ||
+              (!isProductSpecSection(section) && (
+                section.analysis || section.conclusions || section.subAnalysis || section.combinedRecommendations || section.recommendations || section.overallRecommendations || section.summary
+              )) ||
+              isProductSpecSection(section)
+            ) && (
+              <div className="bg-blue-50 p-4 rounded-xl border-2 border-blue-200 mb-8">
+                {section.content && !isProductSpecSection(section) && (
+                  <div className="text-gray-700 mb-4">
+                    {section.content}
+                  </div>
+                )}
+                {isProductSpecSection(section) ? (
+                  <>
+                    {renderProductSpecRecommendations()}
+                    {renderProductSpecOverallRecommendations()}
+                  </>
+                ) : (
+                  <>
+                    {renderAnalysisPoints(section)}
+                    {renderSubAnalysis(section)}
+                    {renderCombinedRecommendations(section)}
+                    {renderRecommendations(section)}
+                    {renderOverallRecommendations(section)}
+                    {renderSummary(section)}
+                  </>
+                )}
+              </div>
+            )}
           </div>
         ))}
       </div>

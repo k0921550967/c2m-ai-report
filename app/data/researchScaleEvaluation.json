@@ -29,6 +29,176 @@
         "analysis": "新科技應用評估顯示企業在AI技術應用、IoT整合和雲端協作三個方面都有不同程度的發展需求。其中，AI技術應用評估為2分，顯示企業需要強化精密金屬零件製程優化的智能分析能力；IoT整合評估為4分，反映企業已建立汽車零組件的生產監控系統；雲端協作評估為3分，表明企業正逐步建立航太零件研發的數位協作平台。",
         "recommendations": "從整體評估來看，新科技導入是企業提升研發效率的重要領域。首要任務是建立完整的AI應用架構，優化精密金屬零件的製程參數與品質控制。同時，可以考慮導入專業的研發協作平台，強化汽車零組件開發的團隊協作效率。在IoT整合方面，建議建立系統化的航太零件研發監控機制，打造全面的數位化研發平台，並建立即時優化機制，有效提升研發效能。"
       }
-    ]
+    ],
+    "customerReviewAnalysis": {
+      "title": "六角扳手產品客戶評論分析",
+      "analysis": [
+        {
+          "category": "主要關注點",
+          "content": "產品精度（Precision）、耐用性（Durability）和材質（Material）是消費者討論最多的三個方面，遠超其他因素。這表明這些是六角扳手產品中最受關注的核心屬性。"
+        },
+        {
+          "category": "價格因素",
+          "content": "價格（Price）是第四個被討論最多的因素，但相比前三項，討論度明顯降低。這可能意味著對於六角扳手產品，消費者更注重產品的品質與可靠性而非價格。"
+        },
+        {
+          "category": "次要關注點",
+          "content": "使用便利性（Ease of use）、品牌（Brand）和包裝保護（Package protection）等因素也受到一定程度的關注，但討論量相對較少。"
+        },
+        {
+          "category": "低關注度因素",
+          "content": "表面處理（Surface treatment）、防鏽（Rust prevention）和包裝（Package）等因素討論度較低，可能不是消費者的主要考慮因素。"
+        },
+        {
+          "category": "建議重點",
+          "content": "應優先提升產品精度和耐用性，改善材質選擇，同時保持合理價格水平，以滿足消費者核心需求。特別是在精密金屬零件製造領域，這些因素直接影響到產品的市場競爭力。"
+        }
+      ]
+    },
+    "productSpecificationRecommendation": {
+      "title": "六角扳手(Hex Key Wrench) - 產品規格推薦表",
+      "categories": [
+        {
+          "name": "品牌(Brand)",
+          "specifications": [
+            {
+              "name": "Lexivon",
+              "rank": 1,
+              "description": "最受推薦的品牌"
+            },
+            {
+              "name": "Amazon",
+              "rank": 2,
+              "description": "次推薦品牌"
+            },
+            {
+              "name": "Sedy",
+              "rank": 3,
+              "description": "一般推薦品牌"
+            }
+          ]
+        },
+        {
+          "name": "產地(Country of Origin)",
+          "specifications": [
+            {
+              "name": "Taiwan",
+              "rank": 1,
+              "description": "最受推薦的產地"
+            },
+            {
+              "name": "USA",
+              "rank": 2,
+              "description": "次推薦產地"
+            },
+            {
+              "name": "China",
+              "rank": 3,
+              "description": "一般推薦產地"
+            }
+          ]
+        },
+        {
+          "name": "設計(Design)",
+          "specifications": [
+            {
+              "name": "Torx Ends, Hex Key Ends",
+              "rank": 1,
+              "description": "最受推薦的設計"
+            },
+            {
+              "name": "Hex Key Ends",
+              "rank": 2,
+              "description": "次推薦設計"
+            },
+            {
+              "name": "Hollow, Flathead",
+              "rank": 3,
+              "description": "一般推薦設計"
+            }
+          ]
+        },
+        {
+          "name": "手柄(Handle)",
+          "specifications": [
+            {
+              "name": "L-Wrench",
+              "rank": 1,
+              "description": "最受推薦的手柄"
+            },
+            {
+              "name": "L-Key Holder",
+              "rank": 2,
+              "description": "次推薦手柄"
+            },
+            {
+              "name": "Plastic Holder",
+              "rank": 3,
+              "description": "一般推薦手柄"
+            }
+          ]
+        },
+        {
+          "name": "頭部套筒(Head Socket)",
+          "specifications": [
+            {
+              "name": "36",
+              "rank": 1,
+              "description": "最受推薦的套筒尺寸"
+            },
+            {
+              "name": "11",
+              "rank": 2,
+              "description": "次推薦套筒尺寸"
+            },
+            {
+              "name": "7",
+              "rank": 3,
+              "description": "一般推薦套筒尺寸"
+            }
+          ]
+        },
+        {
+          "name": "材質(Material)",
+          "specifications": [
+            {
+              "name": "Alloy Steel",
+              "rank": 1,
+              "description": "最受推薦的材質"
+            },
+            {
+              "name": "Blend",
+              "rank": 2,
+              "description": "次推薦材質"
+            },
+            {
+              "name": "Tool Steel",
+              "rank": 3,
+              "description": "一般推薦材質"
+            }
+          ]
+        },
+        {
+          "name": "尺寸(Size)",
+          "specifications": [
+            {
+              "name": "0.39 inches",
+              "rank": 1,
+              "description": "最受推薦的尺寸"
+            },
+            {
+              "name": "8.28 x 4.47 x 1.68 inches",
+              "rank": 2,
+              "description": "次推薦尺寸"
+            },
+            {
+              "name": "9.65 x 3.75 x 1.19 inches",
+              "rank": 3,
+              "description": "一般推薦尺寸"
+            }
+          ]
+        }
+      ]
+    }
   }
 }

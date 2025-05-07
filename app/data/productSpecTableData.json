@@ -1,107 +1,149 @@
 [
     {
-      "row_number": 23,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "allergen",
-      "產品規格細項": "soybean",
-      "score_rank": 3
-    },
-    {
-      "row_number": 24,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "allergen",
-      "產品規格細項": "tapioca",
+      "row_number": 1,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "brand",
+      "產品規格細項": "amazon",
       "score_rank": 2
     },
     {
-      "row_number": 25,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "allergen",
-      "產品規格細項": "wheatgluten",
+      "row_number": 2,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "brand",
+      "產品規格細項": "lexivon",
       "score_rank": 1
     },
     {
-      "row_number": 26,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "flavor",
-      "產品規格細項": "gourmetspicy",
-      "score_rank": 1
-    },
-    {
-      "row_number": 27,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "flavor",
-      "產品規格細項": "hotchicken",
-      "score_rank": 2
-    },
-    {
-      "row_number": 28,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "flavor",
-      "產品規格細項": "stirfriedramen",
+      "row_number": 3,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "brand",
+      "產品規格細項": "sedy",
       "score_rank": 3
     },
     {
-      "row_number": 29,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "noodles",
-      "產品規格細項": "boil",
+      "row_number": 4,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "countryoforigin",
+      "產品規格細項": "china",
       "score_rank": 3
     },
     {
-      "row_number": 30,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "noodles",
-      "產品規格細項": "boil/microwave",
+      "row_number": 5,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "countryoforigin",
+      "產品規格細項": "taiwan",
+      "score_rank": 1
+    },
+    {
+      "row_number": 6,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "countryoforigin",
+      "產品規格細項": "usa",
       "score_rank": 2
     },
     {
-      "row_number": 31,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "noodles",
-      "產品規格細項": "麵條",
-      "score_rank": 1
+      "row_number": 7,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "design",
+      "產品規格細項": "hex-keyends",
+      "score_rank": 2
     },
     {
-      "row_number": 32,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "packageinformation",
-      "產品規格細項": "110g",
-      "score_rank": 1
-    },
-    {
-      "row_number": 33,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "packageinformation",
-      "產品規格細項": "125g",
+      "row_number": 8,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "design",
+      "產品規格細項": "hollow,flathead",
       "score_rank": 3
     },
     {
-      "row_number": 34,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "packageinformation",
-      "產品規格細項": "140g",
-      "score_rank": 2
-    },
-    {
-      "row_number": 35,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "weight",
-      "產品規格細項": "4800g",
+      "row_number": 9,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "design",
+      "產品規格細項": "torxends,hex-keyends",
       "score_rank": 1
     },
     {
-      "row_number": 36,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "weight",
-      "產品規格細項": "550g",
+      "row_number": 10,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "handle",
+      "產品規格細項": "l-keyholder",
+      "score_rank": 2
+    },
+    {
+      "row_number": 11,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "handle",
+      "產品規格細項": "l-wrench",
+      "score_rank": 1
+    },
+    {
+      "row_number": 12,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "handle",
+      "產品規格細項": "plasticholder",
       "score_rank": 3
     },
     {
-      "row_number": 37,
-      "Category": "水煮麵(Stewed Noodles)",
-      "產品規格": "weight",
-      "產品規格細項": "675g",
+      "row_number": 13,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "headsocket",
+      "產品規格細項": "11",
       "score_rank": 2
+    },
+    {
+      "row_number": 14,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "headsocket",
+      "產品規格細項": "36",
+      "score_rank": 1
+    },
+    {
+      "row_number": 15,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "headsocket",
+      "產品規格細項": "7",
+      "score_rank": 3
+    },
+    {
+      "row_number": 16,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "material",
+      "產品規格細項": "alloysteel",
+      "score_rank": 1
+    },
+    {
+      "row_number": 17,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "material",
+      "產品規格細項": "blend",
+      "score_rank": 2
+    },
+    {
+      "row_number": 18,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "material",
+      "產品規格細項": "toolsteel",
+      "score_rank": 3
+    },
+    {
+      "row_number": 19,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "size",
+      "產品規格細項": "0.39inches",
+      "score_rank": 1
+    },
+    {
+      "row_number": 20,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "size",
+      "產品規格細項": "8.28x4.47x1.68inches",
+      "score_rank": 2
+    },
+    {
+      "row_number": 21,
+      "Category": "六角扳手(Hex Key Wrench)",
+      "產品規格": "size",
+      "產品規格細項": "9.65x3.75x1.19inches",
+      "score_rank": 3
     }
-  ]
+]

@@ -1,26 +1,25 @@
 {
-  "title": "客戶回饋分析",
-  "chartType": "CustomerFeedbackChart",
+  "title": "六角扳手產品客戶評論分析",
   "analysis": [
     {
-      "title": "消費者關注重點",
-      "content": "口感（Taste）、風味（Flavor）和麵條（Noodles）是消費者討論最多的三個方面，遠超其他因素。這表明這些是六角扳手產品中最受關注的核心屬性。"
+      "category": "主要關注點",
+      "content": "產品精度（Precision）、耐用性（Durability）和材質（Material）是消費者討論最多的三個方面，遠超其他因素。這表明這些是六角扳手產品中最受關注的核心屬性。"
     },
     {
-      "title": "價格因素",
-      "content": "價格（Price）是第四個被討論最多的因素，但相比前三項，討論度明顯降低。這可能意味著對於六角扳手產品，消費者更注重產品本身的品質而非價格。"
+      "category": "價格因素",
+      "content": "價格（Price）是第四個被討論最多的因素，但相比前三項，討論度明顯降低。這可能意味著對於六角扳手產品，消費者更注重產品的品質與可靠性而非價格。"
     },
     {
-      "title": "次要關注點",
-      "content": "用戶體驗（User experience）、品牌（Brand）和包裝信息（Package information）等因素也受到一定程度的關注，但討論量相對較少。"
+      "category": "次要關注點",
+      "content": "使用便利性（Ease of use）、品牌（Brand）和包裝保護（Package protection）等因素也受到一定程度的關注，但討論量相對較少。"
     },
     {
-      "title": "低關注度因素",
-      "content": "調味醬（Sauce）、加熱（Heat）、包裝（Package）等因素討論度較低，可能不是消費者的主要考慮因素。"
+      "category": "低關注度因素",
+      "content": "表面處理（Surface treatment）、防鏽（Rust prevention）和包裝（Package）等因素討論度較低，可能不是消費者的主要考慮因素。"
     },
     {
-      "title": "建議重點",
-      "content": "應優先提升產品口感和風味，改善麵條質量，同時保持合理價格水平，以滿足消費者核心需求。"
+      "category": "建議重點",
+      "content": "應優先提升產品精度和耐用性，改善材質選擇，同時保持合理價格水平，以滿足消費者核心需求。特別是在精密金屬零件製造領域，這些因素直接影響到產品的市場競爭力。"
     }
   ]
 } 
