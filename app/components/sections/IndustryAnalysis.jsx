@@ -5,8 +5,8 @@ import BrandPositionChartECharts from '../charts/BrandPositionChartECharts';
 import PriceRangeChartECharts from '../charts/PriceRangeChartECharts';
 import MonthlySalesChartECharts from '../charts/MonthlySalesChartECharts';
 import CustomerFeedbackChartECharts from '../charts/CustomerFeedbackChartECharts';
-import LargeSpecificationHeatChart from '../charts/LargeSpecificationHeatChart';
-import SmallSpecificationHeatChart from '../charts/SmallSpecificationHeatChart';
+import LargeSpecificationHeatChartECharts from '../charts/LargeSpecificationHeatChartECharts';
+import SmallSpecificationHeatChartECharts from '../charts/SmallSpecificationHeatChartECharts';
 import ProductSpecTable from '../charts/ProductSpecTable';
 
 // 導入圖表數據
@@ -26,6 +26,9 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
   if (!industryAnalysis || !industryAnalysis.sections || industryAnalysis.sections.length === 0) {
     return <div></div>;
   }
+
+  // 狀態提升：大規格/小規格熱圖連動
+  const [selectedSpec, setSelectedSpec] = useState(null);
 
   // 處理產品規格表數據
   const processedProductSpecTableData = productSpecTableData.map(item => ({
@@ -69,8 +72,6 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
       </div>
     ),
     SpecHeatCharts: () => {
-      const [selectedSpec, setSelectedSpec] = useState(null);
-      
       const handleSpecSelect = (spec) => {
         setSelectedSpec(spec);
       };
@@ -79,11 +80,11 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
         <div className="grid grid-cols-1 gap-6 mb-6">
           <div>
             <h4 className="text-lg font-semibold text-blue-700 mb-2">大規格分析</h4>
-            <LargeSpecificationHeatChart onSpecSelect={handleSpecSelect} />
+            <LargeSpecificationHeatChartECharts onSpecSelect={handleSpecSelect} />
           </div>
           <div>
             <h4 className="text-lg font-semibold text-blue-700 mb-2">小規格分析</h4>
-            <SmallSpecificationHeatChart selectedSpec={selectedSpec} />
+            <SmallSpecificationHeatChartECharts selectedSpec={selectedSpec} />
           </div>
         </div>
       );
