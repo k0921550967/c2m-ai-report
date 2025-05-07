@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import BrandPositionChart from '../charts/BrandPositionChart';
-import PriceRangeChart from '../charts/PriceRangeChart';
-import MonthlySalesChart from '../charts/MonthlySalesChart';
-import CustomerFeedbackChart from '../charts/CustomerFeedbackChart';
+import BrandPositionChartECharts from '../charts/BrandPositionChartECharts';
+import PriceRangeChartECharts from '../charts/PriceRangeChartECharts';
+import MonthlySalesChartECharts from '../charts/MonthlySalesChartECharts';
+import CustomerFeedbackChartECharts from '../charts/CustomerFeedbackChartECharts';
 import LargeSpecificationHeatChart from '../charts/LargeSpecificationHeatChart';
 import SmallSpecificationHeatChart from '../charts/SmallSpecificationHeatChart';
 import ProductSpecTable from '../charts/ProductSpecTable';
@@ -39,23 +39,23 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
       <div className="grid grid-cols-1 gap-6 mb-6">
         <div>
           <h4 className="text-lg font-semibold text-blue-700 mb-2">價格區間分析</h4>
-          <PriceRangeChart data={priceRangeChartData} />
+          <PriceRangeChartECharts />
         </div>
         <div>
           <h4 className="text-lg font-semibold text-blue-700 mb-2">品牌定位分析</h4>
-          <BrandPositionChart />
+          <BrandPositionChartECharts />
         </div>
       </div>
     ),
     MonthlySalesChart: () => (
       <div className="mb-6">
-        <MonthlySalesChart />
+        <MonthlySalesChartECharts />
       </div>
     ),
     CustomerFeedbackChart: () => (
       <div className="mb-6">
         <h4 className="text-lg font-semibold text-blue-700 mb-2">客戶評論分析</h4>
-        <CustomerFeedbackChart data={customerFeedbackChartData} />
+        <CustomerFeedbackChartECharts />
         <div className="mt-4 bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
           <div className="space-y-1">
             {customerFeedbackAnalysis.analysis.map((item, idx) => (

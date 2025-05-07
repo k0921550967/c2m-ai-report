@@ -2,16 +2,16 @@ import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import largeData from '../../data/largeSpecificationHeatChartData.json';
 import smallData from '../../data/smallSpecificationHeatChartData.json';
+import { hierarchy, treemap } from 'd3-hierarchy';
 
 const LargeSpecificationHeatChart = ({ onSpecSelect }) => {
   const [selectedSpec, setSelectedSpec] = useState(null);
   
   // Process data for the heat chart
   const processedData = useMemo(() => {
-    // Use imported largeData directly
     if (!largeData || !largeData.length) return null;
     
-    // Calculate total area available for blocks
+    // Treemap layout
     const svgWidth = 800;
     const svgHeight = 340;
     const chartWidth = 700;
@@ -19,65 +19,29 @@ const LargeSpecificationHeatChart = ({ onSpecSelect }) => {
     const marginLeft = 50;
     const marginTop = 50;
     
-    const totalArea = chartWidth * chartHeight;
+    // d3-hierarchy expects a root node with children
+    const root = hierarchy({ children: largeData })
+      .sum(d => d.sum_sales)
+      .sort((a, b) => b.value - a.value);
     
-    // Find max sales to determine which items to highlight in purple
+    treemap()
+      .size([chartWidth, chartHeight])
+      .paddingInner(8)
+      .paddingOuter(2)
+      (root);
+    
+    // Find max sales for color
     const maxSales = Math.max(...largeData.map(item => item.sum_sales));
-    const totalSales = largeData.reduce((sum, item) => sum + item.sum_sales, 0);
-    
-    // Sort data by sales value (descending)
-    const sortedData = [...largeData].sort((a, b) => b.sum_sales - a.sum_sales);
-    
-    // Create treemap layout
-    const blocks = [];
-    let currentX = marginLeft;
-    let currentY = marginTop;
-    let rowHeight = 0;
     
     // Format the sales numbers with commas
     const formatSales = (num) => {
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
     
-    // Helper function to determine if a block fits in the current row
-    const canFitInRow = (blockWidth) => {
-      return currentX + blockWidth <= marginLeft + chartWidth;
-    };
-    
-    // Create blocks with sizes proportional to sales
-    sortedData.forEach((item) => {
-      // Calculate block size proportional to sales
-      const areaRatio = item.sum_sales / totalSales;
-      const blockArea = totalArea * areaRatio;
-      
-      // Target aspect ratio close to 1.5 (width:height)
-      const aspectRatio = 1.5;
-      
-      // Calculate dimensions from area and aspect ratio
-      let blockWidth = Math.sqrt(blockArea * aspectRatio);
-      let blockHeight = blockArea / blockWidth;
-      
-      // Ensure minimum block size
-      blockWidth = Math.max(blockWidth, 120);
-      blockHeight = Math.max(blockHeight, 80);
-      
-      // Check if we need to start a new row
-      if (!canFitInRow(blockWidth)) {
-        currentX = marginLeft;
-        currentY += rowHeight;
-        rowHeight = 0;
-      }
-      
-      // Adjust if we're exceeding chart height
-      if (currentY + blockHeight > marginTop + chartHeight) {
-        blockHeight = marginTop + chartHeight - currentY;
-      }
-      
-      // Update row height if this block is taller
-      rowHeight = Math.max(rowHeight, blockHeight);
-      
-      // Create block
-      blocks.push({
+    // Map d3 nodes to blocks
+    const blocks = root.leaves().map(node => {
+      const item = node.data;
+      return {
         id: item.Spec,
         name: item.Spec === 'countryoforigin' ? '原產國' : 
               item.Spec === 'brand' ? '品牌' :
@@ -89,10 +53,10 @@ const LargeSpecificationHeatChart = ({ onSpecSelect }) => {
         count: formatSales(item.sum_sales),
         rawCount: item.sum_sales,
         spec: item.Spec,
-        x: currentX,
-        y: currentY,
-        width: blockWidth,
-        height: blockHeight,
+        x: node.x0 + marginLeft,
+        y: node.y0 + marginTop,
+        width: node.x1 - node.x0,
+        height: node.y1 - node.y0,
         style: {
           fillColor: item.sum_sales === maxSales ? "#8B5CF6" : 
                     item.sum_sales > 19000000 ? "#60A5FA" :
@@ -106,10 +70,7 @@ const LargeSpecificationHeatChart = ({ onSpecSelect }) => {
           titleFontSize: item.sum_sales === maxSales ? 18 : 16,
           countFontSize: item.sum_sales === maxSales ? 14 : 12
         }
-      });
-      
-      // Move X position for next block
-      currentX += blockWidth;
+      };
     });
     
     return {
@@ -156,7 +117,7 @@ const LargeSpecificationHeatChart = ({ onSpecSelect }) => {
           />
           <text 
             x={block.x + block.width/2} 
-            y={block.y + block.height/2 - block.height/5} 
+            y={block.y + block.height/2 - block.height/6} 
             textAnchor="middle" 
             fontSize={block.style.titleFontSize} 
             fill={block.style.titleColor} 
@@ -167,7 +128,7 @@ const LargeSpecificationHeatChart = ({ onSpecSelect }) => {
           </text>
           <text 
             x={block.x + block.width/2} 
-            y={block.y + block.height/2 + block.height/5} 
+            y={block.y + block.height/2 + block.height/6} 
             textAnchor="middle" 
             fontSize={block.style.countFontSize} 
             fill={block.style.countColor}
@@ -181,7 +142,6 @@ const LargeSpecificationHeatChart = ({ onSpecSelect }) => {
       {/* 圖例和說明 */}
       <rect x="50" y="300" width="700" height="30" fill="#f5f5f5" />
       <text x="400" y="320" textAnchor="middle" fontSize="14">{processedData.subtitle}</text>
-      <text x="700" y="320" textAnchor="end" fontSize="12" fill="#4F46E5">點擊區塊查看詳細數據</text>
     </svg>
   );
 };
