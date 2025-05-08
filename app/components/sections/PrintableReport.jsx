@@ -43,11 +43,9 @@ const PrintableReport = ({ data }) => {
 
   return (
     <div className="min-h-screen bg-white font-sans p-10 text-black print:p-0 max-w-none" ref={reportRef}>
-      {/* 使用 ReportHeader 組件 */}
-      <ReportHeader reportInfo={reportInfo} companyInfo={companyInfo} />
-
-      {/* 目錄 */}
-      <div className="mb-12 print:page-break-after">
+      {/* 封面+目錄合併在同一個 pdf-section */}
+      <div className="mb-12 print:page-break-after pdf-section">
+        <ReportHeader reportInfo={reportInfo} companyInfo={companyInfo} />
         <h2 className="text-2xl font-bold text-blue-900 mb-6">目錄</h2>
         <ul className="space-y-4 text-lg">
           {tableOfContents.map((item, index) => (
@@ -62,7 +60,7 @@ const PrintableReport = ({ data }) => {
       </div>
 
       {/* 一、廠商基本資料 */}
-      <div className="mb-12 print:page-break-after">
+      <div className="mb-12 print:page-break-after pdf-section">
         <header className="mb-8">
           <h2 className="text-3xl font-bold text-blue-900">一、廠商基本資料</h2>
           <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
@@ -71,12 +69,11 @@ const PrintableReport = ({ data }) => {
       </div>
 
       {/* 二、研發能力診斷分析 */}
-      <div className="mb-12 print:page-break-after">
+      <div className="mb-12 print:page-break-after pdf-section">
         <header className="mb-8">
           <h2 className="text-3xl font-bold text-blue-900">二、研發能力診斷分析</h2>
           <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
         </header>
-        
         <div className="mb-8">
           <h3 className="text-xl font-bold text-blue-800 mb-6">研發數位化推動優先目標</h3>
           <ResearchPriorityGoals 
@@ -86,39 +83,29 @@ const PrintableReport = ({ data }) => {
             toChineseNumber={toChineseNumber}
           />
         </div>
-        
         <div className="mb-8">
           <h3 className="text-xl font-bold text-blue-800 mb-6">研發能力分析</h3>
           <ResearchCapabilityAnalysis diagnosticAnalysis={diagnosticAnalysis} />
         </div>
       </div>
-      
       {/* 三、研發量表評估分析 */}
-      <div className="mb-12 print:page-break-after">
+      <div className="mb-12 print:page-break-after pdf-section">
         <header className="mb-8">
           <h2 className="text-3xl font-bold text-blue-900">三、研發量表評估分析</h2>
           <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
         </header>
-        
         <ResearchScaleEvaluation researchScaleData={researchScaleEvaluation} />
       </div>
-      
-      {/* 四、產業分析及研發規格建議 */}
-      <div className="mb-12 print:page-break-after">
-        <header className="mb-8">
-          <h2 className="text-3xl font-bold text-blue-900">四、產業分析及研發規格建議</h2>
-          <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
-        </header>
-        
-        <IndustryAnalysis 
-          industryAnalysis={industryAnalysis} 
-          productType={companyInfo.aiReportCategory ? companyInfo.aiReportCategory.split('(')[0] : '水煮麵'} 
-        />
-      </div>
-      
+      {/* 四、產業分析及研發規格建議，每小節分頁 */}
+      <IndustryAnalysis 
+        industryAnalysis={industryAnalysis} 
+        productType={companyInfo.aiReportCategory ? companyInfo.aiReportCategory.split('(')[0] : '水煮麵'} 
+        pdfSectionPerSubSection={true}
+      />
       {/* 五、數位轉型建議 */}
-      <DigitalTransformationRecommendations digitalTransformationRecommendations={digitalTransformationRecommendations} />
-      
+      <div className="pdf-section">
+        <DigitalTransformationRecommendations digitalTransformationRecommendations={digitalTransformationRecommendations} />
+      </div>
       {/* 頁尾 */}
       <footer className="text-center text-gray-500 text-sm mt-10">
         <div>© 2025 財團法人商業發展研究院</div>

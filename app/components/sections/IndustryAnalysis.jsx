@@ -22,7 +22,7 @@ import customerFeedbackAnalysis from '../../data/customerFeedbackAnalysis.json';
 // 英文字母序列
 const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 
-const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
+const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵', pdfSectionPerSubSection = false }) => {
   if (!industryAnalysis || !industryAnalysis.sections || industryAnalysis.sections.length === 0) {
     return <div></div>;
   }
@@ -383,47 +383,170 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵' }) => {
   return (
     <div className="mb-10 print:page-break-after">
       <div>
-        {industryAnalysis.sections.map((section, index) => (
-          <div key={index} className="mb-8">
-            <h3 className="text-xl font-bold text-blue-800 mb-6">
-              {LETTERS[index]}. [{productType}] {section.title}
-            </h3>
-            
-            {renderCharts(section)}
-            
-            {/* 只在有內容或子內容時才渲染藍色框 */}
-            {(
-              (section.content && !isProductSpecSection(section)) ||
-              (!isProductSpecSection(section) && (
-                section.analysis || section.conclusions || section.subAnalysis || section.combinedRecommendations || section.recommendations || section.overallRecommendations || section.summary
-              )) ||
-              isProductSpecSection(section)
-            ) && (
-              <div className="bg-blue-50 p-4 rounded-xl border-2 border-blue-200 mb-8">
-                {section.content && !isProductSpecSection(section) && (
-                  <div className="text-gray-700 mb-4">
-                    {section.content}
-                  </div>
-                )}
-                {isProductSpecSection(section) ? (
-                  <>
-                    {renderProductSpecRecommendations()}
-                    {renderProductSpecOverallRecommendations()}
-                  </>
-                ) : (
-                  <>
-                    {renderAnalysisPoints(section)}
-                    {renderSubAnalysis(section)}
-                    {renderCombinedRecommendations(section)}
-                    {renderRecommendations(section)}
-                    {renderOverallRecommendations(section)}
-                    {renderSummary(section)}
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
+        {industryAnalysis.sections.map((section, index) => {
+          // 合併月銷售分析與客戶回饋分析在同一頁
+          if (pdfSectionPerSubSection && section.title === '月銷售分析') {
+            const nextSection = industryAnalysis.sections[index + 1];
+            if (nextSection && nextSection.title === '客戶回饋分析') {
+              return (
+                <div key={index} className="mb-8 pdf-section">
+                  <h3 className="text-xl font-bold text-blue-800 mb-6">
+                    {LETTERS[index]}. [{productType}] {section.title}
+                  </h3>
+                  {renderCharts(section)}
+                  {/* 月銷售分析內容（結論、建議等） */}
+                  {(
+                    (section.content && !isProductSpecSection(section)) ||
+                    (!isProductSpecSection(section) && (
+                      section.analysis || section.conclusions || section.subAnalysis || section.combinedRecommendations || section.recommendations || section.overallRecommendations || section.summary
+                    )) ||
+                    isProductSpecSection(section)
+                  ) && (
+                    <div className="bg-blue-50 p-4 rounded-xl border-2 border-blue-200 mb-8">
+                      {section.content && !isProductSpecSection(section) && (
+                        <div className="text-gray-700 mb-4">
+                          {section.content}
+                        </div>
+                      )}
+                      {isProductSpecSection(section) ? (
+                        <>
+                          {renderProductSpecRecommendations()}
+                          {renderProductSpecOverallRecommendations()}
+                        </>
+                      ) : (
+                        <>
+                          {renderAnalysisPoints(section)}
+                          {renderSubAnalysis(section)}
+                          {renderCombinedRecommendations(section)}
+                          {renderRecommendations(section)}
+                          {renderOverallRecommendations(section)}
+                          {renderSummary(section)}
+                        </>
+                      )}
+                    </div>
+                  )}
+                  <h3 className="text-xl font-bold text-blue-800 mb-6 mt-10">
+                    {LETTERS[index + 1]}. [{productType}] {nextSection.title}
+                  </h3>
+                  {renderCharts(nextSection)}
+                  {/* 客戶回饋分析內容 */}
+                  {(
+                    (nextSection.content && !isProductSpecSection(nextSection)) ||
+                    (!isProductSpecSection(nextSection) && (
+                      nextSection.analysis || nextSection.conclusions || nextSection.subAnalysis || nextSection.combinedRecommendations || nextSection.recommendations || nextSection.overallRecommendations || nextSection.summary
+                    )) ||
+                    isProductSpecSection(nextSection)
+                  ) && (
+                    <div className="bg-blue-50 p-4 rounded-xl border-2 border-blue-200 mb-8">
+                      {nextSection.content && !isProductSpecSection(nextSection) && (
+                        <div className="text-gray-700 mb-4">
+                          {nextSection.content}
+                        </div>
+                      )}
+                      {isProductSpecSection(nextSection) ? (
+                        <>
+                          {renderProductSpecRecommendations()}
+                          {renderProductSpecOverallRecommendations()}
+                        </>
+                      ) : (
+                        <>
+                          {renderAnalysisPoints(nextSection)}
+                          {renderSubAnalysis(nextSection)}
+                          {renderCombinedRecommendations(nextSection)}
+                          {renderRecommendations(nextSection)}
+                          {renderOverallRecommendations(nextSection)}
+                          {renderSummary(nextSection)}
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+          }
+          // 跳過已合併的 nextSection
+          if (pdfSectionPerSubSection && index > 0 && industryAnalysis.sections[index - 1].title === '月銷售分析' && section.title === '客戶回饋分析') {
+            return null;
+          }
+          // 其餘照舊
+          return pdfSectionPerSubSection ? (
+            <div key={index} className="mb-8 pdf-section">
+              <h3 className="text-xl font-bold text-blue-800 mb-6">
+                {LETTERS[index]}. [{productType}] {section.title}
+              </h3>
+              {renderCharts(section)}
+              {/* 只在有內容或子內容時才渲染藍色框 */}
+              {(
+                (section.content && !isProductSpecSection(section)) ||
+                (!isProductSpecSection(section) && (
+                  section.analysis || section.conclusions || section.subAnalysis || section.combinedRecommendations || section.recommendations || section.overallRecommendations || section.summary
+                )) ||
+                isProductSpecSection(section)
+              ) && (
+                <div className="bg-blue-50 p-4 rounded-xl border-2 border-blue-200 mb-8">
+                  {section.content && !isProductSpecSection(section) && (
+                    <div className="text-gray-700 mb-4">
+                      {section.content}
+                    </div>
+                  )}
+                  {isProductSpecSection(section) ? (
+                    <>
+                      {renderProductSpecRecommendations()}
+                      {renderProductSpecOverallRecommendations()}
+                    </>
+                  ) : (
+                    <>
+                      {renderAnalysisPoints(section)}
+                      {renderSubAnalysis(section)}
+                      {renderCombinedRecommendations(section)}
+                      {renderRecommendations(section)}
+                      {renderOverallRecommendations(section)}
+                      {renderSummary(section)}
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div key={index} className="mb-8">
+              <h3 className="text-xl font-bold text-blue-800 mb-6">
+                {LETTERS[index]}. [{productType}] {section.title}
+              </h3>
+              {renderCharts(section)}
+              {/* 只在有內容或子內容時才渲染藍色框 */}
+              {(
+                (section.content && !isProductSpecSection(section)) ||
+                (!isProductSpecSection(section) && (
+                  section.analysis || section.conclusions || section.subAnalysis || section.combinedRecommendations || section.recommendations || section.overallRecommendations || section.summary
+                )) ||
+                isProductSpecSection(section)
+              ) && (
+                <div className="bg-blue-50 p-4 rounded-xl border-2 border-blue-200 mb-8">
+                  {section.content && !isProductSpecSection(section) && (
+                    <div className="text-gray-700 mb-4">
+                      {section.content}
+                    </div>
+                  )}
+                  {isProductSpecSection(section) ? (
+                    <>
+                      {renderProductSpecRecommendations()}
+                      {renderProductSpecOverallRecommendations()}
+                    </>
+                  ) : (
+                    <>
+                      {renderAnalysisPoints(section)}
+                      {renderSubAnalysis(section)}
+                      {renderCombinedRecommendations(section)}
+                      {renderRecommendations(section)}
+                      {renderOverallRecommendations(section)}
+                      {renderSummary(section)}
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

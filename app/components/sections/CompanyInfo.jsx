@@ -13,13 +13,37 @@ const CompanyInfo = ({ companyInfo }) => {
       <div className="bg-white p-6 rounded-xl border-2 border-blue-200 mb-8">
         {/* 製造業類別標籤 - 置頂顯示 */}
         <div className="mb-6">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-orange-100 to-orange-50 border border-orange-200">
+          <div
+            className="flex items-center px-4 py-2 rounded-full border border-orange-200"
+            style={{
+              background: 'linear-gradient(90deg, #FFEDD5 0%, #FFF7ED 100%)',
+              boxShadow: '0 2px 8px 0 rgba(251,146,60,0.10)',
+              minWidth: companyInfo.industryClassification?.sub
+                ? `calc(${companyInfo.industryClassification.sub.length}ch + 2.5rem)`
+                : undefined,
+              width: 'fit-content',
+              maxWidth: '100%'
+            }}
+          >
             <div className="w-3 h-3 rounded-full bg-orange-500 mr-2"></div>
-            <span className="text-orange-800 font-semibold">{companyInfo.industryClassification?.main}</span>
+            <span
+              className="text-orange-800 font-bold"
+              style={{ fontSize: '1.15rem', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}
+            >
+              {companyInfo.industryClassification?.main}
+            </span>
           </div>
-          <div className="mt-2 text-orange-700 text-sm">
-            {companyInfo.industryClassification?.sub}
-          </div>
+          {companyInfo.industryClassification?.sub && (
+            <div
+              className="mt-2 text-orange-700 text-sm font-semibold bg-white px-2 py-1 rounded"
+              style={{
+                display: 'inline-block',
+                minWidth: `calc(${companyInfo.industryClassification.sub.length}ch + 1.5rem)`
+              }}
+            >
+              {companyInfo.industryClassification.sub}
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 gap-6">
