@@ -96,14 +96,18 @@ const PrintableReport = ({ data }) => {
         </header>
         <ResearchScaleEvaluation researchScaleData={researchScaleEvaluation} />
       </div>
-      {/* 四、產業分析及研發規格建議，每小節分頁 */}
+      {/* 四、產業分析及研發規格建議 */}
       <IndustryAnalysis 
         industryAnalysis={industryAnalysis} 
         productType={companyInfo.aiReportCategory ? companyInfo.aiReportCategory.split('(')[0] : '水煮麵'} 
         pdfSectionPerSubSection={true}
       />
       {/* 五、數位轉型建議 */}
-      <div className="pdf-section">
+      <div className="mb-12 print:page-break-after pdf-section">
+        <header className="mb-8">
+          <h2 className="text-3xl font-bold text-blue-900">五、數位轉型建議</h2>
+          <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
+        </header>
         <DigitalTransformationRecommendations digitalTransformationRecommendations={digitalTransformationRecommendations} />
       </div>
       {/* 頁尾 */}

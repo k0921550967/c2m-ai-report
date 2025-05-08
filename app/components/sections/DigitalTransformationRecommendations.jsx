@@ -54,13 +54,16 @@ const DigitalTransformationRecommendations = ({ digitalTransformationRecommendat
     )?.tools || [];
   };
 
+  // 顏色對應表
+  const colorMap = {
+    'bg-blue-800': '#1E40AF',
+    'bg-indigo-800': '#3730A3',
+    'bg-teal-800': '#134E4A',
+    'bg-orange-800': '#C2410C',
+  };
+
   return (
     <div className="mb-12 print:page-break-after">
-      <header className="mb-8">
-        <h2 className="text-3xl font-bold text-blue-900">五、數位轉型建議</h2>
-        <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
-      </header>
-      
       <div className="bg-white p-6 rounded-xl border-2 border-blue-200 mb-8">
         <h3 className="text-xl font-bold text-blue-800 mb-6">研發數位化優先面向建議</h3>
         
@@ -80,8 +83,11 @@ const DigitalTransformationRecommendations = ({ digitalTransformationRecommendat
               <div key={stage.priority} className={`${colors.bg} p-4 rounded-lg ${colors.border}`}>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center">
-                    <div className={`w-8 h-8 rounded-full ${colors.circle} text-white flex items-center justify-center mr-3 font-bold`}>
-                      {stage.priority}
+                    <div className="mr-3" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+                      <svg width="32" height="32">
+                        <circle cx="16" cy="16" r="16" fill={colorMap[colors.circle] || '#3182CE'} />
+                        <text x="16" y="22" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#fff">{stage.priority}</text>
+                      </svg>
                     </div>
                     <h4 className={`text-lg font-semibold ${colors.text}`}>{stage.stageName}</h4>
                   </div>

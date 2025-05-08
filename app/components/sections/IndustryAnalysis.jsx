@@ -384,12 +384,20 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵', pdfSect
     <div className="mb-10 print:page-break-after">
       <div>
         {industryAnalysis.sections.map((section, index) => {
+          // 在第一個 section 分頁最上方加上大標題
+          const showMainTitle = pdfSectionPerSubSection && index === 0;
           // 合併月銷售分析與客戶回饋分析在同一頁
           if (pdfSectionPerSubSection && section.title === '月銷售分析') {
             const nextSection = industryAnalysis.sections[index + 1];
             if (nextSection && nextSection.title === '客戶回饋分析') {
               return (
                 <div key={index} className="mb-8 pdf-section">
+                  {showMainTitle && (
+                    <header className="mb-8">
+                      <h2 className="text-3xl font-bold text-blue-900">四、產業分析及研發規格建議</h2>
+                      <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
+                    </header>
+                  )}
                   <h3 className="text-xl font-bold text-blue-800 mb-6">
                     {LETTERS[index]}. [{productType}] {section.title}
                   </h3>
@@ -471,6 +479,12 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵', pdfSect
           // 其餘照舊
           return pdfSectionPerSubSection ? (
             <div key={index} className="mb-8 pdf-section">
+              {showMainTitle && (
+                <header className="mb-8">
+                  <h2 className="text-3xl font-bold text-blue-900">四、產業分析及研發規格建議</h2>
+                  <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
+                </header>
+              )}
               <h3 className="text-xl font-bold text-blue-800 mb-6">
                 {LETTERS[index]}. [{productType}] {section.title}
               </h3>
@@ -509,6 +523,12 @@ const IndustryAnalysis = ({ industryAnalysis, productType = '水煮麵', pdfSect
             </div>
           ) : (
             <div key={index} className="mb-8">
+              {showMainTitle && (
+                <header className="mb-8">
+                  <h2 className="text-3xl font-bold text-blue-900">四、產業分析及研發規格建議</h2>
+                  <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
+                </header>
+              )}
               <h3 className="text-xl font-bold text-blue-800 mb-6">
                 {LETTERS[index]}. [{productType}] {section.title}
               </h3>

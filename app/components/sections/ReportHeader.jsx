@@ -6,11 +6,14 @@ const ReportHeader = ({ reportInfo, companyInfo }) => {
   return (
     <div className="mb-12 text-center print:page-break-after">
       <div className="flex justify-center mb-8">
-        <div className="w-20 h-20 bg-blue-800 rounded-full flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-        </div>
+        <svg width="80" height="80">
+          <circle cx="40" cy="40" r="40" fill="#1e40af" />
+          <g transform="translate(20,20)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </g>
+        </svg>
       </div>
       <h1 className="text-4xl font-bold text-blue-900 mb-4">{reportInfo.title}</h1>
       <h2 className="text-3xl font-bold mb-8">{reportInfo.subtitle}</h2>

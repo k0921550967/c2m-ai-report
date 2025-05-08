@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import PrintableReport from './components/sections/PrintableReport';
+import LoadingModal from './components/common/LoadingModal';
 // 匯入所有JSON檔案
 import reportInfo from './data/reportInfo.json';
 import companyInfo from './data/companyInfo.json';
@@ -13,9 +14,13 @@ import digitalTransformationRecommendations from './data/digitalTransformationRe
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-export default function Home() {
+export default function Home({ autoDownloadPDF = true, showLoadingOnDownload = true }) {
+  // autoDownloadPDF: 控制是否自動下載 PDF（預設 true，設為 false 則不會自動產生 PDF）
+  // showLoadingOnDownload: 控制是否在 PDF 產生時顯示 loading 彈窗（預設 true）
+  // showLoading: 狀態，控制 LoadingModal 彈窗顯示/隱藏
   const [reportData, setReportData] = useState(null);
   const mainRef = useRef();
+  const [showLoading, setShowLoading] = useState(false); // PDF 產生時 loading 彈窗開關
 
   useEffect(() => {
     // 正確合併所有資料 - 保持每個JSON檔案的頂層結構
@@ -44,9 +49,11 @@ export default function Home() {
 
   useEffect(() => {
     if (!reportData) return;
+    if (!autoDownloadPDF) return; // <--- PDF 自動下載開關
     // 等待 DOM 完全渲染
     const timer = setTimeout(async () => {
       if (!mainRef.current) return;
+      if (showLoadingOnDownload) setShowLoading(true); // <--- loading 彈窗開關
       const sections = mainRef.current.querySelectorAll('.pdf-section');
       const pdf = new jsPDF({
         orientation: 'portrait',
@@ -77,9 +84,10 @@ export default function Home() {
         firstPage = false;
       }
       pdf.save('full-page-report.pdf');
+      setShowLoading(false); // <--- PDF 產生完成後關閉 loading 彈窗
     }, 1200);
     return () => clearTimeout(timer);
-  }, [reportData]);
+  }, [reportData, autoDownloadPDF, showLoadingOnDownload]);
 
   // 等待資料載入
   if (!reportData) {
@@ -89,6 +97,15 @@ export default function Home() {
   return (
     <main ref={mainRef} className="min-h-screen">
       <PrintableReport data={reportData} />
+      {/* showLoading 控制 LoadingModal 彈窗顯示/隱藏 */}
+      <LoadingModal show={showLoading} />
     </main>
   );
 }
+
+/**
+ * props:
+ * - autoDownloadPDF: 是否自動下載 PDF（預設 true，設為 false 則不會自動產生 PDF）
+ * - showLoadingOnDownload: 是否下載時顯示 loading 彈窗（預設 true）
+ * - showLoading: 狀態，控制 LoadingModal 彈窗顯示/隱藏
+ */
