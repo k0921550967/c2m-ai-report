@@ -84,7 +84,7 @@ const PrintableReport = ({ data }) => {
           />
         </div>
         <div className="mb-8">
-          <h3 className="text-xl font-bold text-blue-800 mb-6">研發能力分析</h3>
+          <h3 className="text-xl font-bold text-blue-800 mb-6">輔導需求分析</h3>
           <ResearchCapabilityAnalysis diagnosticAnalysis={diagnosticAnalysis} />
         </div>
       </div>

@@ -75,13 +75,13 @@ const ResearchCapabilityAnalysis = ({ diagnosticAnalysis }) => {
       
       {/* 能力評估摘要 */}
       <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
-        <div className="text-lg font-semibold text-blue-800 mb-2">研發轉型推動重點分析</div>
+        <div className="text-lg font-semibold text-blue-800 mb-2">需求分析重點說明</div>
         <div className="text-gray-700">
           {diagnosticAnalysis.capabilityAnalysis.summary.map((item, index) => {
             const parts = item.split('：');
             return (
               <div key={index} className={index > 0 ? '' : 'mb-1'}>
-                <span className="font-medium">{parts[0]}：</span>
+                <span className="font-medium">{parts[0]}</span>
                 {parts[1]}
               </div>
             );

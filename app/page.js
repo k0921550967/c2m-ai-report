@@ -14,7 +14,7 @@ import digitalTransformationRecommendations from './data/digitalTransformationRe
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-export default function Home({ autoDownloadPDF = true, showLoadingOnDownload = true }) {
+export default function Home({ autoDownloadPDF = false, showLoadingOnDownload = true }) {
   // autoDownloadPDF: 控制是否自動下載 PDF（預設 true，設為 false 則不會自動產生 PDF）
   // showLoadingOnDownload: 控制是否在 PDF 產生時顯示 loading 彈窗（預設 true）
   // showLoading: 狀態，控制 LoadingModal 彈窗顯示/隱藏
