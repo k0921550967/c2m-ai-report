@@ -12,7 +12,7 @@ const ResearchPriorityGoals = ({ diagnosticAnalysis, companyInfo, renderScoreBar
       <div className="flex items-center justify-center mb-8">
         <div className="text-center">
           <div className="text-2xl font-bold text-blue-800">{companyInfo.name}</div>
-          <div className="text-gray-500 mt-1">研發轉型目標評估</div>
+
         </div>
       </div>
       

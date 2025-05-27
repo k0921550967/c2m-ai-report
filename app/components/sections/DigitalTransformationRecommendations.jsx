@@ -122,7 +122,7 @@ const DigitalTransformationRecommendations = ({ digitalTransformationRecommendat
                     {tools.map((tool, index) => (
                       <div key={index} className={`bg-white p-4 rounded-lg border ${colors.border}`}>
                         <div className={`font-medium ${colors.highlight} mb-2`}>{tool.name}</div>
-                        <div className="text-sm text-gray-500 mb-1">服務機構：{tool.provider}</div>
+                        <div className="text-sm text-gray-500 mb-1">輔導資源：{tool.provider}</div>
                         <p className="text-gray-700 text-sm">{tool.description}</p>
                       </div>
                     ))}

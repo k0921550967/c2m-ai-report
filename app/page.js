@@ -6,7 +6,6 @@ import LoadingModal from './components/common/LoadingModal';
 // 匯入所有JSON檔案
 import reportInfo from './data/reportInfo.json';
 import companyInfo from './data/companyInfo.json';
-import tableOfContents from './data/tableOfContents.json';
 import diagnosticAnalysis from './data/diagnosticAnalysis.json';
 import researchScaleEvaluation from './data/researchScaleEvaluation.json';
 import industryAnalysis from './data/industryAnalysis.json';
@@ -33,7 +32,6 @@ export default function Home({ autoDownloadPDF = false, showLoadingOnDownload = 
     const mergedData = {
       reportInfo: reportInfo.reportInfo,
       companyInfo: companyInfo.companyInfo,
-      tableOfContents: tableOfContents.tableOfContents,
       diagnosticAnalysis: processedDiagnosticAnalysis,
       researchScaleEvaluation: researchScaleEvaluation.researchScaleEvaluation,
       industryAnalysis: industryAnalysis.industryAnalysis,

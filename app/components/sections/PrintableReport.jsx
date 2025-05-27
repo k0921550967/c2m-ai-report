@@ -25,7 +25,7 @@ const toChineseNumber = (num) => {
 const PrintableReport = ({ data }) => {
   const reportRef = useRef(null);
   // 使用傳入的 data 參數
-  const { reportInfo, tableOfContents, companyInfo, diagnosticAnalysis, researchScaleEvaluation, industryAnalysis, digitalTransformationRecommendations } = data;
+  const { reportInfo, companyInfo, diagnosticAnalysis, researchScaleEvaluation, industryAnalysis, digitalTransformationRecommendations } = data;
 
   // Helper function to render score bars
   const renderScoreBars = (score, maxScore = 5, colorClass = "bg-blue-600", emptyColorClass = "bg-blue-200") => {
@@ -43,20 +43,9 @@ const PrintableReport = ({ data }) => {
 
   return (
     <div className="min-h-screen bg-white font-sans p-10 text-black print:p-0 max-w-none" ref={reportRef}>
-      {/* 封面+目錄合併在同一個 pdf-section */}
+      {/* 封面 */}
       <div className="mb-12 print:page-break-after pdf-section">
         <ReportHeader reportInfo={reportInfo} companyInfo={companyInfo} />
-        <h2 className="text-2xl font-bold text-blue-900 mb-6">目錄</h2>
-        <ul className="space-y-4 text-lg">
-          {tableOfContents.map((item, index) => (
-            <li key={item.id} className="flex items-center">
-              <span className="font-medium mr-4">{toChineseNumber(index + 1)}、</span>
-              <span>{item.title}</span>
-              <span className="flex-grow border-b border-dashed border-gray-300 mx-4"></span>
-              <span>{item.page}</span>
-            </li>
-          ))}
-        </ul>
       </div>
 
       {/* 一、廠商基本資料 */}
@@ -75,7 +64,7 @@ const PrintableReport = ({ data }) => {
           <div className="mt-2 h-1 w-24 bg-orange-400 rounded-full"></div>
         </header>
         <div className="mb-8">
-          <h3 className="text-xl font-bold text-blue-800 mb-6">研發數位化推動優先目標</h3>
+          
           <ResearchPriorityGoals 
             diagnosticAnalysis={diagnosticAnalysis} 
             companyInfo={companyInfo} 
@@ -110,11 +99,7 @@ const PrintableReport = ({ data }) => {
         </header>
         <DigitalTransformationRecommendations digitalTransformationRecommendations={digitalTransformationRecommendations} />
       </div>
-      {/* 頁尾 */}
-      <footer className="text-center text-gray-500 text-sm mt-10">
-        <div>© 2025 財團法人商業發展研究院</div>
-        <div>數據驅動製造業研發創新計畫</div>
-      </footer>
+
     </div>
   );
 };
