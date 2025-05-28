@@ -43,6 +43,181 @@ const PrintableReport = ({ data }) => {
 
   return (
     <div className="min-h-screen bg-white font-sans p-10 text-black print:p-0 max-w-none" ref={reportRef}>
+      {/* 列印專用樣式 */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @media print {
+            /* 頁面設置 */
+            @page {
+              size: A4 portrait;
+              margin: 10mm 5mm 10mm 5mm;
+            }
+            
+            /* 基本列印設置 */
+            html {
+              height: 100%;
+            }
+            
+            body {
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+              color-adjust: exact !important;
+              font-size: 11pt;
+              line-height: 1.4;
+              margin: 10mm 5mm 10mm 5mm !important;
+              padding: 0;
+            }
+            
+            /* 強制分頁控制 */
+            .print\\:page-break-after {
+              page-break-after: always !important;
+              break-after: page !important;
+              margin-bottom: 0 !important;
+              padding-bottom: 0 !important;
+            }
+            
+            .print\\:page-break-before {
+              page-break-before: always !important;
+              break-before: page !important;
+              margin-top: 0 !important;
+              padding-top: 0 !important;
+            }
+            
+            /* 數位轉型建議每個小項分頁 */
+            .digital-transformation-item {
+              page-break-after: always !important;
+              break-after: page !important;
+              page-break-inside: avoid !important;
+              break-inside: avoid !important;
+            }
+            
+            /* 產業分類區塊不分段 */
+            .industry-classification-block {
+              page-break-inside: avoid !important;
+              break-inside: avoid !important;
+              page-break-after: avoid !important;
+              break-after: avoid !important;
+            }
+            
+            /* 確保廠商資訊在列印時保持左右兩列佈局 */
+            .grid.grid-cols-1.md\\:grid-cols-2 {
+              display: grid !important;
+              grid-template-columns: 1fr 1fr !important;
+              gap: 1.5rem !important;
+            }
+            
+            /* 隱藏不需要列印的元素 */
+            .no-print, 
+            .print\\:hidden,
+            button,
+            .fixed {
+              display: none !important;
+            }
+            
+            /* 確保內容正確顯示 */
+            * {
+              overflow: visible !important;
+              box-shadow: none !important;
+            }
+            
+            /* 保持顏色和背景 */
+            div, p, span, h1, h2, h3, h4, h5, h6 {
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+              color-adjust: exact !important;
+            }
+            
+            /* 避免內容被分割 */
+            .bg-white,
+            .rounded-xl,
+            .border-2,
+            .grid,
+            .space-y-4 > div,
+            .space-y-6 > div {
+              page-break-inside: avoid !important;
+              break-inside: avoid !important;
+            }
+            
+            /* 標題與內容不分離 */
+            header {
+              page-break-after: avoid !important;
+              break-after: avoid !important;
+            }
+            
+            h1, h2, h3, h4, h5, h6 {
+              page-break-after: avoid !important;
+              break-after: avoid !important;
+              page-break-inside: avoid !important;
+              break-inside: avoid !important;
+            }
+            
+            /* 表格和清單保持完整 */
+            table, ul, ol {
+              page-break-inside: avoid !important;
+              break-inside: avoid !important;
+            }
+            
+            /* 圖表和視覺元素 */
+            svg, .chart-container {
+              page-break-inside: avoid !important;
+              break-inside: avoid !important;
+            }
+            
+            /* 確保漸層背景正確顯示 */
+            .bg-gradient-to-r {
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+            
+            /* 確保邊框和圓角正確顯示 */
+            .border, .border-2, .rounded-lg, .rounded-xl {
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+            
+            /* 字體大小調整 */
+            .text-4xl { font-size: 24pt !important; }
+            .text-3xl { font-size: 20pt !important; }
+            .text-2xl { font-size: 16pt !important; }
+            .text-xl { font-size: 14pt !important; }
+            .text-lg { font-size: 12pt !important; }
+            .text-base { font-size: 11pt !important; }
+            .text-sm { font-size: 10pt !important; }
+            
+            /* 間距調整 */
+            .mb-12 { margin-bottom: 8mm !important; }
+            .mb-8 { margin-bottom: 6mm !important; }
+            .mb-6 { margin-bottom: 4mm !important; }
+            .mb-4 { margin-bottom: 3mm !important; }
+            .p-6 { padding: 4mm !important; }
+            .p-4 { padding: 3mm !important; }
+          }
+          
+          /* Chrome特殊設置 */
+          @media print and (-webkit-min-device-pixel-ratio:0) {
+            .print\\:page-break-before {
+              page-break-before: always !important;
+              -webkit-column-break-before: always !important;
+            }
+            
+            .print\\:page-break-after {
+              page-break-after: always !important;
+              -webkit-column-break-after: always !important;
+            }
+            
+            .digital-transformation-item {
+              -webkit-column-break-after: always !important;
+              -webkit-column-break-inside: avoid !important;
+            }
+            
+            .industry-classification-block {
+              -webkit-column-break-inside: avoid !important;
+              -webkit-column-break-after: avoid !important;
+            }
+          }
+        `
+      }} />
+
       {/* 封面 */}
       <div className="mb-12 print:page-break-after pdf-section">
         <ReportHeader reportInfo={reportInfo} companyInfo={companyInfo} />

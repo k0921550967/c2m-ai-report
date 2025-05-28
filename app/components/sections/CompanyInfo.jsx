@@ -26,7 +26,7 @@ const CompanyInfo = ({ companyInfo }) => {
     <div>
       <div className="bg-white p-6 rounded-xl border-2 border-blue-200 mb-8">
         {/* 製造業類別標籤 - 置頂顯示 */}
-        <div className="mb-6">
+        <div className="mb-6 industry-classification-block">
           {/* SVG 主分類標籤 */}
           {companyInfo.industryClassification?.main && (
             <svg
@@ -131,7 +131,7 @@ const CompanyInfo = ({ companyInfo }) => {
               <div>
                 <div className="mb-4">
                   <div className="text-gray-600 mb-1">公司所在地區</div>
-                  <div className="text-blue-800 font-medium">{companyInfo.region}</div>
+                  <div className="text-blue-800 font-medium">{companyInfo.companyLocation}</div>
                 </div>
                 
                 <div className="mb-4">

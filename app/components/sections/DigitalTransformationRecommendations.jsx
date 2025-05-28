@@ -49,9 +49,12 @@ const DigitalTransformationRecommendations = ({ digitalTransformationRecommendat
   // Helper function to get relevant tools for a stage
   const getToolsForStage = (stageName) => {
     // 直接匹配 stageName 和工具類別
-    return digitalTransformationRecommendations.recommendedTools.find(
+    const categoryTools = digitalTransformationRecommendations.recommendedTools.find(
       tool => tool.category === stageName
     )?.tools || [];
+    
+    // 只返回前2個工具，不再進行priority排序
+    return categoryTools.slice(0, 2);
   };
 
   // 顏色對應表
@@ -63,76 +66,79 @@ const DigitalTransformationRecommendations = ({ digitalTransformationRecommendat
   };
 
   return (
-    <div className="mb-12 print:page-break-after">
-      <div className="bg-white p-6 rounded-xl border-2 border-blue-200 mb-8">
+    <div className="mb-12">
+      {/* 介紹頁面 */}
+      <div className="bg-white p-6 rounded-xl border-2 border-blue-200 mb-8 print:page-break-after">
         <h3 className="text-xl font-bold text-blue-800 mb-6">研發數位化優先面向建議</h3>
         
-        <div className="space-y-6">
-          {/* 面向優先順序說明 */}
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <p className="text-gray-700">{digitalTransformationRecommendations.introduction}</p>
-          </div>
-          
-          {/* Render each stage based on priority */}
-          {sortedStages.map((stage) => {
-            const colors = priorityColors[stage.priority];
-            const tools = getToolsForStage(stage.stageName);
-            const percentageValue = parseInt(stage.percentageValue);
-            
-            return (
-              <div key={stage.priority} className={`${colors.bg} p-4 rounded-lg ${colors.border}`}>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center">
-                    <div className="mr-3" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
-                      <svg width="32" height="32">
-                        <circle cx="16" cy="16" r="16" fill={colorMap[colors.circle] || '#3182CE'} />
-                        <text x="16" y="22" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#fff">{stage.priority}</text>
-                      </svg>
-                    </div>
-                    <h4 className={`text-lg font-semibold ${colors.text}`}>{stage.stageName}</h4>
-                  </div>
-                  <div className="flex items-center">
-                    <div className={`${colors.text} font-bold mr-2`}>{stage.score}</div>
-                    <div className="w-24 h-3 bg-gray-200 rounded-full">
-                      <div className={`h-full ${colors.progressBar} rounded-full`} style={{ width: `${percentageValue}%` }}></div>
-                    </div>
-                    <div className={`ml-2 ${colors.text} font-medium`}>{stage.percentage}</div>
-                  </div>
-                </div>
-                
-                <div className="mb-4">
-                  <div className={`${colors.highlight} font-medium mb-1`}>重點工作</div>
-                  <ul className="text-gray-700 pl-5 list-disc space-y-1">
-                    {stage.keyTasks.map((task, index) => (
-                      <li key={index}>{task}</li>
-                    ))}
-                  </ul>
-                </div>
-                
-                <div className="mb-4">
-                  <div className={`${colors.highlight} font-medium mb-1`}>預期效益</div>
-                  <p className="text-gray-700 text-sm">
-                    {stage.expectedBenefits}
-                  </p>
-                </div>
-                
-                <div className="mb-4">
-                  <div className={`${colors.highlight} font-medium mb-1`}>轉型工具</div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                    {tools.map((tool, index) => (
-                      <div key={index} className={`bg-white p-4 rounded-lg border ${colors.border}`}>
-                        <div className={`font-medium ${colors.highlight} mb-2`}>{tool.name}</div>
-                        <div className="text-sm text-gray-500 mb-1">輔導資源：{tool.provider}</div>
-                        <p className="text-gray-700 text-sm">{tool.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        {/* 面向優先順序說明 */}
+        <div className="bg-blue-50 p-4 rounded-lg">
+          <p className="text-gray-700">{digitalTransformationRecommendations.introduction}</p>
         </div>
       </div>
+      
+      {/* Render each stage based on priority - 每個面向獨立分頁 */}
+      {sortedStages.map((stage, index) => {
+        const colors = priorityColors[stage.priority];
+        const tools = getToolsForStage(stage.stageName);
+        const percentageValue = parseInt(stage.percentageValue);
+        
+        return (
+          <div key={stage.priority} className={`mb-12 ${index < sortedStages.length - 1 ? 'print:page-break-after' : ''}`}>
+            <div className={`${colors.bg} p-6 rounded-lg ${colors.border} border-2`}>
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center">
+                  <div className="mr-4" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+                    <svg width="40" height="40">
+                      <circle cx="20" cy="20" r="20" fill={colorMap[colors.circle] || '#3182CE'} />
+                      <text x="20" y="27" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#fff">{stage.priority}</text>
+                    </svg>
+                  </div>
+                  <h4 className={`text-2xl font-bold ${colors.text}`}>{stage.stageName}</h4>
+                </div>
+                <div className="flex items-center">
+                  <div className={`${colors.text} font-bold mr-3 text-lg`}>{stage.score}</div>
+                  <div className="w-32 h-4 bg-gray-200 rounded-full">
+                    <div className={`h-full ${colors.progressBar} rounded-full`} style={{ width: `${percentageValue}%` }}></div>
+                  </div>
+                  <div className={`ml-3 ${colors.text} font-bold text-lg`}>{stage.percentage}</div>
+                </div>
+              </div>
+              
+              <div className="mb-6">
+                <div className={`${colors.highlight} font-bold mb-3 text-lg`}>重點工作</div>
+                <ul className="text-gray-700 pl-6 list-disc space-y-2">
+                  {stage.keyTasks.map((task, index) => (
+                    <li key={index} className="text-base">{task}</li>
+                  ))}
+                </ul>
+              </div>
+              
+              <div className="mb-6">
+                <div className={`${colors.highlight} font-bold mb-3 text-lg`}>預期效益</div>
+                <p className="text-gray-700 text-base leading-relaxed">
+                  {stage.expectedBenefits}
+                </p>
+              </div>
+              
+              <div className="mb-4">
+                <div className={`${colors.highlight} font-bold mb-4 text-lg`}>轉型工具</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                  {tools.map((tool, index) => (
+                    <div key={index} className={`bg-white p-6 rounded-lg border-2 ${colors.border} shadow-sm`}>
+                      <div className="mb-3">
+                        <div className={`font-bold ${colors.highlight} text-lg`}>{tool.name}</div>
+                      </div>
+                      <div className="text-sm text-gray-500 mb-3 font-medium">輔導資源：{tool.provider}</div>
+                      <p className="text-gray-700 text-base leading-relaxed">{tool.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
